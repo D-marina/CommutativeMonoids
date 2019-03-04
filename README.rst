@@ -1,5 +1,7 @@
 # CommutativeMonoids
 
+$$a^n$$
+
 This site pretends to be a site for the study of finitely generated commutative monoids, providing python-notebook for that.
 
 The list of works where this software is used is:
