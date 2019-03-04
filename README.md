@@ -1,6 +1,10 @@
 # CommutativeMonoids
 This site pretends to be a site for the study of finitely generated commutative monoids, providing python-notebook for that.
 
+The list of works where this software is used is:
+* https://doi.org/10.1016/j.jsc.2018.06.008
+* ---
+
 At the moment the files you can find are:
 
 * `README.md`: this file.
