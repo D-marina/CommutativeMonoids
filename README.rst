@@ -1,5 +1,7 @@
 :math: `(\mathbf Z^n,+)`
 
+$a^b$
+
 # CommutativeMonoids
 This site pretends to be a site for the study of finitely generated commutative monoids, providing python-notebook for that.
 
