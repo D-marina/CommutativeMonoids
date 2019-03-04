@@ -21,6 +21,8 @@ At the moment the files you can find are:
 
 * `minimalsNp`: Computation of the minimal elements of subsets of <a href="https://www.codecogs.com/eqnedit.php?latex=\mathbb{N}^p" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mathbb{N}^p" title="\mathbb{N}^p" /></a> \(\mathbb{N}^p\)
 
+$\text{S}_1(N) = \sum_{p=1}^N \text{E}(p)$
+
 * `AffineSemigroup.ipynb`: a notebook with the class `AffineSemigroup`.
 
 To use any of this files jush install the package `ImportFromBitbucket` from pypi with the command `pip install ImportFromBitbucket`.
