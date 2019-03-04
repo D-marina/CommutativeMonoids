@@ -15,7 +15,7 @@ At the moment the files you can find are:
 
 * `integerSmithNormalFormAndApplications.py`: the library obtained from the above notebook.
 
-* `minimalsNp`: Computation of the minimal elements of subsets of <img src="https://latex.codecogs.com/gif.latex?O_t=\text { Onset event at time bin } t " /> .
+* `minimalsNp`: Computation of the minimal elements of subsets of - <img src="https://latex.codecogs.com/gif.latex?O_t=\text { Onset event at time bin } t " /> 
 
 * `AffineSemigroup.ipynb`: a notebook with the class `AffineSemigroup`.
 
