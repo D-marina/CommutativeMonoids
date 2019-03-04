@@ -15,7 +15,7 @@ At the moment the files you can find are:
 
 * `integerSmithNormalFormAndApplications.py`: the library obtained from the above notebook.
 
-* `minimalsNp`: Computation of the minimal elements of subsets of $\N^$.
+* `minimalsNp`: Computation of the minimal elements of subsets of $\N^p$.
 
 * `AffineSemigroup.ipynb`: a notebook with the class `AffineSemigroup`.
 
@@ -29,13 +29,13 @@ run the commands:
 
 The contributors to this project are:
 
-* J. I. GarcÃ­a-GarcÃ­a, Universidad de CÃ¡diz, ignacio.garcia@uca.es
+* J. I. García-García, Universidad de Cádiz, ignacio.garcia@uca.es
 
-* Daniel MarÃ­n-AragÃ³n, Universidad de CÃ¡diz, daniel.marinaragon@alum.uca.es
+* D. Marín-Aragón, Universidad de Cádiz, daniel.marin@uca.es
 
-* A. SÃ¡nchez-Roselly Navarro, Universidad de CÃ¡diz, alfredo.sanchez@uca.es
+* A. Sánchez-Roselly Navarro, Universidad de Cádiz, alfredo.sanchez@uca.es
 
-* A. Vigneron-Tenorio, Universidad de CÃ¡diz, alberto.vigneron@uca.es
+* A. Vigneron-Tenorio, Universidad de Cádiz, alberto.vigneron@uca.es
 
 You can visualize the above notebooks files in the following links:
 
