@@ -19,7 +19,7 @@ At the moment the files you can find are:
 
 * `integerSmithNormalFormAndApplications.py`: the library obtained from the above notebook.
 
-* `minimalsNp`: Computation of the minimal elements of subsets of <a href="https://www.codecogs.com/eqnedit.php?latex=\mathbb{N}^p" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mathbb{N}^p" title="\mathbb{N}^p" /></a>
+* `minimalsNp`: Computation of the minimal elements of subsets of <a href="https://www.codecogs.com/eqnedit.php?latex=\mathbb{N}^p" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mathbb{N}^p" title="\mathbb{N}^p" /></a> \(\mathbb{N}^p\)
 
 * `AffineSemigroup.ipynb`: a notebook with the class `AffineSemigroup`.
 
