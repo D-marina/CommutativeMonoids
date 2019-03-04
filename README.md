@@ -1,12 +1,9 @@
 # CommutativeMonoids
 
-$$a^n$$
-
 This site pretends to be a site for the study of finitely generated commutative monoids, providing python-notebook for that.
 
 The list of works where this software is used is:
 * On divisor-closed submonoids and minimal distances in finitely generated monoids (https://doi.org/10.1016/j.jsc.2018.06.008)
-* ___
 
 At the moment the files you can find are:
 
@@ -23,8 +20,6 @@ At the moment the files you can find are:
 * `integerSmithNormalFormAndApplications.py`: the library obtained from the above notebook.
 
 * `minimalsNp`: Computation of the minimal elements of subsets of <a href="https://www.codecogs.com/eqnedit.php?latex=\mathbb{N}^p" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mathbb{N}^p" title="\mathbb{N}^p" /></a> \(\mathbb{N}^p\)
-
-$\text{S}_1(N) = \sum_{p=1}^N \text{E}(p)$
 
 * `AffineSemigroup.ipynb`: a notebook with the class `AffineSemigroup`.
 
