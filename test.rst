@@ -1,1 +1,1 @@
-$a^b$
+:math: `(\mathbf Z^n,+)`
