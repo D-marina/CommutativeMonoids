@@ -2,9 +2,9 @@
 Integer Smith normal form and applications.
 ===========================================
 
-For a matrix :math:`A` with dimesion :math:`(m,n)` and entries in
+For a matrix :math:`A` with dimesion `(m,n)` and entries in
 :math:`\mathbb Z` the function ``integerSmithNormalForm`` computes a
-pair of regular squared matrices :math:`R` (:math:`m\times m`) and
+pair of regular squared matrices`R` ($m\times m$) and
 :math:`C` (:math:`n\times n`) with entries in :math:`\mathbb Z`.
 
 This function is used to obtain the following functions:
