@@ -1,3 +1,8 @@
+import numpy as np
+from numpy import *
+import sympy
+from sympy import *
+
 # Function for computing the Frobenius Number of a semigroup.
 
 def FrobeniusNumber(generators,eDimension=0):
@@ -85,3 +90,21 @@ def FSolve(lgen,x,onlyFirst=True):
                 posAModificar=posAModificar+1
                 continue
     return soluciones
+
+# Function for computing the minimal set of generators of a numerical semigroup.
+
+def smgS(generators):
+    smgS=array([],dtype=np.int)
+    generators.sort()
+    sgS=np.unique(generators)
+    if len(sgS)==1:
+        return sgS
+    smgS=np.append(smgS,sgS[0])
+    for i in range(1,len(sgS)):
+        if sgS[i] % smgS[0] != 0:
+            smgS=np.append(smgS,sgS[i])
+            break
+    for j in range(i+1,len(sgS)):
+        if len(FSolve(smgS,sgS[j]))==0:
+            smgS=np.append(smgS,sgS[j])
+    return list(smgS)
