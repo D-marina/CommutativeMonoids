@@ -45,10 +45,11 @@ def FrobeniusNumber(generators,eDimension=0):
 
 # Function to compute integer solutions of a Diophantine Equation
 
-def FSolve(lgen,x,onlyFirst=True):
+def FSolve(lgen,x,dim=0,onlyFirst=True):
     posAModificar=0
     sumando=True
-    dim = len(lgen)
+    if dim == 0:
+        dim = len(lgen)
     ceros=np.array([0 for i in range(dim)],dtype=np.int)
     xaux=x
     tuplaActual=array([0 for i in range(dim)],dtype=np.int)  
@@ -89,7 +90,7 @@ def FSolve(lgen,x,onlyFirst=True):
                 sumando=True
                 posAModificar=posAModificar+1
                 continue
-    return soluciones
+    return [list(xx) for xx in soluciones]
 
 # Function for computing the minimal set of generators of a numerical semigroup.
 
