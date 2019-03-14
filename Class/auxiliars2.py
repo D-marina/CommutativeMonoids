@@ -109,3 +109,24 @@ def smgS(generators):
         if len(FSolve(smgS,sgS[j]))==0:
             smgS=np.append(smgS,sgS[j])
     return list(smgS)
+
+# Function for knowing if an element is in a numerical semigroup.
+
+def Belong(generators,x,multiplicity=0,fNumber=0):
+    if multiplicity == 0:
+        multiplicity = generators[0]
+    if fNumber == 0:
+        fNumber = FrobeniusNumber(generators,len(generators))
+    if x==0:
+        return True
+    if 0<x and x<multiplicity:
+        return False
+    if x in generators:
+        return True
+    if fNumber != 0 and x>fNumber:
+        return True
+    expression = FSolve(generators,x,len(generators))
+    if len(expression)>0:
+        return True
+    else:
+        return False
