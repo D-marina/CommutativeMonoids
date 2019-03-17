@@ -52,7 +52,7 @@ def FSolve(lgen,x,dim=0,onlyFirst=True):
         dim = len(lgen)
     ceros=np.array([0 for i in range(dim)],dtype=np.int)
     xaux=x
-    tuplaActual=array([0 for i in range(dim)],dtype=np.int)  
+    tuplaActual=np.array([0 for i in range(dim)],dtype=np.int)  
     if x==0:
         return tuplaActual
     soluciones=[]
@@ -65,7 +65,7 @@ def FSolve(lgen,x,dim=0,onlyFirst=True):
                     if onlyFirst:
                         return tuplaActual
                     else:
-                        soluciones.append(array(tuplaActual))
+                        soluciones.append(np.array(tuplaActual))
                         sumando=False
                         continue
             if xaux!=0 and xaux<lgen[0]:
@@ -95,7 +95,7 @@ def FSolve(lgen,x,dim=0,onlyFirst=True):
 # Function for computing the minimal set of generators of a numerical semigroup.
 
 def smgS(generators):
-    smgS=array([],dtype=np.int)
+    smgS=np.array([],dtype=np.int)
     generators.sort()
     sgS=np.unique(generators)
     if len(sgS)==1:
@@ -130,3 +130,19 @@ def Belong(generators,x,multiplicity=0,fNumber=0):
         return True
     else:
         return False
+    
+
+
+def f1(e, n):
+    '''
+    Function to compute the way to distribute n iqual objects in e different positions
+    >>> f1(3,5)
+    Puede que pudiera mejorarse con alguna función de itertools
+    '''
+    return FSolve( [1 for i in range(e)] , n , onlyFirst=False)
+
+def Delta(laux):
+    l1=[laux[i]-laux[i-1] for i in range(1,len(laux))]
+    l1=list(set(l1))
+    l1.sort()
+    return l1
