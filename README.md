@@ -51,4 +51,6 @@ You can visualize the above notebooks files in the following links:
 
 * <a href='http://nbviewer.jupyter.org/urls/bitbucket.org/juan_ignacio_garcia_garcia/commutativemonoids/raw/master/AffineSemigroup.ipynb?flush_cache=true' target='_blank'>AffineSemigroup.ipynb</a>
 
+doi:10.5281/zenodo.2597223
+
 This repository is a migration of the repository https://bitbucket.org/juan_ignacio_garcia_garcia/commutativemonoids/
