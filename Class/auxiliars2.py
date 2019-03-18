@@ -191,16 +191,76 @@ def ComputeNs(generators,dimension=0):
 
 def CalcularLambda1(lgen,dimension = 0,Ns=0):
     if Ns == 0:
-        ComputeNs(lgen,dimension)
+        Ns = ComputeNs(lgen,dimension)
     c1 = (lgen[-1]-lgen[-2])/lgen[-2]*Ns
     c4 = (lgen[0]/lgen[-2]-lgen[0]/lgen[-1]-lgen[0]/lgen[1]+1)*Ns
     return max(c1,c4)
+
+# This function compute Lambda_2 for computing the Delta_nu
     
+def CalcularLambda2(lgen,dimension = 0,Ns=0):
+    if Ns == 0:
+        Ns = ComputeNs(lgen,dimension)
+    c2 = (lgen[0]-lgen[1])/lgen[1]*Ns
+    c3 = (-lgen[-1]/lgen[0]+lgen[-1]/lgen[1]-lgen[-1]/lgen[-2]+1)*Ns
+    return -min(c2,c3)
     
+# Compute a bound for Delta_nu    
     
-    
-    
-    
+
+# This function compute Delta_nu
+
+def ComputeDeltaNu(lgen,dimension=0,Ns=0,N0=0):
+    if Ns == 0:
+        Ns = ComputeNs(lgen)
+    if N0 == 0:
+        N0 = ComputeN0(lgen)
+    if dimension == 0:
+        dimension = len(lgen)
+    if N0 > n:
+        return "En proceso"
+    l1 = CalcularLambda1(lgen,dimension,Ns)
+    l2 = CalcularLambda1(lgen,dimension,Ns)
+    x1 = int(ceil(lgen[0]*n+l1))
+    x2 = int(floor(lgen[-1]*n-l2))
+    longitudes1 = []
+    longitudes2 = []
+    cotaB1 = int(ceil(x1/lgen[-1]))
+    cotaB3 = int(floor(x2/lgen[0]))
+    # Calculamos las longitudes del trozo 1
+    for i in range(n*lgen[0],x1+1):
+        #print("*",i)
+        v = FrobeniusSolve(lgen,i,False)
+        w = []
+        for factorizacion in v:
+            suma = 0
+            for k in range(3):
+                suma = suma + factorizacion[k]
+            w.append(suma)
+        w = list(set(w))
+        #print(w)
+        if n in w:
+            longitudes1 = longitudes1 + w
+    longitudes1 = [aux for aux in list(set(longitudes1)) if aux <= cotaB1]
+    # Calculamos las longitudes del trozo 2
+    for i in range(x2-1,n*lgen[-1]):
+        #print("****",i)
+        v = FrobeniusSolve(lgen,i,False)
+        w = []
+        for factorizacion in v:
+            suma = 0
+            for k in range(3):
+                suma = suma + factorizacion[k]
+            w.append(suma)
+        w = list(set(w))
+        if n in w:
+            longitudes2 = longitudes2 + w
+    longitudes2 = [aux for aux in list(set(longitudes2)) if aux >= cotaB3]
+    # Calculamos las diferencias en los trozos
+    dif1 = [longitudes1[i+1]-longitudes1[i] for i in range(len(longitudes1)-1)]
+    dif3 = [longitudes2[i+1]-longitudes2[i] for i in range(len(longitudes2)-1)]
+    diferencias = set(dif1+dif3)
+    return diferencias
     
     
     
