@@ -9,27 +9,9 @@ At the moment the files you can find are:
 
 * `README.md`: this file.
 
-* `ImportFromBitbucket.py`: an small library for loading the  
-
 * `NumericalSemigroups.ipynb`: a notebook with the class `NumericalSemigroup`.
 
 * `NumericalSemigroups.py`: the library obtained from the above notebook.
-
-* `integerSmithNormalFormAndApplications.ipynb`: functions for computing the integer Smith normal form that is used mainly in cancellative monoids.
-
-* `integerSmithNormalFormAndApplications.py`: the library obtained from the above notebook.
-
-* `minimalsNp`: Computation of the minimal elements of subsets of <a href="https://www.codecogs.com/eqnedit.php?latex=\mathbb{N}^p" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mathbb{N}^p" title="\mathbb{N}^p" /></a> \(\mathbb{N}^p\)
-
-* `AffineSemigroup.ipynb`: a notebook with the class `AffineSemigroup`.
-
-To use any of this files jush install the package `ImportFromBitbucket` from pypi with the command `pip install ImportFromBitbucket`.
-Once installed the above package you can use the libraries. For instance to use the functions of `integerSmithNormalFormAndApplications`
-run the commands:
-
-* `import ImportFromBitbucket`
-
-* `ImportFromBitbucket.loadPyFile('integerSmithNormalFormAndApplications.py')`
 
 The contributors to this project are:
 
@@ -53,4 +35,4 @@ You can visualize the above notebooks files in the following links:
 
 doi:10.5281/zenodo.2597223
 
-This repository is a migration of the repository https://bitbucket.org/juan_ignacio_garcia_garcia/commutativemonoids/
+This repository is a migration of the <a href='https://bitbucket.org/juan_ignacio_garcia_garcia/commutativemonoids/'> original repository </a>
