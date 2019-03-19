@@ -1,318 +1,299 @@
-# ## We import the libraries used
-
-import math
-from math import gcd
-from sympy import Matrix, eye, init_printing, pprint, zeros
-import sympy
-import itertools
-from subprocess import call, PIPE, Popen
-import json
-from  numpy.random import randint
-import numpy
-from fractions import Fraction
-from sympy import groebner
 import numpy as np
-from numpy import array
+from numpy import *
+import sympy
+from sympy import *
 
-init_printing(use_latex='mathjax')
+import integerSmithNormalFormAndApplications
+from integerSmithNormalFormAndApplications import *
 
-# Several simple functions, some of them not used. 
+# Function for computing the Frobenius Number of a semigroup.
 
-def lcm(a,b): return int(round(abs(a * b) / math.gcd(a,b))) if a and b else 0
-def lcmL(l):
-    '''
-    >>> lcmL([5,12,13])
-    '''
-    if len(l)==1:
-        return l[0]
-    if len(l)==2:
-        return lcm(l[0],l[1])
-    else:
-        aux=l[2:]+[lcm(l[0],l[1])]
-        return lcmL( aux )
+def FrobeniusNumber(generators,eDimension=0):
+    if eDimension == 0:
+        eDimension = len(generators)
+    lGen =[generators[i] for i in range(eDimension)]
+    h=t=a=generators[0]
+    b=lGen
+    Q = [0 for i in range(a)]
+    S = [a*lGen[-1] for i in range(a*lGen[-1])]
+    S[a-1]=0
+    P = [i for i in range(a)]
+    P[a-1] = len(lGen)
+    while(h != 0):
+        QHaux = Q[h-1]
+        v = h
+        Q[h-1] = 0
+        if(h == t):
+            h = 0
+        else:
+            h = QHaux
+        for j in range(1,P[v-1]+1):
+            e = (b[j-1]+v) % a
+            w = b[j-1] + S[v-1]
+            if(w < S[e-1] and e != 0 ):
+                S[e-1] = w
+                P[e-1] = j
+                if(Q[e-1] == 0):
+                    if(h == 0 ):
+                        h = e
+                        Q[e-1] = e
+                        t = e
+                    else:
+                        Q[t-1] = e
+                        Q[e-1] = e
+                        t = e
+    aux = [S[i] for i in range(0,a)]
+    fNumber = max(aux)-a
+    return(fNumber)
 
-def egcd(a, b):
-    x,y, u,v = 0,1, 1,0
-    while a != 0:
-        q, r = b//a, b%a
-        m, n = x-u*q, y-v*q
-        b,a, x,y, u,v = a,r, u,v, m,n
-    g = b
-    return g, x, y
+# Function to compute integer solutions of a Diophantine Equation
 
-def gcdL(l):
-    '''
-    >>> gcdL([12,34,22])
-    '''
-    if len(l)==1:
-        return l[0]
-    if len(l)==2:
-        return gcd(l[0],l[1])
-    else:
-        aux=l[2:]+[gcd(l[0],l[1])]
-        return gcdL(aux)
+def FSolve(lgen,x,dim=0,onlyFirst=True):
+    posAModificar=0
+    sumando=True
+    if dim == 0:
+        dim = len(lgen)
+    ceros=np.array([0 for i in range(dim)],dtype=np.int)
+    xaux=x
+    tuplaActual=np.array([0 for i in range(dim)],dtype=np.int)  
+    if x==0:
+        return tuplaActual
+    soluciones=[]
+    while( not( np.all(tuplaActual==ceros) and not(sumando) ) ):
+        if sumando:
+            if xaux>=lgen[0]:
+                tuplaActual[posAModificar]=tuplaActual[posAModificar]+1
+                xaux=xaux-lgen[posAModificar]
+                if xaux==0:
+                    if onlyFirst:
+                        return tuplaActual
+                    else:
+                        soluciones.append(np.array(tuplaActual))
+                        sumando=False
+                        continue
+            if xaux!=0 and xaux<lgen[0]:
+                sumando=False
+                continue
+        else:
+            if ( posAModificar == dim-1 ) and ( tuplaActual[posAModificar] > 0 ):
+                xaux=tuplaActual[posAModificar]*lgen[posAModificar]+xaux
+                tuplaActual[posAModificar]=0
+                posAModificar=posAModificar-1
+                continue
+            if ( posAModificar < dim-1 ) and ( tuplaActual[posAModificar] > 0 ):
+                xaux=xaux+lgen[posAModificar]
+                tuplaActual[posAModificar]=tuplaActual[posAModificar]-1
+                posAModificar=posAModificar+1
+                sumando=True
+                continue
+            if ( posAModificar < dim-1 ) and ( tuplaActual[posAModificar] == 0 ):
+                posAModificar=np.max( [i for i in range(dim) if tuplaActual[i]!=0] )
+                xaux=lgen[posAModificar]+xaux
+                tuplaActual[posAModificar]=tuplaActual[posAModificar]-1
+                sumando=True
+                posAModificar=posAModificar+1
+                continue
+    return [list(xx) for xx in soluciones]
 
-def gcdMatrix(A):
-    return gcdL(A[:])
+# Function for computing the minimal set of generators of a numerical semigroup.
 
-def sympyMatrix2numpyArray(m,tipo=np.int):
-    '''
-    >>> sympyMatrix2numpyArray(Matrix([[1,2],[2,3]]))
-    '''
-    nf,nc=m.shape
-    return array(list(m),dtype=tipo).reshape(nf,nc)
-def numpyArray2sympyMatrix(npM):
-    '''
-    >>> numpyArray2sympyMatrix( np.array([[1,2],[3,4]]) )
-    '''
-    return Matrix( list( map( lambda x:list(map(int,x)) , npM ) ) )
+def smgS(generators):
+    smgS=np.array([],dtype=np.int)
+    generators.sort()
+    sgS=np.unique(generators)
+    if len(sgS)==1:
+        return sgS
+    smgS=np.append(smgS,sgS[0])
+    for i in range(1,len(sgS)):
+        if sgS[i] % smgS[0] != 0:
+            smgS=np.append(smgS,sgS[i])
+            break
+    for j in range(i+1,len(sgS)):
+        if len(FSolve(smgS,sgS[j]))==0:
+            smgS=np.append(smgS,sgS[j])
+    return list(smgS)
 
+# Function for knowing if an element is in a numerical semigroup.
 
-# ## Several functions used to check the returned values of the function `integerSmithNormalForm`.
-
-
-def isDiagonal(A):
-    nf,nc=A.shape
-    for i in range(nf):
-        for j in range(nc):
-            if i!=j and A[i,j]!=0:
-                return False
-    return True
-
-def isSeqDiagOfDivisible(A):
-    nf,nc=A.shape
-    k=min(nf,nc)
-    if not isDiagonal(A):
+def Belong(generators,x,multiplicity=0,fNumber=0):
+    if multiplicity == 0:
+        multiplicity = generators[0]
+    if fNumber == 0:
+        fNumber = FrobeniusNumber(generators,len(generators))
+    if x==0:
+        return True
+    if 0<x and x<multiplicity:
         return False
-    for i in range(1,k):
-        if A[i,i] % A[i-1,i-1]!=0:
-            return False
-    return True
-
-
-# ---
-# ## Function `integerSmithNormalForm`
-
-# Some auxilary functions
-
-
-
-def posMinNonNullOfMatrix(A):
-    nf,nc=A.shape
-    l=A[:]
-    m=min([x for x in l if x!=0])
-    aux=l.index(m)   
-    return (aux//nc,aux%nc)
-def putAbsMinInCorner(A):
-    nf,nc=A.shape
-    R=eye(nf)
-    C=eye(nc)
-    Aux=Matrix(A)
-    i,j=posMinNonNullOfMatrix(Aux.applyfunc(abs))
-    R.row_swap(i,0)
-    C.col_swap(j,0)
-    Aux=R.multiply(Aux).multiply(C)
-    if Aux[0,0]<0:
-        Raux=eye(nf)
-        Raux[0,0]=-1
-        R=Raux.multiply(R)
-    return (R,C)
-
-
-
-def addRowIfNecesary(A):
-    nf,nc=A.shape
-    Aux=Matrix(A)
-    c=Aux[0,0]
-    k=None
-    for i in range(1,nf):
-        if Aux[i,:].applyfunc(lambda x:x%c)!=Matrix.zeros(1,nc):
-            k=i
-            break;
-    Maux=Matrix.eye(nf)
-    if k:
-        Maux[0,:]=Maux[0,:]+Maux[k,:]
-    return Maux
-
-
-def makeZeroInFirstColumn(A,i):
-    Aux=Matrix(A)
-    nf,nc=Aux.shape
-    m1=sympy.eye(nf)
-    if Aux[0,0]<0:
-        m1[0,:]=-m1[0,:]
-    Aux=m1.multiply(Aux)
-    if Aux[i,0]==0:
-        return m1
-    while Aux[i,0]!=0:
-        q=int(Aux[i,0])//int(Aux[0,0])
-        maux=sympy.eye(nf)
-        maux[i,:]=maux[i,:]-q*maux[0,:]
-        Aux=maux.multiply(Aux)
-        m1=maux.multiply(m1)
-        if Aux[i,0]!=0:
-            maux=eye(nf)
-            maux.row_swap(0,i)
-            m1=maux.multiply(m1)
-            Aux=maux.multiply(Aux)
-    return m1
-
-def makeZeroInFirstRow(A,i):
-    RT=makeZeroInFirstColumn(A.T,i)
-    return RT.T
-
-def makeZeroFirstColumn(A):
-    nf,nc=A.shape
-    Aux=Matrix(A)
-    R=Matrix.eye(nf)
-    for i in range(1,nf):
-        Raux=makeZeroInFirstColumn(Aux,i)
-        Aux=Raux.multiply(Aux)
-        R=Raux.multiply(R)
-    return R
-
-def makeZeroFirstRow(A):
-    B=Matrix(A.T)
-    CT=makeZeroFirstColumn(B)
-    return CT.T
-def makeZerosFirstRowColumn(A):
-    Aux=Matrix(A)
-    nf,nc=A.shape
-    R1=eye(nf)
-    C1=eye(nc)
-    c0=Aux[1:,0]
-    f0=Aux[0,1:]
-    while(c0!=zeros(nf-1,1) or f0!=zeros(1,nc-1)):
-        R=makeZeroFirstColumn(Aux)
-        Aux=R.multiply(Aux)
-        R1=R.multiply(R1)
-        C=makeZeroFirstRow(Aux)
-        Aux=Aux.multiply(C)
-        C1=C.multiply(C1)
-        c0=Aux[1:,0]
-        f0=Aux[0,1:]
-    return (R1,C1)
-
-
-# The function `integerSmithNormalForm`
-
-
-def integerSmithNormalForm(A):
-    '''
-    >>> A=Matrix([[-3,11,3],[-48,15,12]])
-    >>> R,C=integerSmithNormalForm(A)
-    >>> [R.multiply(A).multiply(C),R.det(),C.det()]
-    '''
-    nf,nc=A.shape
-    Aux=Matrix(A)
-    R=eye(nf)
-    C=eye(nc)
-    if A==zeros(nf,nc):
-        return (R,C)
+    if x in generators:
+        return True
+    if fNumber != 0 and x>fNumber:
+        return True
+    expression = FSolve(generators,x,len(generators))
+    if len(expression)>0:
+        return True
     else:
-        t=True
-        while(t):
-            R1,C1=putAbsMinInCorner(Aux)
-            Aux=R1.multiply(Aux).multiply(C1)
-            R=R1.multiply(R)
-            C=C.multiply(C1)
-        
-            R1,C1=makeZerosFirstRowColumn(Aux)
-            Aux=R1.multiply(Aux).multiply(C1)
-            R=R1.multiply(R)
-            C=C.multiply(C1)
+        return False
+    
 
-            R1=addRowIfNecesary(Aux)
-            Aux=R1.multiply(Aux)
-            R=R1.multiply(R)
-            t= not (R1==eye(nf))
-            
-    Rm,Cm=integerSmithNormalForm(Aux[1:,1:])
-    Raux=eye(nf)
-    Caux=eye(nc)
-    Raux[1:,1:]=Rm
-    Caux[1:,1:]=Cm
-    return (Raux.multiply(R),C.multiply(Caux))
+# This function compute the Ns of a numerical semigroup.
 
+def ComputeNs(generators,dimension=0):
+    # Calculamos la dimension
+    a = generators
+    if dimension == 0:
+        dimension = len(a)
+    # Creamos los simbolos ei
+    e = symbols('e0:%d'%dimension)
+    # Creamos el simbolo s
+    s = symbols('s')
+    # Calculamos d
+    m = equationsToGeneratorsHomogeneusCase(Matrix([generators]))
+    m1 = sympyMatrix2numpyArray(m)
+    l = numpy.sum(m1,axis=1) # Esto es lo que fallaba porque l es de la forma [a b c] y deberia ser [a, b, c] con las comas, asi que lo transformo aqui.
+    lista = []
+    for i in range(len(l)):
+        lista.append(l[i])
+    d = gcdL(lista)
+    # Calculo un vector con los mcd
+    mcd = []
+    for i in range(dimension-2):
+        mcd.append(gcdL([a[i+1]-a[-1],-a[0]+a[-1],a[0]-a[i+1]]))
+    # Calculo h
+    h=d/(a[-1]-a[0])*(a[-1]*e[0]-a[0]*e[-1])
+    # Calculo P2
+    P2=s*(a[1]-a[-1])/(a[1]*(a[0]-a[-1]))*e[0]+s*(a[0]-a[1])/(a[1]*(a[0]-a[-1]))*e[-1]
+    # Calculo Pp-1
+    Ppm1=s*(a[-2]-a[-1])/(a[-2]*(a[0]-a[-1]))*e[0]+s*(a[0]-a[-2])/(a[-2]*(a[0]-a[-1]))*e[-1]
+    # Calculo un vector con los qi
+    Q = []
+    for i in range(dimension-2):
+        Q.append(1/mcd[i]*((a[i+1]-a[-1])*e[0]+(a[-1]-a[0])*e[i+1]+(a[0]-a[i+1])*e[-1]))
+    # Calculo la suma de los Qi
+    sumaQi = 0
+    for i in range(dimension-2):
+        sumaQi += Q[i]
+    # Calculamos la última coordenada P2+h+∑qi
+    primeraEcuacion = P2+h+sumaQi
+    for i in range(dimension-1):
+        primeraEcuacion = primeraEcuacion.subs(e[i],0)
+    primeraEcuacion = primeraEcuacion.subs(e[dimension-1],1)
+    sol1 = sympy.solve(primeraEcuacion,s)
+    # Calculamos la primera coordenada de P(p−1)−h+∑qi
+    ultimaEcuacion = Ppm1-h+sumaQi
+    for i in range(1,dimension):
+        ultimaEcuacion = ultimaEcuacion.subs(e[i],0)
+    ultimaEcuacion = ultimaEcuacion.subs(e[0],1)
+    sol2 = sympy.solve(ultimaEcuacion,s)
+    NS = int(ceil(int(max(sol1,sol2)[0])))
+    return NS
+    
+# This function compute Lambda_1 for computing the Delta_nu
 
+def Lambda1(lgen,dimension = 0,Ns=0):
+    if Ns == 0:
+        Ns = ComputeNs(lgen,dimension)
+    c1 = (lgen[-1]-lgen[-2])/lgen[-2]*Ns
+    c4 = (lgen[0]/lgen[-2]-lgen[0]/lgen[-1]-lgen[0]/lgen[1]+1)*Ns
+    return max(c1,c4)
 
-# ## Function to compute the generators of a subgroup of $\mathbb Z^p$ from its defining equations
+# This function compute Lambda_2 for computing the Delta_nu
+    
+def Lambda2(lgen,dimension = 0,Ns=0):
+    if Ns == 0:
+        Ns = ComputeNs(lgen,dimension)
+    c2 = (lgen[0]-lgen[1])/lgen[1]*Ns
+    c3 = (-lgen[-1]/lgen[0]+lgen[-1]/lgen[1]-lgen[-1]/lgen[-2]+1)*Ns
+    return -min(c2,c3)
+    
+# Compute a bound for Delta_nu
 
-# #### Function to obtain a minimal system of generators from a set of homogeneus equations
+def ComputeN0(lgen,dimension=0,Ns=0):
+    if Ns == 0:
+        Ns = ComputeNs(lgen)
+    if dimension == 0:
+        dimension = len(lgen)
+    a1 = lgen[0]
+    a2 = lgen[1]
+    # apM1=self.generators[-2]
+    ap = lgen[-1]
+    #C1=(ap-apM1)*Ns/apM1
+    #C2=(ap-a2)*Ns/a2
+    #C3=(-ap/a1+ap/a2-ap/apM1+1)*Ns
+    #C4=(a1/apM1-a1/ap-a1/a2+1)*Ns
+    lambda1 = Lambda1(lgen,dimension,Ns)
+    lambda2 = Lambda1(lgen,dimension,Ns)
+    N0 = max([Ns/a1,(ap-a1+lambda1+lambda2)/(ap-a1)])
+    return int(N0)
+    
 
-def equationsToGeneratorsHomogeneusCase(A):
+# This function compute Delta_nu
+
+def ComputeDeltaNu(lgen,n,dimension=0,Ns=0,N0=0):
+    if Ns == 0:
+        Ns = ComputeNs(lgen)
+    if N0 == 0:
+        N0 = ComputeN0(lgen)
+    if dimension == 0:
+        dimension = len(lgen)
+    if N0 > n:
+        return "En proceso"
+    l1 = Lambda1(lgen,dimension,Ns)
+    l2 = Lambda2(lgen,dimension,Ns)
+    x1 = int(ceil(lgen[0]*n+l1))
+    x2 = int(floor(lgen[-1]*n-l2))
+    longitudes1 = []
+    longitudes2 = []
+    cotaB1 = int(ceil(x1/lgen[-1]))
+    cotaB3 = int(floor(x2/lgen[0]))
+    # Calculamos las longitudes del trozo 1
+    for i in range(n*lgen[0],x1+1):
+        v = FSolve(lgen,i,dimension,False)
+        w = []
+        for factorizacion in v:
+            suma = 0
+            for k in range(len(factorizacion)):
+                suma = suma + factorizacion[k]
+            w.append(suma)
+        w = list(set(w))
+        if n in w:
+            longitudes1 = longitudes1 + w
+    longitudes1 = sorted([aux for aux in list(set(longitudes1)) if aux <= cotaB1])
+    # Calculamos las longitudes del trozo 2
+    for i in range(x2-1,n*lgen[-1]):
+        #print("****",i)
+        v = FSolve(lgen,i,dimension,False)
+        w = []
+        for factorizacion in v:
+            suma = 0
+            for k in range(len(factorizacion)):
+                suma = suma + factorizacion[k]
+            w.append(suma)
+        w = list(set(w))
+        if n in w:
+            longitudes2 = longitudes2 + w
+    longitudes2 = [aux for aux in list(set(longitudes2)) if aux >= cotaB3]
+    # Calculamos las diferencias en los trozos
+    dif1 = [longitudes1[i+1]-longitudes1[i] for i in range(len(longitudes1)-1)]
+    dif3 = [longitudes2[i+1]-longitudes2[i] for i in range(len(longitudes2)-1)]
+    diferencias = list(set(dif1+dif3))
+    return diferencias
+    
+
+    
+    
+############################################################################################################
+    
+    
+def f1(e, n):
     '''
-    >>> equationsToGeneratorsHomogeneusCase(Matrix([[5,-7,3,-2],[6,9,-10,1]]))
+    Function to compute the way to distribute n iqual objects in e different positions
+    >>> f1(3,5)
+    Puede que pudiera mejorarse con alguna función de itertools
     '''
-    nf,nc=A.shape
-    R,C=integerSmithNormalForm(A)
-    D=R.multiply(A).multiply(C)
-    noNullOfD=[D[i,i] for i in range(min(D.shape)) if D[i,i]!=0]
-    r=len(noNullOfD)
-    nGen=nc-r
-    Caux=C[:,-nGen:].T
-    return Caux
+    return FSolve( [1 for i in range(e)] , n , onlyFirst=False)
 
-
-
-# #### Function to obtain the minimal system from a set of equations
-
-
-def equationsToGenerators(A,modulus):
-    '''
-    >>> A=Matrix([[1,-2,3,4],[6,8,-10,-16],[5,7,-9,2]])
-    >>> mm=Matrix([2,3])
-    >>> sG=equationsToGenerators(A,mm)
-    >>> pprint(sG)
-    >>> A.multiply(sG.T)
-    '''
-    Aux=Matrix(A)
-    nfm,ncm=modulus.shape
-    nf,nc=A.shape
-    idaux=eye(nfm)
-    for i in range(nfm):
-        idaux[i,i]=-modulus[i]
-    zaux=zeros(nf-nfm,nfm)
-    idaux=idaux.col_join(zaux)
-    Aux=Aux.row_join(idaux)
-    #pprint(Aux)
-    r=equationsToGeneratorsHomogeneusCase(Aux)
-    #pprint(Aux.multiply(r.T))
-    return r[:,0:nc]
-
-
-def minimalSystemOfGenerators(sGen):
-    '''
-    Returns a minimal system of generators of the subgroup generated by 
-    the rows of the sympy.matrix sGen.
-    >>> minimalSystemOfGenerators(Matrix([[5,1,0],[1,2,-3],[6,3,-3]]))
-    '''
-    A=Matrix(sGen)
-    R,C=integerSmithNormalForm(A)
-    D=R.multiply(A).multiply(C)
-    RA=R.multiply(A)
-    noNullOfD=[D[i,i] for i in range(min(D.shape)) if D[i,i]!=0]
-    r=len(noNullOfD)
-    return RA[0:r,:]
-
-# #### Function to compute the equations from a system of generators
-
-def generatorsToEquations(sGen,lVars=None):
-    '''
-    >>> sGen=Matrix([[2,-4,8],[3,2,-1]])
-    >>> s1=generatorsToEquations(sGen,[x,y,z])
-    >>> s2=generatorsToEquations(sGen)
-    >>> [s1,s2]
-    '''
-    A=Matrix(sGen)
-    nf,nc=A.shape
-    R,C=integerSmithNormalForm(A)
-    D=R.multiply(A).multiply(C)
-    noNullOfD=[D[i,i] for i in range(min(D.shape)) if D[i,i]!=0]
-    lmod=noNullOfD+[0 for i in range(nc-len(noNullOfD))]
-    n1=len([x for x in noNullOfD if x==1])
-    lmod=lmod[n1:]
-    if not lVars:
-        return (C.T[n1:,:],Matrix(lmod))
-    else:
-        return (Matrix(lVars).T.multiply(C[:,n1:]).T,Matrix(lmod))
+def Delta(laux):
+    l1=[laux[i]-laux[i-1] for i in range(1,len(laux))]
+    l1=list(set(l1))
+    l1.sort()
+    return l1
