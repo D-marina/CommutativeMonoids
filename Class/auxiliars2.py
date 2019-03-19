@@ -228,7 +228,7 @@ def ComputeN0(lgen,dimension=0,Ns=0):
 
 # This function compute Delta_nu
 
-def ComputeDeltaNu(lgen,dimension=0,Ns=0,N0=0):
+def ComputeDeltaNu(lgen,n,dimension=0,Ns=0,N0=0):
     if Ns == 0:
         Ns = ComputeNs(lgen)
     if N0 == 0:
@@ -237,8 +237,8 @@ def ComputeDeltaNu(lgen,dimension=0,Ns=0,N0=0):
         dimension = len(lgen)
     if N0 > n:
         return "En proceso"
-    l1 = CalcularLambda1(lgen,dimension,Ns)
-    l2 = CalcularLambda1(lgen,dimension,Ns)
+    l1 = Lambda1(lgen,dimension,Ns)
+    l2 = Lambda2(lgen,dimension,Ns)
     x1 = int(ceil(lgen[0]*n+l1))
     x2 = int(floor(lgen[-1]*n-l2))
     longitudes1 = []
@@ -247,27 +247,25 @@ def ComputeDeltaNu(lgen,dimension=0,Ns=0,N0=0):
     cotaB3 = int(floor(x2/lgen[0]))
     # Calculamos las longitudes del trozo 1
     for i in range(n*lgen[0],x1+1):
-        #print("*",i)
-        v = FrobeniusSolve(lgen,i,False)
+        v = FSolve(lgen,i,dimension,False)
         w = []
         for factorizacion in v:
             suma = 0
-            for k in range(3):
+            for k in range(len(factorizacion)):
                 suma = suma + factorizacion[k]
             w.append(suma)
         w = list(set(w))
-        #print(w)
         if n in w:
             longitudes1 = longitudes1 + w
-    longitudes1 = [aux for aux in list(set(longitudes1)) if aux <= cotaB1]
+    longitudes1 = sorted([aux for aux in list(set(longitudes1)) if aux <= cotaB1])
     # Calculamos las longitudes del trozo 2
     for i in range(x2-1,n*lgen[-1]):
         #print("****",i)
-        v = FrobeniusSolve(lgen,i,False)
+        v = FSolve(lgen,i,dimension,False)
         w = []
         for factorizacion in v:
             suma = 0
-            for k in range(3):
+            for k in range(len(factorizacion)):
                 suma = suma + factorizacion[k]
             w.append(suma)
         w = list(set(w))
@@ -277,7 +275,7 @@ def ComputeDeltaNu(lgen,dimension=0,Ns=0,N0=0):
     # Calculamos las diferencias en los trozos
     dif1 = [longitudes1[i+1]-longitudes1[i] for i in range(len(longitudes1)-1)]
     dif3 = [longitudes2[i+1]-longitudes2[i] for i in range(len(longitudes2)-1)]
-    diferencias = set(dif1+dif3)
+    diferencias = list(set(dif1+dif3))
     return diferencias
     
     
