@@ -5,14 +5,6 @@ This site pretends to be a site for the study of finitely generated commutative 
 The list of works where this software is used is:
 * On divisor-closed submonoids and minimal distances in finitely generated monoids (https://doi.org/10.1016/j.jsc.2018.06.008)
 
-At the moment the files you can find are:
-
-* `README.md`: this file.
-
-* `NumericalSemigroups.ipynb`: a notebook with the class `NumericalSemigroup`.
-
-* `NumericalSemigroups.py`: the library obtained from the above notebook.
-
 The contributors to this project are:
 
 * J. I. García-García, Universidad de Cádiz, ignacio.garcia@uca.es
