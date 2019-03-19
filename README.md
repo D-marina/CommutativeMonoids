@@ -15,8 +15,8 @@ The contributors to this project are:
 
 * A. Vigneron-Tenorio, Universidad de Cádiz, alberto.vigneron@uca.es
 
-You can visualize the above notebooks files in the following links:
+This project has the following DOI:
 
-DOI. doi:10.5281/zenodo.2597223
+* doi:10.5281/zenodo.2597223
 
 This repository is a migration of the <a href='https://bitbucket.org/juan_ignacio_garcia_garcia/commutativemonoids/'> original repository </a>
