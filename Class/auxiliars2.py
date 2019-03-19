@@ -278,12 +278,10 @@ def ComputeDeltaNu(lgen,n,dimension=0,Ns=0,N0=0):
     diferencias = list(set(dif1+dif3))
     return diferencias
     
+
     
     
-    
-    
-    
-    
+############################################################################################################
     
     
 def f1(e, n):
