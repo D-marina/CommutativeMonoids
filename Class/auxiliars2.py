@@ -185,11 +185,11 @@ def ComputeNs(generators,dimension=0):
     ultimaEcuacion = ultimaEcuacion.subs(e[0],1)
     sol2 = sympy.solve(ultimaEcuacion,s)
     NS = int(ceil(int(max(sol1,sol2)[0])))
-    return NS    
+    return NS
     
 # This function compute Lambda_1 for computing the Delta_nu
 
-def CalcularLambda1(lgen,dimension = 0,Ns=0):
+def Lambda1(lgen,dimension = 0,Ns=0):
     if Ns == 0:
         Ns = ComputeNs(lgen,dimension)
     c1 = (lgen[-1]-lgen[-2])/lgen[-2]*Ns
@@ -198,14 +198,32 @@ def CalcularLambda1(lgen,dimension = 0,Ns=0):
 
 # This function compute Lambda_2 for computing the Delta_nu
     
-def CalcularLambda2(lgen,dimension = 0,Ns=0):
+def Lambda2(lgen,dimension = 0,Ns=0):
     if Ns == 0:
         Ns = ComputeNs(lgen,dimension)
     c2 = (lgen[0]-lgen[1])/lgen[1]*Ns
     c3 = (-lgen[-1]/lgen[0]+lgen[-1]/lgen[1]-lgen[-1]/lgen[-2]+1)*Ns
     return -min(c2,c3)
     
-# Compute a bound for Delta_nu    
+# Compute a bound for Delta_nu
+
+def ComputeN0(lgen,dimension=0,Ns=0):
+    if Ns == 0:
+        Ns = ComputeNs(lgen)
+    if dimension == 0:
+        dimension = len(lgen)
+    a1 = lgen[0]
+    a2 = lgen[1]
+    # apM1=self.generators[-2]
+    ap = lgen[-1]
+    #C1=(ap-apM1)*Ns/apM1
+    #C2=(ap-a2)*Ns/a2
+    #C3=(-ap/a1+ap/a2-ap/apM1+1)*Ns
+    #C4=(a1/apM1-a1/ap-a1/a2+1)*Ns
+    lambda1 = Lambda1(lgen,dimension,Ns)
+    lambda2 = Lambda1(lgen,dimension,Ns)
+    N0 = max([Ns/a1,(ap-a1+lambda1+lambda2)/(ap-a1)])
+    return int(N0)
     
 
 # This function compute Delta_nu
