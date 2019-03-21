@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[4]:
+# In[ ]:
 
 
 import numpy as np
@@ -10,21 +10,21 @@ import sympy
 from sympy import *
 
 
-# In[5]:
+# In[ ]:
 
 
 import integerSmithNormalFormAndApplications
 from integerSmithNormalFormAndApplications import *
 
 
-# In[6]:
+# In[ ]:
 
 
 import auxiliars
 from auxiliars import *
 
 
-# In[1]:
+# In[ ]:
 
 
 class NumericalSemigroup:
@@ -48,6 +48,8 @@ class NumericalSemigroup:
         
     # Frobenius Number
     fNumber = 0
+    # Minimum value of Delta(S)
+    d = 0
     # Bound for Delta(S) periodic
     NS = 0
     # Bound for Delta_nu periodic
@@ -69,6 +71,13 @@ class NumericalSemigroup:
         if self.fNumber == 0:
             FrobeniusNumber(self.generators,self.eDimension)
         return Belong(self.generators,x,self.multiplicity,self.fNumber)
+    
+    # This function compute the minimum of Delta(S)
+    def ComputeMinimumDeltaS(self):
+        if self.d != 0:
+            return self.d
+        self.d = ComputeD(self.generators,self.eDimension)
+        return self.d
         
     def ComputeNS(self):
         if self.NS != 0:
@@ -94,7 +103,9 @@ class NumericalSemigroup:
     def W(self,n):
         smg=self.generators
         dim=self.eDimension
-        return list(set( [ sum([x[i]*smg[i] for i in range(dim) ]) for x in f1(dim,n) ]))
+        laux=list(set( [ sum([x[i]*smg[i] for i in range(dim) ]) for x in f1(dim,n) ]))
+        laux.sort()
+        return laux
     
     def L(self,x):
         l1=self.Factorizations(x)
@@ -111,27 +122,70 @@ class NumericalSemigroup:
         if debug:
             print([self.L(x) for x in waux])
         return (longAux)
+    def SminusIthMinimalGenerator(self,i):
+        '''
+        Return the numerical semigroup S minus its ith minimal generator.
+        '''
+        return None
+    def Children(self):
+        '''
+        This function returns the children of a numerial semigroup.
+        If S is a numerical semigroup, its children are the numerical semigroups S' verifying that S\S' 
+        has cardinality 1 and the element in this set is a minimal generator of S greater than the Frobenius 
+        number of S.
+        '''
+        return []
 
 
-# In[8]:
+# In[ ]:
 
 
-ns = NumericalSemigroup([3,7,9])
+ns = NumericalSemigroup([5,7])
 
 
-# In[9]:
+# In[ ]:
+
+
+ns.NS
+
+
+# In[ ]:
+
+
+ns.ComputeNS()
+
+
+# In[ ]:
+
+
+ns = NumericalSemigroup([6,12,15])
+
+
+# In[ ]:
+
+
+#set.union(*[set(ns.L(x)) for x in ns.W(10)])
+
+
+# In[ ]:
+
+
+#ns.nu(10)
+
+
+# In[ ]:
 
 
 #ns.ComputeNS()
 
 
-# In[10]:
+# In[ ]:
 
 
 #ns.ComputeN0()
 
 
-# In[13]:
+# In[ ]:
 
 
 #ns.DeltaNu(70)
