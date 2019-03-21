@@ -271,7 +271,7 @@ def ComputeDeltaNu(lgen,n,dimension=0,Ns=0,N0=0):
         w = list(set(w))
         if n in w:
             longitudes2 = longitudes2 + w
-    longitudes2 = [aux for aux in list(set(longitudes2)) if aux >= cotaB3]
+    longitudes2 = sorted([aux for aux in list(set(longitudes2)) if aux >= cotaB3])
     # Calculamos las diferencias en los trozos
     dif1 = [longitudes1[i+1]-longitudes1[i] for i in range(len(longitudes1)-1)]
     dif3 = [longitudes2[i+1]-longitudes2[i] for i in range(len(longitudes2)-1)]
