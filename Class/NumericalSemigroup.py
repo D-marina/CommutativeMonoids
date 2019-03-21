@@ -1,8 +1,7 @@
-#!/usr/bin/env python
+
 # coding: utf-8
 
-# In[ ]:
-
+# In[1]:
 
 import numpy as np
 from numpy import *
@@ -10,22 +9,19 @@ import sympy
 from sympy import *
 
 
-# In[ ]:
-
+# In[2]:
 
 import integerSmithNormalFormAndApplications
 from integerSmithNormalFormAndApplications import *
 
 
-# In[ ]:
-
+# In[3]:
 
 import auxiliars
 from auxiliars import *
 
 
-# In[ ]:
-
+# In[4]:
 
 class NumericalSemigroup:
     '''
@@ -82,7 +78,9 @@ class NumericalSemigroup:
     def ComputeNS(self):
         if self.NS != 0:
             return self.NS
-        self.NS = ComputeNs(self.generators,self.eDimension)
+        if self.d == 0:
+            self.d = ComputeD(self.generators,self.eDimension)
+        self.NS = ComputeNs(self.generators,self.d,self.eDimension)
         return self.NS
     
     def ComputeN0(self):
@@ -137,80 +135,82 @@ class NumericalSemigroup:
         return []
 
 
+# In[5]:
+
+#ns = NumericalSemigroup([5,7])
+
+
+# In[6]:
+
+#ns.ComputeNS()
+
+
+# In[7]:
+
+ns2 = NumericalSemigroup([15,17,27,35])
+
+
+# In[8]:
+
+ns2.ComputeNS()
+
+
 # In[ ]:
-
-
-ns = NumericalSemigroup([5,7])
-
-
-# In[ ]:
-
 
 ns.NS
 
 
 # In[ ]:
 
-
 ns.ComputeNS()
 
 
 # In[ ]:
-
 
 ns = NumericalSemigroup([6,12,15])
 
 
 # In[ ]:
 
-
 #set.union(*[set(ns.L(x)) for x in ns.W(10)])
 
 
 # In[ ]:
-
 
 #ns.nu(10)
 
 
 # In[ ]:
 
-
 #ns.ComputeNS()
 
 
 # In[ ]:
 
-
 #ns.ComputeN0()
 
 
 # In[ ]:
-
 
 #ns.DeltaNu(70)
 
 
 # In[ ]:
 
-
 #ns.FrobeniusNumber()
 
 
 # In[ ]:
-
 
 #ns.ComputeN0()
 
 
 # In[ ]:
 
-
 #ns.Factorizations(30)
 
 
 # In[ ]:
-
 
 #ns.Belongs(4)
 
