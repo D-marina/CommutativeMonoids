@@ -145,13 +145,15 @@ def ComputeD(generators,dimension=0):
 # This function compute the Ns of a numerical semigroup.
 
 def ComputeNs(a,d=0,p=0):
-	if p == 0: # p = dimension
-		p = len(a)
-	if d == 0:
-		d = ComputeD(a,p)
-	Si = [ -a[1]*(a[0]*d*gcdL([a[i]-a[0],a[0]-a[p-1],a[p-1]-a[i]])+(p-2)*(a[0]-a[i])*(a[0]-a[p-1]))/((a[0]-a[1])*gcdL([a[i]-a[0],a[0]-a[p-1],a[p-1]-a[i]])) for i in range(1,p-1)]
-	Siprime = [ a[p-2]*((p-2)*(a[0]-a[p-1])*(a[p-1]-a[i])-a[p-1]*d*gcdL([a[i]-a[0],a[0]-a[p-1],a[p-1]-a[i]]))/((a[p-2]-a[p-1])*gcdL([a[i]-a[0],a[0]-a[p-1],a[p-1]-a[i]])) for i in range(1,p-1)]
-	return int(ceil(max(Si+Siprime)))
+    if p == 0: # p = dimension
+        p = len(a)
+    if p == 2:
+        return 2*a[0]*a[1]
+    if d == 0:
+        d = ComputeD(a,p)
+    Si = [ -a[1]*(a[0]*d*gcdL([a[i]-a[0],a[0]-a[p-1],a[p-1]-a[i]])+(p-2)*(a[0]-a[i])*(a[0]-a[p-1]))/((a[0]-a[1])*gcdL([a[i]-a[0],a[0]-a[p-1],a[p-1]-a[i]])) for i in range(1,p-1)]
+    Siprime = [ a[p-2]*((p-2)*(a[0]-a[p-1])*(a[p-1]-a[i])-a[p-1]*d*gcdL([a[i]-a[0],a[0]-a[p-1],a[p-1]-a[i]]))/((a[p-2]-a[p-1])*gcdL([a[i]-a[0],a[0]-a[p-1],a[p-1]-a[i]])) for i in range(1,p-1)]
+    return int(ceil(max(Si+Siprime)))
     # Calculamos la dimension
     #a = generators
     #if dimension == 0:
