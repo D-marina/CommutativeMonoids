@@ -1,7 +1,8 @@
-
+#!/usr/bin/env python
 # coding: utf-8
 
 # In[1]:
+
 
 import numpy as np
 from numpy import *
@@ -11,17 +12,20 @@ from sympy import *
 
 # In[2]:
 
+
 import integerSmithNormalFormAndApplications
 from integerSmithNormalFormAndApplications import *
 
 
 # In[3]:
 
+
 import auxiliars
 from auxiliars import *
 
 
 # In[4]:
+
 
 class NumericalSemigroup:
     '''
@@ -78,9 +82,7 @@ class NumericalSemigroup:
     def ComputeNS(self):
         if self.NS != 0:
             return self.NS
-        if self.d == 0:
-            self.d = ComputeD(self.generators,self.eDimension)
-        self.NS = ComputeNs(self.generators,self.d,self.eDimension)
+        self.NS = ComputeNs(self.generators,self.eDimension)
         return self.NS
     
     def ComputeN0(self):
@@ -96,30 +98,38 @@ class NumericalSemigroup:
             self.NS = ComputeNs(self.generators,self.eDimension)
         if self.N0 == 0:
             self.N0 = ComputeN0(self.generators,self.eDimension,self.NS)
+        if self.N0 > n:
+            return Delta(Nu(self.generators,n,self.eDimension))
         return ComputeDeltaNu(self.generators,n,self.eDimension,self.NS,self.N0)
         
     def W(self,n):
-        smg=self.generators
-        dim=self.eDimension
-        laux=list(set( [ sum([x[i]*smg[i] for i in range(dim) ]) for x in f1(dim,n) ]))
-        laux.sort()
-        return laux
+        return W(self.generators,n,self.eDimension)
+        #smg=self.generators
+        #dim=self.eDimension
+        #laux=list(set( [ sum([x[i]*smg[i] for i in range(dim) ]) for x in f1(dim,n) ]))
+        #laux.sort()
+        #return laux
     
     def L(self,x):
-        l1=self.Factorizations(x)
-        l2=[sum(y) for y in l1]
-        l2.sort()
-        return l2
+        return L(self.generators,x,self.eDimension)
+        #l1=self.Factorizations(x)
+        #l2=[sum(y) for y in l1]
+        #l2.sort()
+        #return l2
     
-    def nu(self,n,debug=False):
-        waux=self.W(n)
-        if debug:
-            print("W of ",n,":",waux)
-        longAux=list(set.union( *[set(self.L(x)) for x in waux] ))
-        longAux.sort()
-        if debug:
-            print([self.L(x) for x in waux])
-        return (longAux)
+    def Nu(self,n):
+        return Nu(self.generators,n,self.eDimension)
+        #waux=self.W(n)
+        #if debug:
+        #    print("W of ",n,":",waux)
+        #longAux=list(set.union( *[set(self.L(x)) for x in waux] ))
+        #longAux.sort()
+        #if debug:
+        #    print([self.L(x) for x in waux])
+        #return (longAux)
+    
+    
+    
     def SminusIthMinimalGenerator(self,i):
         '''
         Return the numerical semigroup S minus its ith minimal generator.
@@ -135,82 +145,8 @@ class NumericalSemigroup:
         return []
 
 
-# In[5]:
-
-#ns = NumericalSemigroup([5,7])
+# In[10]:
 
 
-# In[6]:
-
-#ns.ComputeNS()
-
-
-# In[7]:
-
-ns2 = NumericalSemigroup([15,17,27,35])
-
-
-# In[8]:
-
-ns2.ComputeNS()
-
-
-# In[ ]:
-
-ns.NS
-
-
-# In[ ]:
-
-ns.ComputeNS()
-
-
-# In[ ]:
-
-ns = NumericalSemigroup([6,12,15])
-
-
-# In[ ]:
-
-#set.union(*[set(ns.L(x)) for x in ns.W(10)])
-
-
-# In[ ]:
-
-#ns.nu(10)
-
-
-# In[ ]:
-
-#ns.ComputeNS()
-
-
-# In[ ]:
-
-#ns.ComputeN0()
-
-
-# In[ ]:
-
-#ns.DeltaNu(70)
-
-
-# In[ ]:
-
-#ns.FrobeniusNumber()
-
-
-# In[ ]:
-
-#ns.ComputeN0()
-
-
-# In[ ]:
-
-#ns.Factorizations(30)
-
-
-# In[ ]:
-
-#ns.Belongs(4)
+ns = NumericalSemigroup([3,5])
 
