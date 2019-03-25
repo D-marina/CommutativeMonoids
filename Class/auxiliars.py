@@ -252,7 +252,7 @@ def ComputeDeltaNu(lgen,n,dimension=0,Ns=0,N0=0):
     if dimension == 0:
         dimension = len(lgen)
     if N0 > n:
-        return "En proceso"
+        return Delta(nu(lgen,n,dimension))
     l1 = Lambda1(lgen,dimension,Ns)
     l2 = Lambda2(lgen,dimension,Ns)
     x1 = int(ceil(lgen[0]*n+l1))
@@ -299,7 +299,30 @@ def ComputeDeltaNu(lgen,n,dimension=0,Ns=0,N0=0):
     
 ############################################################################################################
     
+def W(smg,n,dim = 0):
+    if dim == 0:
+        dim = len(smg)
+    laux=list(set( [ sum([x[i]*smg[i] for i in range(dim) ]) for x in f1(dim,n) ]))
+    laux.sort()
+    return laux
+
+def L(lgen,x,dim=0):
+    if dim == 0:
+        dim = len(lgen)
+    l1 = FSolve(lgen,x,dim,False)
+    l2=[sum(y) for y in l1]
+    l2.sort()
+    return l2
+
+def Nu(smg,n,dim=0):
+    if dim == 0:
+        dim = len(smg)
+    waux=W(smg,n,dim)
+    longAux=list(set.union( *[set(L(smg,x,dim)) for x in waux] ))
+    longAux.sort()
+    return (longAux)
     
+############################################################################################################    
 def f1(e, n):
     '''
     Function to compute the way to distribute n iqual objects in e different positions
