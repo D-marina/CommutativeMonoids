@@ -82,7 +82,9 @@ class NumericalSemigroup:
     def ComputeNS(self):
         if self.NS != 0:
             return self.NS
-        self.NS = ComputeNs(self.generators,self.eDimension)
+        if self.d == 0:
+            self.d = ComputeD(self.generators,self.eDimension)
+        self.NS = ComputeNs(self.generators,self.eDimension,self.d)
         return self.NS
     
     def ComputeN0(self):
