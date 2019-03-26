@@ -144,7 +144,7 @@ def ComputeD(generators,dimension=0):
     
 # This function compute the Ns of a numerical semigroup.
 
-def ComputeNs(a,d=0,p=0):
+def ComputeNs(a,p=0,d=0):
     if p == 0: # p = dimension
         p = len(a)
     if p == 2:
