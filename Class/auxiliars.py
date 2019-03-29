@@ -102,7 +102,7 @@ def smgS(generators):
     generators.sort()
     sgS=np.unique(generators)
     if len(sgS)==1:
-        return list(sgS)
+        return sgS
     smgS=np.append(smgS,sgS[0])
     for i in range(1,len(sgS)):
         if sgS[i] % smgS[0] != 0:
@@ -328,6 +328,7 @@ def f1(e, n):
     Function to compute the way to distribute n iqual objects in e different positions
     >>> f1(3,5)
     Puede que pudiera mejorarse con alguna función de itertools
+    It can be improved with itertools
     '''
     return FSolve( [1 for i in range(e)] , n , onlyFirst=False)
 
