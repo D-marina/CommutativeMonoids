@@ -332,6 +332,9 @@ def f1(e, n):
     return FSolve( [1 for i in range(e)] , n , onlyFirst=False)
 
 def Delta(laux):
+    """
+    Compute the Delta of a sorted set of integers
+    """
     l1=[laux[i]-laux[i-1] for i in range(1,len(laux))]
     l1=list(set(l1))
     l1.sort()
