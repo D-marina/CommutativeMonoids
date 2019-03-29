@@ -256,7 +256,7 @@ def ComputeDeltaNu(lgen,n,dimension=0,Ns=0,N0=0):
     l1 = Lambda1(lgen,dimension,Ns)
     l2 = Lambda2(lgen,dimension,Ns)
     x1 = int(ceil(lgen[0]*n+l1))
-    x2 = int(ceil(lgen[-1]*n-l2))
+    x2 = int(floor(lgen[-1]*n-l2))
     longitudes1 = []
     longitudes2 = []
     cotaB1 = int(ceil(x1/lgen[-1]))
