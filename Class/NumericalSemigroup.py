@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+
 # coding: utf-8
 
-# In[1]:
+# In[24]:
 
 
 import numpy as np
@@ -10,21 +10,21 @@ import sympy
 from sympy import *
 
 
-# In[2]:
+# In[25]:
 
 
 import integerSmithNormalFormAndApplications
 from integerSmithNormalFormAndApplications import *
 
 
-# In[3]:
+# In[26]:
 
 
 import auxiliars
 from auxiliars import *
 
 
-# In[4]:
+# In[103]:
 
 
 class NumericalSemigroup:
@@ -130,25 +130,36 @@ class NumericalSemigroup:
         #    print([self.L(x) for x in waux])
         #return (longAux)
     
-    
-    
     def SminusIthMinimalGenerator(self,i):
         '''
         Return the numerical semigroup S minus its ith minimal generator.
         '''
-        return None
+        saux=list(self.generators)
+        x=saux[i]
+        if saux==[1] and x==1:
+            return NumericalSemigroup([2,3])
+        saux.remove(x)
+        #print(saux)
+        saux= saux + [ x+y for y in saux ]
+        saux=saux + [2*x,3*x]
+        #print(saux)
+        return NumericalSemigroup(saux)
     def Children(self):
         '''
         This function returns the children of a numerial semigroup.
         If S is a numerical semigroup, its children are the numerical semigroups S' verifying that S\S' 
         has cardinality 1 and the element in this set is a minimal generator of S greater than the Frobenius 
         number of S.
+        ns=NumericalSemigroup([2,3])
+        ns.Children()
+        ns.Children()
         '''
-        return []
-
-
-# In[10]:
-
-
-ns = NumericalSemigroup([3,5])
+        sg,nf=self.generators,self.FrobeniusNumber()
+        familia=[]
+        n=len(sg)
+        for i in range(n):
+            if nf < sg[i]:
+                SNaux=self.SminusIthMinimalGenerator(i)
+                familia=familia+[SNaux]
+        return familia
 

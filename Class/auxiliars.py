@@ -102,7 +102,7 @@ def smgS(generators):
     generators.sort()
     sgS=np.unique(generators)
     if len(sgS)==1:
-        return sgS
+        return list(sgS)
     smgS=np.append(smgS,sgS[0])
     for i in range(1,len(sgS)):
         if sgS[i] % smgS[0] != 0:
