@@ -2,6 +2,7 @@ import numpy as np
 from numpy import *
 import sympy
 from sympy import *
+from numba import jit
 
 import integerSmithNormalFormAndApplications
 from integerSmithNormalFormAndApplications import *
@@ -48,6 +49,7 @@ def FrobeniusNumber(generators,eDimension=0):
 
 # Function to compute integer solutions of a Diophantine Equation
 
+@jit(nopython=True)
 def FSolve(lgen,x,dim=0,onlyFirst=True):
     posAModificar=0
     sumando=True
