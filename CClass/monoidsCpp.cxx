@@ -67,6 +67,10 @@ int isZero(vector<long> v){
 	return 1;
 }
 
+
+///
+
+
 vector<vector<long> > FSolve(vector<long> lgen, long x)
 {
     int posAModificar=0;
@@ -78,26 +82,14 @@ vector<vector<long> > FSolve(vector<long> lgen, long x)
     vector<vector<long> > soluciones;
 
     for(unsigned int i=0;i<tuplaActual.size();++i){
-	//std::cout << tuplaActual[i]<<" ";
 	tuplaActual[i]=0;
     }
 
-    
-
-    // int dimSoluciones = 0;
-    //while(!(tuplaActual.TodoCero() && !sumando))
-    //std::cout<<"fuera del while..."<<std::endl;
-
     int k=0;
 
-    //while( (sumando || !std::all_of(tuplaActual.begin(),tuplaActual.end(),[](int i){return i==0;}) ) )
     while( sumando || !isZero(tuplaActual) ) 
     {
 	k++;
-	//std::cout<<"dentro del while "<<sumando<<" "<<posAModificar<<" "<<xaux<<std::endl;
-	//for(int i=0;i<tuplaActual.size();++i)
-	//	std::cout << tuplaActual[i]<<" ";
-	//std::cout<<std::endl;
         if(sumando)
         {
             if(xaux>=lgen[0])
@@ -107,7 +99,6 @@ vector<vector<long> > FSolve(vector<long> lgen, long x)
                 if(xaux==0)
                 {
                     soluciones.push_back(tuplaActual);
-		    //std::cout<<"solucion encontrada"<<std::endl;
                     sumando = false;
                     continue;
                 }
@@ -154,8 +145,28 @@ vector<vector<long> > FSolve(vector<long> lgen, long x)
             }
         }
     }
-    //std::cout<<"Fin de programa"<<std::endl;
-    //soluciones.Mostrar();<
-    //soluciones.Escribir();
     return soluciones;
+}
+
+
+///
+
+
+vector<long> smgS(vector<long> gen)
+{
+	vector<long> smgS, generators;
+	generators = gen;
+	sort(generators.begin(),generators.end());
+	long aux;
+	aux = generators[0];
+	for(unsigned i=1;i<generators.size();i++)
+	{
+		if(aux == generators[i])
+		{
+			generators.erase(generators.begin()+i);
+			i=1;
+		}
+		aux=generators[i];
+	}
+	return generators;
 }
