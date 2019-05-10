@@ -15,5 +15,7 @@ void Pintar(std::vector<long> v);
 
 bool Belong(std::vector<long> generators,long x);
 
+bool Belong(std::vector<long> generators,long x, long fNumber);
+
 #endif
 
