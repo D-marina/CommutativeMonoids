@@ -225,6 +225,31 @@ bool Belong(vector<long> generators,long x)
 
 ///
 
+bool Belong(vector<long> generators,long x, long fNumber)
+{
+	long multiplicity;
+	multiplicity =generators[0];
+	if(x == 0)
+		return true;
+	if((0 < x) && (x < multiplicity))
+		return false;
+	for(unsigned i=0;i<generators.size();i++)
+	{
+		if(x==generators[i])
+			return true;
+	}
+	if((fNumber != 0) && (x>fNumber))
+		return true;
+	vector<vector<long>> expression;
+	expression = FSolve(generators,x);
+	if(expression.size() > 0)
+		return true;
+	else
+		return false;
+}
+
+///
+
 
 void Pintar(vector<long> v)
 {
