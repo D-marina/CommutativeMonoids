@@ -11,5 +11,7 @@ std::vector<std::vector<long> > FSolve(std::vector<long> lgen, long x);
 
 std::vector<long> smgS(std::vector<long> gen);
 
+void Pintar(std::vector<long> v);
+
 #endif
 
