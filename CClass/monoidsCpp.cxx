@@ -71,7 +71,7 @@ int isZero(vector<long> v){
 ///
 
 
-vector<vector<long> > FSolve(vector<long> lgen, long x)
+vector<vector<long>> FSolve(vector<long> lgen, long x)
 {
     int posAModificar=0;
     bool sumando = true;
@@ -193,6 +193,38 @@ vector<long> smgS(vector<long> generators)
 
 	return smgS;
 }
+
+
+///
+
+
+bool Belong(vector<long> generators,long x)
+{
+	long multiplicity, fNumber;
+	multiplicity =generators[0];
+	fNumber = FrobeniusNumber(generators);
+	if(x == 0)
+		return true;
+	if((0 < x) && (x < multiplicity))
+		return false;
+	for(unsigned i=0;i<generators.size();i++)
+	{
+		if(x==generators[i])
+			return true;
+	}
+	if((fNumber != 0) && (x>fNumber))
+		return true;
+	vector<vector<long>> expression;
+	expression = FSolve(generators,x);
+	if(expression.size() > 0)
+		return true;
+	else
+		return false;
+}
+
+
+///
+
 
 void Pintar(vector<long> v)
 {
