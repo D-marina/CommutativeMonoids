@@ -251,6 +251,51 @@ bool Belong(vector<long> generators,long x, long fNumber)
 ///
 
 
+long ComputeD(vector<long> generators)
+{
+	long dimension;
+	dimension = generators.size();
+	return dimension;
+}
+
+
+///
+
+
+long ComputeNs(vector<long> a)
+{
+	long p, d;
+	vector<double> Si;
+	vector<double> Siprime;
+	p = a.size();
+	d = ComputeD(a);
+	long max1, max2, max;
+
+	for(int i=1;i<p-1;i++)
+	{
+		vector<long> aux;
+		aux.push_back(a[i]-a[0]);
+		aux.push_back(a[0]-a[p-1]);
+		aux.push_back(a[p-1]-a[i]);
+		
+		Si.push_back(-a[1]*(a[0]*d*gcdL(aux)+(p-2)*(a[0]-a[i])*(a[0]-a[p-1]))/((a[0]-a[1])*gcdL(aux)));
+		Siprime.push_back(a[p-2]*((p-2)*(a[0]-a[p-1])*(a[p-1]-a[i])-a[p-1]*d*gcdL(aux))/((a[p-2]-a[p-1])*gcdL(aux)));
+	}
+
+	Pintar(Si);
+
+	max1 = maximum(Si);
+	max2 = maximum(Siprime);
+	max = max1;
+	if(max1 < max2)
+		max = max2;
+	return (long)ceil(max);
+}
+
+
+/// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
+
+
 void Pintar(vector<long> v)
 {
 	cout<<"*";
@@ -258,4 +303,79 @@ void Pintar(vector<long> v)
 		cout<<" "<<v[ii];
 	cout<<"*";
 	cout<<endl;
+}
+
+void Pintar(vector<double> v)
+{
+	cout<<"*";
+	for(unsigned ii=0;ii<v.size();ii++)
+		cout<<" "<<v[ii];
+	cout<<"*";
+	cout<<endl;
+}
+
+///
+
+
+long gcd(long a, long b)
+{
+	if(a == 0)
+		return b;
+	return gcd(b%a,a);
+}
+
+
+///
+
+
+long gcdL(vector<long> v) 
+{
+	long n, result;
+	n = v.size();
+	result = v[0];
+	for(unsigned i = 1; i < n; i++) 
+        	result = gcd(v[i], result); 
+    return result; 
+}
+
+
+///
+
+
+long maximum(vector<long> v)
+{
+	long n;
+	long aux;
+	
+	n = v.size();
+	if( n == 0)
+		return 0;
+	aux = v[0];
+	for(long i=1;i<n;i++)
+	{
+		if(aux < v[i])
+		{
+			aux = v[i];
+		}
+	}
+	return aux;
+}
+
+double maximum(vector<double> v)
+{
+	long n;
+	double aux;
+
+	n = v.size();
+	if( n == 0)
+		return 0;
+	aux = v[0];
+	for(long i=1;i<n;i++)
+	{
+		if(aux < v[i])
+		{
+			aux = v[i];
+		}
+	}
+	return aux;
 }
