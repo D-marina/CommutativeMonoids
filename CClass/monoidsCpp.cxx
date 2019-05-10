@@ -152,21 +152,53 @@ vector<vector<long> > FSolve(vector<long> lgen, long x)
 ///
 
 
-vector<long> smgS(vector<long> gen)
+vector<long> smgS(vector<long> generators)
 {
-	vector<long> smgS, generators;
-	generators = gen;
-	sort(generators.begin(),generators.end());
+	vector<long> smgS, sgS;
+	sgS = generators;
+	sort(sgS.begin(),sgS.end());
 	long aux;
-	aux = generators[0];
-	for(unsigned i=1;i<generators.size();i++)
+	aux = sgS[0];
+	// Delete duplicate
+	for(unsigned i=1;i<sgS.size();i++)
 	{
-		if(aux == generators[i])
+		if(aux == sgS[i])
 		{
-			generators.erase(generators.begin()+i);
+			sgS.erase(sgS.begin()+i);
 			i=1;
 		}
-		aux=generators[i];
+		aux=sgS[i];
 	}
-	return generators;
+	
+	if(sgS.size()==1)
+		return sgS;
+	smgS.push_back(sgS[0]);
+	unsigned i;
+	for(i=1;i<sgS.size();i++)
+	{
+		if(sgS[i]%smgS[0] != 0)
+		{
+			smgS.push_back(sgS[i]);
+			break;
+		}
+	}
+
+	for(unsigned j=i+1;j<sgS.size();j++)
+	{
+		if(FSolve(smgS, sgS[j]).size() == 0)
+		{
+			smgS.push_back(sgS[j]);
+		}
+	}
+
+	return smgS;
+}
+
+void Pintar(vector<long> v)
+{
+	cout<<"*";
+	for(unsigned ii=0;ii<v.size();ii++)
+		cout<<" "<<v[ii];
+	cout<<"*";
+	cout<<endl;
 }
