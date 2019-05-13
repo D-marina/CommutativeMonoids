@@ -30,5 +30,11 @@ long gcdL(std::vector<long> v);
 long maximum(std::vector<long> v);
 double maximum(std::vector<double> v);
 
+long Lambda1(std::vector<long>);
+long Lambda1(std::vector<long> lgen, long Ns);
+
+long Lambda2(std::vector<long>);
+long Lambda2(std::vector<long> lgen, long Ns);
+
 #endif
 
