@@ -253,9 +253,14 @@ bool Belong(vector<long> generators,long x, long fNumber)
 
 long ComputeD(vector<long> generators)
 {
+	vector<long> dif;
 	long dimension;
 	dimension = generators.size();
-	return dimension;
+	for(long i=0;i<dimension-1;i++)
+	{
+		dif.push_back(generators[i+1]-generators[i]);
+	}
+	return gcdL(dif);
 }
 
 
@@ -269,7 +274,7 @@ long ComputeNs(vector<long> a)
 	vector<double> Siprime;
 	p = a.size();
 	d = ComputeD(a);
-	long max1, max2, max;
+	double max1, max2, max;
 
 	for(int i=1;i<p-1;i++)
 	{
@@ -278,11 +283,16 @@ long ComputeNs(vector<long> a)
 		aux.push_back(a[0]-a[p-1]);
 		aux.push_back(a[p-1]-a[i]);
 		
-		Si.push_back(-a[1]*(a[0]*d*gcdL(aux)+(p-2)*(a[0]-a[i])*(a[0]-a[p-1]))/((a[0]-a[1])*gcdL(aux)));
-		Siprime.push_back(a[p-2]*((p-2)*(a[0]-a[p-1])*(a[p-1]-a[i])-a[p-1]*d*gcdL(aux))/((a[p-2]-a[p-1])*gcdL(aux)));
-	}
+		
+		double aux11, aux12, aux21,aux22;
+		aux11 = (double)(-a[1]*(a[0]*d*gcdL(aux)+(p-2)*(a[0]-a[i])*(a[0]-a[p-1])));
+		aux12 = (double)(((a[0]-a[1])*gcdL(aux)));
+		aux21 = (double)(a[p-2]*((p-2)*(a[0]-a[p-1])*(a[p-1]-a[i])-a[p-1]*d*gcdL(aux)));
+		aux22 = (double)((a[p-2]-a[p-1])*gcdL(aux));
 
-	Pintar(Si);
+		Si.push_back(aux11/aux12);
+		Siprime.push_back(aux21/aux22);
+	}
 
 	max1 = maximum(Si);
 	max2 = maximum(Siprime);
@@ -292,6 +302,63 @@ long ComputeNs(vector<long> a)
 	return (long)ceil(max);
 }
 
+long Lambda1(vector<long> lgen)
+{
+	long Ns,dimension;
+	double c11, c12, c41,c42, c1, c4;
+	Ns = ComputeNs(lgen);
+	dimension = lgen.size();
+	c11 = (double) (lgen[dimension-1]-lgen[dimension-2])*Ns;
+	c12 = (double) lgen[dimension-2];
+	c1 = c11/c12;
+	c41 = (double)(-Ns)*(lgen[dimension-2]*lgen[dimension-1]*lgen[0]-lgen[dimension-2]*lgen[dimension-1]*lgen[1] + lgen[dimension-2]*lgen[0]*lgen[1]-lgen[dimension-1]*lgen[0]*lgen[1]);
+	c42 = (double) lgen[dimension-2]*lgen[dimension-1]*lgen[1];
+	c4= c41/c42;
+	return max(ceil(c1),ceil(c4));	
+}
+
+long Lambda1(vector<long> lgen, long Ns)
+{
+	long dimension;
+	double c11, c12, c41,c42, c1, c4;
+	dimension = lgen.size();
+	c11 = (double) (lgen[dimension-1]-lgen[dimension-2])*Ns;
+	c12 = (double) lgen[dimension-2];
+	c1 = c11/c12;
+	c41 = (double)(-Ns)*(lgen[dimension-2]*lgen[dimension-1]*lgen[0]-lgen[dimension-2]*lgen[dimension-1]*lgen[1] + lgen[dimension-2]*lgen[0]*lgen[1]-lgen[dimension-1]*lgen[0]*lgen[1]);
+	c42 = (double) lgen[dimension-2]*lgen[dimension-1]*lgen[1];
+	c4= c41/c42;
+	return max(ceil(c1),ceil(c4));	
+}
+
+long Lambda2(vector<long> lgen)
+{
+	long Ns,dimension;
+	double c21, c22, c31,c32, c2, c3;
+	Ns = ComputeNs(lgen);
+	dimension = lgen.size();
+	c21 = (double)(lgen[0]-lgen[1])*Ns;
+	c22 = (double) lgen[1];
+	c2 = c21/c22;
+	c31 = (double) (Ns*(lgen[dimension-2]*lgen[dimension-1]*lgen[0]-lgen[dimension-2]*lgen[dimension-1]*lgen[1]+lgen[dimension-2]*lgen[0]*lgen[1]-lgen[dimension-1]*lgen[0]*lgen[1]));
+	c32 = (double) lgen[dimension-2]*lgen[0]*lgen[1];
+	c3 = c31/c32;
+	return (long)(-min(c3,c2));
+}
+
+long Lambda2(vector<long> lgen, long Ns)
+{
+	long dimension;
+	double c21, c22, c31,c32, c2, c3;
+	dimension = lgen.size();
+	c21 = (double)(lgen[0]-lgen[1])*Ns;
+	c22 = (double) lgen[1];
+	c2 = c21/c22;
+	c31 = (double) (Ns*(lgen[dimension-2]*lgen[dimension-1]*lgen[0]-lgen[dimension-2]*lgen[dimension-1]*lgen[1]+lgen[dimension-2]*lgen[0]*lgen[1]-lgen[dimension-1]*lgen[0]*lgen[1]));
+	c32 = (double) lgen[dimension-2]*lgen[0]*lgen[1];
+	c3 = c31/c32;
+	return (long)(-min(c3,c2));
+}
 
 /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
 
