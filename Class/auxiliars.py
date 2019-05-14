@@ -237,7 +237,7 @@ def ComputeN0(lgen,dimension=0,Ns=0):
     #C3=(-ap/a1+ap/a2-ap/apM1+1)*Ns
     #C4=(a1/apM1-a1/ap-a1/a2+1)*Ns
     lambda1 = Lambda1(lgen,dimension,Ns)
-    lambda2 = Lambda1(lgen,dimension,Ns)
+    lambda2 = Lambda2(lgen,dimension,Ns)
     N0 = max([Ns/a1,(ap-a1+lambda1+lambda2)/(ap-a1)])
     return int(N0)
     
