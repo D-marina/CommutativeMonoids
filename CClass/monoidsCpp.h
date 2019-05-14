@@ -36,5 +36,14 @@ long Lambda1(std::vector<long> lgen, long Ns);
 long Lambda2(std::vector<long>);
 long Lambda2(std::vector<long> lgen, long Ns);
 
+long ComputeN0(std::vector<long> lgen);
+long ComputeN0(std::vector<long> lgen, long Ns);
+
+std::vector<std::vector<long>> f1(long e, long n);
+
+std::vector<long> W(std::vector<long> smg, long n);
+
+///vector<long> ComputeDeltaNu(vector<long> lgen, long n);
+
 #endif
 
