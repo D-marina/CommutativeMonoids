@@ -297,10 +297,15 @@ long ComputeNs(vector<long> a)
 	max1 = maximum(Si);
 	max2 = maximum(Siprime);
 	max = max1;
+
 	if(max1 < max2)
 		max = max2;
 	return (long)ceil(max);
 }
+
+
+///
+
 
 long Lambda1(vector<long> lgen)
 {
@@ -313,9 +318,13 @@ long Lambda1(vector<long> lgen)
 	c1 = c11/c12;
 	c41 = (double)(-Ns)*(lgen[dimension-2]*lgen[dimension-1]*lgen[0]-lgen[dimension-2]*lgen[dimension-1]*lgen[1] + lgen[dimension-2]*lgen[0]*lgen[1]-lgen[dimension-1]*lgen[0]*lgen[1]);
 	c42 = (double) lgen[dimension-2]*lgen[dimension-1]*lgen[1];
-	c4= c41/c42;
+	c4= c41/c42;	
+
 	return max(ceil(c1),ceil(c4));	
 }
+
+///
+
 
 long Lambda1(vector<long> lgen, long Ns)
 {
@@ -330,6 +339,10 @@ long Lambda1(vector<long> lgen, long Ns)
 	c4= c41/c42;
 	return max(ceil(c1),ceil(c4));	
 }
+
+
+///
+
 
 long Lambda2(vector<long> lgen)
 {
@@ -346,6 +359,10 @@ long Lambda2(vector<long> lgen)
 	return (long)(-min(c3,c2));
 }
 
+
+///
+
+
 long Lambda2(vector<long> lgen, long Ns)
 {
 	long dimension;
@@ -359,6 +376,50 @@ long Lambda2(vector<long> lgen, long Ns)
 	c3 = c31/c32;
 	return (long)(-min(c3,c2));
 }
+
+
+///
+
+
+long ComputeN0(std::vector<long> lgen)
+{
+	long dimension, Ns, a1, ap, lambda1, lambda2, N0;
+	Ns = ComputeNs(lgen);
+	dimension = lgen.size();
+	a1 = lgen[0];
+	ap = lgen[dimension-1];
+	lambda1 = Lambda1(lgen, Ns);
+	lambda2 = Lambda2(lgen, Ns);	
+	N0 = max(Ns/a1, (ap-a1+lambda1+lambda2)/(ap-a1));
+	return N0;
+}
+
+
+///
+
+
+long ComputeN0(std::vector<long> lgen, long Ns)
+{
+	long dimension, a1, ap, lambda1, lambda2, N0;
+	dimension = lgen.size();
+	a1 = lgen[0];
+	ap = lgen[dimension-1];
+	lambda1 = Lambda1(lgen, Ns);
+	lambda2 = Lambda2(lgen, Ns);	
+	N0 = max(Ns/a1, (ap-a1+lambda1+lambda2)/(ap-a1));
+	return N0;
+}
+
+/*
+vector<long> ComputeDeltaNu(vector<long> lgen, long n)
+{
+	long Ns, N0, dimension;
+	Ns = ComputeNs(lgen);
+	N0 = ComputeN0(lgen,Ns);
+	dimension = lgen.size();
+	if(N0>n)
+		return Delta(nu)
+}*/
 
 /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
 
@@ -402,7 +463,9 @@ long gcdL(vector<long> v)
 	result = v[0];
 	for(unsigned i = 1; i < n; i++) 
         	result = gcd(v[i], result); 
-    return result; 
+	if(result<0)
+		return -result;
+	return result; 
 }
 
 
@@ -428,6 +491,10 @@ long maximum(vector<long> v)
 	return aux;
 }
 
+
+///
+
+
 double maximum(vector<double> v)
 {
 	long n;
@@ -445,4 +512,46 @@ double maximum(vector<double> v)
 		}
 	}
 	return aux;
+}
+
+
+///
+
+
+vector<vector<long>> f1(long e, long n)
+{
+	vector<long> aux;
+	for(long i=0;i<e;i++)
+	{
+		aux.push_back(1);
+	}
+	return FSolve(aux,n);
+}
+
+
+///
+
+
+vector<long> W(vector<long> smg, long n)
+{
+	long dim;
+	dim = smg.size();
+	vector<vector<long>> xx;
+	xx = f1(dim, n);
+	long aux, suma;
+	vector<long> laux, x;
+	aux = xx.size();
+
+	for(long i=0; i<aux; i++)
+	{
+		x = xx[i];
+		suma = 0;
+		for(long j=0; j<dim; j++)
+		{
+			suma += x[j]*smg[j]; 
+		}
+		laux.push_back(suma);
+	}
+	sort(laux.begin(),laux.end());
+	return laux;
 }
