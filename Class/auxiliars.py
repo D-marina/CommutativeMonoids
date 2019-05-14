@@ -252,7 +252,7 @@ def ComputeDeltaNu(lgen,n,dimension=0,Ns=0,N0=0):
     if dimension == 0:
         dimension = len(lgen)
     if N0 > n:
-        return Delta(nu(lgen,n,dimension))
+        return Delta(Nu(lgen,n,dimension))
     l1 = Lambda1(lgen,dimension,Ns)
     l2 = Lambda2(lgen,dimension,Ns)
     x1 = int(ceil(lgen[0]*n+l1))
