@@ -210,7 +210,7 @@ def Lambda1(lgen,dimension = 0,Ns=0):
         Ns = ComputeNs(lgen,dimension)
     c1 = (lgen[-1]-lgen[-2])/lgen[-2]*Ns
     c4 = (lgen[0]/lgen[-2]-lgen[0]/lgen[-1]-lgen[0]/lgen[1]+1)*Ns
-    return max(c1,c4)
+    return ceil(max(c1,c4))
 
 # This function compute Lambda_2 for computing the Delta_nu
     
@@ -219,7 +219,7 @@ def Lambda2(lgen,dimension = 0,Ns=0):
         Ns = ComputeNs(lgen,dimension)
     c2 = (lgen[0]-lgen[1])/lgen[1]*Ns
     c3 = (-lgen[-1]/lgen[0]+lgen[-1]/lgen[1]-lgen[-1]/lgen[-2]+1)*Ns
-    return -min(c2,c3)
+    return -floor(min(c2,c3))
     
 # Compute a bound for Delta_nu
 
