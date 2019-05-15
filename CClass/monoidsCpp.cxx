@@ -440,15 +440,17 @@ vector<long> ComputeDeltaNu(vector<long> lgen, long n)
 	cotaB1 = ceil(num1/den1);
 	cotaB3 = x2/lgen[0];
 
+	vector<vector<long>> v;
 	// Calculamos las longitudes del trozo 1
-	vector<vector<long>>
-	for(long i=n*lgen; i<x1+1; i++)
+	for(long i=n*lgen[0]; i<x1+1; i++)
 	{
 		v = FSolve(lgen,i);
 		vector<long> w;
 		for(long j=0;j<(long) v.size();j++)
 		{
+			vector<long> factorizacion;
 			factorizacion = v[j];
+			long suma;
 			suma = 0;
 			for(long k=0;k<(long)factorizacion.size();k++)
 			{
@@ -472,12 +474,61 @@ vector<long> ComputeDeltaNu(vector<long> lgen, long n)
 	longitudes1 = OrdenaSet(longitudes1);
 	for(long i=0;i<(long)longitudes1.size();i++)
 	{
-		if(longitudes[i]>cotaB1)
+		if(longitudes1[i]>cotaB1)
 		{
 			longitudes1.erase(longitudes1.begin()+i);
+			i--;
 		}
 	}
 	// Calculamos las longitudes para el trozo 2
+	for(long i=x2-1; i<n*lgen[dimension-1]; i++)
+	{
+		v = FSolve(lgen,i);
+		vector<long> w;
+		for(long j=0;j<(long) v.size();j++)
+		{
+			vector<long> factorizacion;
+			factorizacion = v[j];
+			long suma;
+			suma = 0;
+			for(long k=0;k<(long)factorizacion.size();k++)
+			{
+				suma +=factorizacion[k];
+			}
+			w.push_back(suma);
+		}
+		w = OrdenaSet(w);
+		for(long j=0;j<(long) w.size();j++)
+		{
+			if(w[j]==n)
+			{
+				for(long k=0;k<(long) w.size();k++)
+				{
+					longitudes2.push_back(w[k]);
+				}
+				break;
+			}
+		}
+	}
+	longitudes2 = OrdenaSet(longitudes2);
+	for(long i=0;i<(long)longitudes2.size();i++)
+	{
+		if(longitudes2[i]<cotaB3)
+		{
+			longitudes2.erase(longitudes2.begin()+i);
+			i--;
+		}
+	}
+	longitudes1 = OrdenaSet(longitudes1);
+	longitudes2 = OrdenaSet(longitudes2);
+	vector<long> dif1, dif3;
+	dif1 = Delta(longitudes1);
+	dif3 = Delta(longitudes2);
+	for(long i=0;i<(long)dif3.size();i++)
+	{
+		dif1.push_back(dif3[i]);
+	}
+	return OrdenaSet(dif1);
 }
 
 /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
@@ -487,7 +538,7 @@ void Pintar(vector<long> v)
 {
 	cout<<"*";
 	for(unsigned ii=0;ii<v.size();ii++)
-		cout<<" "<<v[ii];
+		cout<<","<<v[ii];
 	cout<<"*";
 	cout<<endl;
 }
@@ -496,7 +547,7 @@ void Pintar(vector<double> v)
 {
 	cout<<"*";
 	for(unsigned ii=0;ii<v.size();ii++)
-		cout<<" "<<v[ii];
+		cout<<","<<v[ii];
 	cout<<"*";
 	cout<<endl;
 }
@@ -731,19 +782,15 @@ vector<long> OrdenaSet(vector<long> l1)
 	sort(l1.begin(),l1.end());
 	// Delete duplicate
 	aux = l1[0];
+
 	for(unsigned i=1;i<l1.size();i++)
 	{
 		if(aux == l1[i])
 		{
 			l1.erase(l1.begin()+i);
-			i=1;
+			i=0;
 		}
 		aux=l1[i];
 	}
 	return l1;
 }
-
-
-
-
-
