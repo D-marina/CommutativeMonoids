@@ -405,21 +405,80 @@ long ComputeN0(std::vector<long> lgen, long Ns)
 	a1 = lgen[0];
 	ap = lgen[dimension-1];
 	lambda1 = Lambda1(lgen, Ns);
-	lambda2 = Lambda2(lgen, Ns);	
-	N0 = max(Ns/a1, (ap-a1+lambda1+lambda2)/(ap-a1));
+	lambda2 = Lambda2(lgen, Ns);
+	double aux11, aux12, aux21, aux22;
+	aux11 = (double) Ns;
+	aux12 = (double) a1;
+	aux21 = (double) (ap-a1+lambda1+lambda2);
+	aux22 = (double) (ap-a1);
+	N0 = max(ceil(aux11/aux12), ceil(aux21/aux22));
 	return N0;
 }
 
-/*
+
 vector<long> ComputeDeltaNu(vector<long> lgen, long n)
 {
-	long Ns, N0, dimension;
+	long Ns, N0, dimension, l1, l2, x1, x2;
 	Ns = ComputeNs(lgen);
 	N0 = ComputeN0(lgen,Ns);
 	dimension = lgen.size();
 	if(N0>n)
-		return Delta(nu)
-}*/
+	{
+		return OrdenaSet(Delta(Nu(lgen,n)));
+	}
+
+	l1 = Lambda1(lgen,Ns);
+	l2 = Lambda2(lgen,Ns);
+	x1 = lgen[0]*n+l1;
+	x2 = lgen[dimension-1]*n-l2;
+
+	vector<long> longitudes1, longitudes2;
+	long cotaB1, cotaB3;
+	double num1, den1;
+	num1 = (double) x1;
+	den1 = (double) lgen[dimension-1];
+	cotaB1 = ceil(num1/den1);
+	cotaB3 = x2/lgen[0];
+
+	// Calculamos las longitudes del trozo 1
+	vector<vector<long>>
+	for(long i=n*lgen; i<x1+1; i++)
+	{
+		v = FSolve(lgen,i);
+		vector<long> w;
+		for(long j=0;j<(long) v.size();j++)
+		{
+			factorizacion = v[j];
+			suma = 0;
+			for(long k=0;k<(long)factorizacion.size();k++)
+			{
+				suma +=factorizacion[k];
+			}
+			w.push_back(suma);
+		}
+		w = OrdenaSet(w);
+		for(long j=0;j<(long) w.size();j++)
+		{
+			if(w[j]==n)
+			{
+				for(long k=0;k<(long) w.size();k++)
+				{
+					longitudes1.push_back(w[k]);
+				}
+				break;
+			}
+		}
+	}
+	longitudes1 = OrdenaSet(longitudes1);
+	for(long i=0;i<(long)longitudes1.size();i++)
+	{
+		if(longitudes[i]>cotaB1)
+		{
+			longitudes1.erase(longitudes1.begin()+i);
+		}
+	}
+	// Calculamos las longitudes para el trozo 2
+}
 
 /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
 
@@ -553,5 +612,138 @@ vector<long> W(vector<long> smg, long n)
 		laux.push_back(suma);
 	}
 	sort(laux.begin(),laux.end());
+
+	// Delete duplicate
+	aux = laux[0];
+	for(unsigned i=1;i<laux.size();i++)
+	{
+		if(aux == laux[i])
+		{
+			laux.erase(laux.begin()+i);
+			i=1;
+		}
+		aux=laux[i];
+	}
 	return laux;
 }
+
+
+///
+
+
+vector<long> L(vector<long> lgen, long x)
+{
+	long suma;
+	vector<vector<long>> l1;
+	l1 = FSolve(lgen,x);
+	vector<long> l2;
+	for(unsigned i=0;i<l1.size();i++)
+	{
+		suma = 0;
+		for(unsigned j=0;j<l1[i].size();j++)
+		{
+			suma += l1[i][j];
+		}
+		l2.push_back(suma);
+	}
+	sort(l2.begin(),l2.end());
+	long aux;
+	aux = l2[0];
+	for(unsigned i=1;i<l2.size();i++)
+	{
+		if(aux == l2[i])
+		{
+			l2.erase(l2.begin()+i);
+			i=1;
+		}
+		aux=l2[i];
+	}
+	return l2;
+}
+
+
+///
+
+
+vector<long> Nu(vector<long> smg, long n)
+{
+	vector<long> waux, longaux, laux;
+	waux = W(smg,n);
+	for(long i=0;i<(long)waux.size();i++)
+	{
+		laux = L(smg,waux[i]);
+		for(long j=0;j<(long)laux.size();j++)
+		{
+			longaux.push_back(laux[j]);
+		}
+	}
+	
+	long aux;
+	sort(longaux.begin(),longaux.end());
+	// Delete duplicate
+	aux = longaux[0];
+	for(unsigned i=1;i<longaux.size();i++)
+	{
+		if(aux == longaux[i])
+		{
+			longaux.erase(longaux.begin()+i);
+			i=1;
+		}
+		aux=longaux[i];
+	}
+	return longaux;
+}
+
+
+///
+
+
+vector<long> Delta(vector<long> laux)
+{
+	vector<long> l1;
+	for(long i=1;i<(long)laux.size();i++)
+	{
+		l1.push_back(laux[i]-laux[i-1]);
+	}
+	long aux;
+	sort(l1.begin(),l1.end());
+	// Delete duplicate
+	aux = l1[0];
+	for(unsigned i=1;i<l1.size();i++)
+	{
+		if(aux == l1[i])
+		{
+			l1.erase(l1.begin()+i);
+			i=1;
+		}
+		aux=l1[i];
+	}
+	return l1;
+}
+
+
+///
+
+
+vector<long> OrdenaSet(vector<long> l1)
+{
+	long aux;
+	sort(l1.begin(),l1.end());
+	// Delete duplicate
+	aux = l1[0];
+	for(unsigned i=1;i<l1.size();i++)
+	{
+		if(aux == l1[i])
+		{
+			l1.erase(l1.begin()+i);
+			i=1;
+		}
+		aux=l1[i];
+	}
+	return l1;
+}
+
+
+
+
+
