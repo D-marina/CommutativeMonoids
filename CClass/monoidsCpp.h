@@ -43,7 +43,15 @@ std::vector<std::vector<long>> f1(long e, long n);
 
 std::vector<long> W(std::vector<long> smg, long n);
 
-///vector<long> ComputeDeltaNu(vector<long> lgen, long n);
+std::vector<long> L(std::vector<long> lgen, long x);
+
+std::vector<long> Nu(std::vector<long> smg, long n);
+
+std::vector<long> Delta(std::vector<long> laux);
+
+std::vector<long> ComputeDeltaNu(std::vector<long> lgen, long n);
+
+std::vector<long> OrdenaSet(std::vector<long> l1);
 
 #endif
 
