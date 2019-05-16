@@ -2,6 +2,8 @@ import numpy as np
 from numpy import *
 import sympy
 from sympy import *
+import math
+from math import *
 
 import integerSmithNormalFormAndApplications
 from integerSmithNormalFormAndApplications import *
@@ -230,12 +232,7 @@ def ComputeN0(lgen,dimension=0,Ns=0):
         dimension = len(lgen)
     a1 = lgen[0]
     a2 = lgen[1]
-    # apM1=self.generators[-2]
     ap = lgen[-1]
-    #C1=(ap-apM1)*Ns/apM1
-    #C2=(ap-a2)*Ns/a2
-    #C3=(-ap/a1+ap/a2-ap/apM1+1)*Ns
-    #C4=(a1/apM1-a1/ap-a1/a2+1)*Ns
     lambda1 = Lambda1(lgen,dimension,Ns)
     lambda2 = Lambda2(lgen,dimension,Ns)
     N0 = max([Ns/a1,(ap-a1+lambda1+lambda2)/(ap-a1)])
