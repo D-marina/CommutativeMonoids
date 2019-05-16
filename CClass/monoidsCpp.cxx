@@ -307,6 +307,45 @@ long ComputeNs(vector<long> a)
 ///
 
 
+long ComputeNs(vector<long> a, long d)
+{
+	long p;
+	vector<double> Si;
+	vector<double> Siprime;
+	p = a.size();
+	double max1, max2, max;
+
+	for(int i=1;i<p-1;i++)
+	{
+		vector<long> aux;
+		aux.push_back(a[i]-a[0]);
+		aux.push_back(a[0]-a[p-1]);
+		aux.push_back(a[p-1]-a[i]);
+		
+		
+		double aux11, aux12, aux21,aux22;
+		aux11 = (double)(-a[1]*(a[0]*d*gcdL(aux)+(p-2)*(a[0]-a[i])*(a[0]-a[p-1])));
+		aux12 = (double)(((a[0]-a[1])*gcdL(aux)));
+		aux21 = (double)(a[p-2]*((p-2)*(a[0]-a[p-1])*(a[p-1]-a[i])-a[p-1]*d*gcdL(aux)));
+		aux22 = (double)((a[p-2]-a[p-1])*gcdL(aux));
+
+		Si.push_back(aux11/aux12);
+		Siprime.push_back(aux21/aux22);
+	}
+
+	max1 = maximum(Si);
+	max2 = maximum(Siprime);
+	max = max1;
+
+	if(max1 < max2)
+		max = max2;
+	return (long)ceil(max);
+}
+
+
+///
+
+
 long Lambda1(vector<long> lgen)
 {
 	long Ns,dimension;
