@@ -239,7 +239,7 @@ def ComputeN0(lgen,dimension=0,Ns=0):
     lambda1 = Lambda1(lgen,dimension,Ns)
     lambda2 = Lambda2(lgen,dimension,Ns)
     N0 = max([Ns/a1,(ap-a1+lambda1+lambda2)/(ap-a1)])
-    return int(N0)
+    return ceil(N0)
     
 
 # This function compute Delta_nu
