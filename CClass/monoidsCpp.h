@@ -16,12 +16,12 @@ void Pintar(std::vector<long> v);
 void Pintar(std::vector<double> v);
 
 bool Belong(std::vector<long> generators,long x);
-
 bool Belong(std::vector<long> generators,long x, long fNumber);
 
 long ComputeD(std::vector<long> generators);
 
 long ComputeNs(std::vector<long> a);
+long ComputeNs(std::vector<long> a, long d);
 
 long gcd(long a, long b);
 
