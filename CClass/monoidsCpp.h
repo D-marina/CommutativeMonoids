@@ -39,7 +39,7 @@ long Lambda2(std::vector<long> lgen, long Ns);
 long ComputeN0(std::vector<long> lgen);
 long ComputeN0(std::vector<long> lgen, long Ns);
 
-std::vector<std::vector<long>> f1(long e, long n);
+std::vector<std::vector<long> > f1(long e, long n);
 
 std::vector<long> W(std::vector<long> smg, long n);
 
