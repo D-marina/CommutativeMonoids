@@ -770,7 +770,7 @@ vector<long> Nu(vector<long> smg, long n)
 		}
 	}
 	
-	long aux;
+	/*long aux;
 	sort(longaux.begin(),longaux.end());
 	// Delete duplicate
 	aux = longaux[0];
@@ -782,8 +782,8 @@ vector<long> Nu(vector<long> smg, long n)
 			i=1;
 		}
 		aux=longaux[i];
-	}
-	return longaux;
+	}*/
+	return OrdenaSet(longaux);
 }
 
 
@@ -797,7 +797,7 @@ vector<long> Delta(vector<long> laux)
 	{
 		l1.push_back(laux[i]-laux[i-1]);
 	}
-	long aux;
+	/*long aux;
 	sort(l1.begin(),l1.end());
 	// Delete duplicate
 	aux = l1[0];
@@ -809,8 +809,8 @@ vector<long> Delta(vector<long> laux)
 			i=1;
 		}
 		aux=l1[i];
-	}
-	return l1;
+	}*/
+	return OrdenaSet(l1);
 }
 
 
