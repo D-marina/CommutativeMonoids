@@ -71,7 +71,7 @@ int isZero(vector<long> v){
 ///
 
 
-vector<vector<long>> FSolve(vector<long> lgen, long x)
+vector<vector<long> > FSolve(vector<long> lgen, long x)
 {
     int posAModificar=0;
     bool sumando = true;
@@ -214,7 +214,7 @@ bool Belong(vector<long> generators,long x)
 	}
 	if((fNumber != 0) && (x>fNumber))
 		return true;
-	vector<vector<long>> expression;
+	vector<vector<long> > expression;
 	expression = FSolve(generators,x);
 	if(expression.size() > 0)
 		return true;
@@ -240,7 +240,7 @@ bool Belong(vector<long> generators,long x, long fNumber)
 	}
 	if((fNumber != 0) && (x>fNumber))
 		return true;
-	vector<vector<long>> expression;
+	vector<vector<long> > expression;
 	expression = FSolve(generators,x);
 	if(expression.size() > 0)
 		return true;
@@ -481,7 +481,7 @@ vector<long> ComputeDeltaNu(vector<long> lgen, long n)
 	cotaB1 = ceil(num1/den1);
 	cotaB3 = x2/lgen[0];
 
-	vector<vector<long>> v;
+	vector<vector<long> > v;
 	// Calculamos las longitudes del trozo 1
 	for(long i=n*lgen[0]; i<x1+1; i++)
 	{
@@ -669,7 +669,7 @@ double maximum(vector<double> v)
 ///
 
 
-vector<vector<long>> f1(long e, long n)
+vector<vector<long> > f1(long e, long n)
 {
 	vector<long> aux;
 	for(long i=0;i<e;i++)
@@ -687,7 +687,7 @@ vector<long> W(vector<long> smg, long n)
 {
 	long dim;
 	dim = smg.size();
-	vector<vector<long>> xx;
+	vector<vector<long> > xx;
 	xx = f1(dim, n);
 	long aux, suma;
 	vector<long> laux, x;
@@ -726,7 +726,7 @@ vector<long> W(vector<long> smg, long n)
 vector<long> L(vector<long> lgen, long x)
 {
 	long suma;
-	vector<vector<long>> l1;
+	vector<vector<long> > l1;
 	l1 = FSolve(lgen,x);
 	vector<long> l2;
 	for(unsigned i=0;i<l1.size();i++)
