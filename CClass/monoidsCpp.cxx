@@ -463,6 +463,8 @@ vector<long> ComputeDeltaNu(vector<long> lgen, long n)
 	dimension = lgen.size();
 	if(N0>n)
 	{
+		Pintar(Nu(lgen,n));
+		Pintar(Delta(Nu(lgen,n)));
 		return OrdenaSet(Delta(Nu(lgen,n)));
 	}
 
