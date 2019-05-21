@@ -322,7 +322,6 @@ long ComputeNs(vector<long> a, long d)
 		aux.push_back(a[0]-a[p-1]);
 		aux.push_back(a[p-1]-a[i]);
 		
-		
 		double aux11, aux12, aux21,aux22;
 		aux11 = (double)(-a[1]*(a[0]*d*gcdL(aux)+(p-2)*(a[0]-a[i])*(a[0]-a[p-1])));
 		aux12 = (double)(((a[0]-a[1])*gcdL(aux)));
@@ -430,7 +429,7 @@ long ComputeN0(std::vector<long> lgen)
 	lambda1 = Lambda1(lgen, Ns);
 	lambda2 = Lambda2(lgen, Ns);	
 	N0 = max(Ns/a1, (ap-a1+lambda1+lambda2)/(ap-a1));
-	return N0;
+	return ceil(N0);
 }
 
 
@@ -572,6 +571,76 @@ vector<long> ComputeDeltaNu(vector<long> lgen, long n)
 	return OrdenaSet(dif1);
 }
 
+
+///
+
+
+vector<long> SminusIthMinimalGenerator(vector<long> generators, long i)
+{
+	vector<long> saux;
+	saux = generators;
+	long x;
+	x = saux[i];
+	if(saux.size()==1 && saux[0]==1 && x==1)
+	{
+		vector<long> salida;
+		salida.push_back(2);
+		salida.push_back(3);
+		return salida;
+	}
+	saux.erase(saux.begin()+i);
+	long n;
+	n = (long)saux.size();
+	for(long j=0;j<n;j++)
+	{
+		saux.push_back(saux[j]+x);
+	}
+	saux.push_back(2*x);
+	saux.push_back(3*x);
+	return smgS(saux);
+}
+
+
+///
+
+
+vector<vector<long> > Children(vector<long> generators)
+{
+	long nf;
+	nf = FrobeniusNumber(generators);
+	vector<vector<long> > familia;
+	vector<long> SNaux;
+	for(long i=0;i<(long)generators.size();i++)
+	{
+		if(nf<generators[i])
+		{
+			SNaux = SminusIthMinimalGenerator(generators,i);
+			familia.push_back(SNaux);
+		}
+	}
+	return familia;
+}
+
+
+///
+
+
+vector<vector<long> > Children(vector<long> generators, long nf)
+{
+	vector<vector<long> > familia;
+	vector<long> SNaux;
+	for(long i=0;i<(long)generators.size();i++)
+	{
+		if(nf<generators[i])
+		{
+			SNaux = SminusIthMinimalGenerator(generators,i);
+			familia.push_back(SNaux);
+		}
+	}
+	return familia;
+}
+
+
 /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
 
 
@@ -703,7 +772,8 @@ vector<long> W(vector<long> smg, long n)
 		}
 		laux.push_back(suma);
 	}
-	sort(laux.begin(),laux.end());
+	return OrdenaSet(laux);
+	/*sort(laux.begin(),laux.end());
 
 	// Delete duplicate
 	aux = laux[0];
@@ -716,7 +786,7 @@ vector<long> W(vector<long> smg, long n)
 		}
 		aux=laux[i];
 	}
-	return laux;
+	return laux;*/
 }
 
 
@@ -738,7 +808,8 @@ vector<long> L(vector<long> lgen, long x)
 		}
 		l2.push_back(suma);
 	}
-	sort(l2.begin(),l2.end());
+	return OrdenaSet(l2);
+	/*sort(l2.begin(),l2.end());
 	long aux;
 	aux = l2[0];
 	for(unsigned i=1;i<l2.size();i++)
@@ -750,7 +821,7 @@ vector<long> L(vector<long> lgen, long x)
 		}
 		aux=l2[i];
 	}
-	return l2;
+	return l2;*/
 }
 
 
@@ -770,19 +841,6 @@ vector<long> Nu(vector<long> smg, long n)
 		}
 	}
 	
-	/*long aux;
-	sort(longaux.begin(),longaux.end());
-	// Delete duplicate
-	aux = longaux[0];
-	for(unsigned i=1;i<longaux.size();i++)
-	{
-		if(aux == longaux[i])
-		{
-			longaux.erase(longaux.begin()+i);
-			i=1;
-		}
-		aux=longaux[i];
-	}*/
 	return OrdenaSet(longaux);
 }
 
@@ -797,19 +855,6 @@ vector<long> Delta(vector<long> laux)
 	{
 		l1.push_back(laux[i]-laux[i-1]);
 	}
-	/*long aux;
-	sort(l1.begin(),l1.end());
-	// Delete duplicate
-	aux = l1[0];
-	for(unsigned i=1;i<l1.size();i++)
-	{
-		if(aux == l1[i])
-		{
-			l1.erase(l1.begin()+i);
-			i=1;
-		}
-		aux=l1[i];
-	}*/
 	return OrdenaSet(l1);
 }
 
