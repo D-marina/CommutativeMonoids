@@ -140,32 +140,4 @@ class NumericalSemigroup:
     '''
 
 
-# In[48]:
-
-
-ns = NumericalSemigroup([4,5,6,7])
-
-
-# In[49]:
-
-
-ns.generators
-
-
-# In[50]:
-
-
-ns.Descendants()
-
-
-# In[51]:
-
-
-ns.fNumber
-
-
-# In[52]:
-
-
-ns.RemoveGenerator(0)
 
