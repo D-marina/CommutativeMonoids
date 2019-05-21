@@ -53,5 +53,9 @@ std::vector<long> ComputeDeltaNu(std::vector<long> lgen, long n);
 
 std::vector<long> OrdenaSet(std::vector<long> l1);
 
+std::vector<long> SminusIthMinimalGenerator(std::vector<long> generators, long i);
+
+std::vector<std::vector<long> > Children(std::vector<long> generators);
+std::vector<std::vector<long> > Children(std::vector<long> generators, long fn);
 #endif
 
