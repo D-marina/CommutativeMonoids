@@ -428,8 +428,13 @@ long ComputeN0(std::vector<long> lgen)
 	ap = lgen[dimension-1];
 	lambda1 = Lambda1(lgen, Ns);
 	lambda2 = Lambda2(lgen, Ns);	
-	N0 = max(Ns/a1, (ap-a1+lambda1+lambda2)/(ap-a1));
-	return ceil(N0);
+	double aux11, aux12, aux21, aux22;
+	aux11 = (double) Ns;
+	aux12 = (double) a1;
+	aux21 = (double) (ap-a1+lambda1+lambda2);
+	aux22 = (double) (ap-a1);
+	N0 = max(ceil(aux11/aux12), ceil(aux21/aux22));
+	return N0;
 }
 
 
@@ -460,12 +465,14 @@ vector<long> ComputeDeltaNu(vector<long> lgen, long n)
 	Ns = ComputeNs(lgen);
 	N0 = ComputeN0(lgen,Ns);
 	dimension = lgen.size();
+cout<<"NS="<<Ns<<", N0="<<N0<<", n="<<n<<", dimension="<<dimension<<endl;
 	if(N0>n)
 	{
 		Pintar(Nu(lgen,n));
 		Pintar(Delta(Nu(lgen,n)));
 		return OrdenaSet(Delta(Nu(lgen,n)));
 	}
+cout<<"Salgo"<<endl;
 
 	l1 = Lambda1(lgen,Ns);
 	l2 = Lambda2(lgen,Ns);
@@ -520,6 +527,7 @@ vector<long> ComputeDeltaNu(vector<long> lgen, long n)
 			i--;
 		}
 	}
+
 	// Calculamos las longitudes para el trozo 2
 	for(long i=x2-1; i<n*lgen[dimension-1]; i++)
 	{
@@ -559,11 +567,22 @@ vector<long> ComputeDeltaNu(vector<long> lgen, long n)
 			i--;
 		}
 	}
+
 	longitudes1 = OrdenaSet(longitudes1);
 	longitudes2 = OrdenaSet(longitudes2);
+
+cout<<"Las longitudes son:"<<endl;
+Pintar(longitudes1);
+Pintar(longitudes2);
+
 	vector<long> dif1, dif3;
 	dif1 = Delta(longitudes1);
 	dif3 = Delta(longitudes2);
+
+cout<<"Las diferencias son:"<<endl;
+Pintar(dif1);
+Pintar(dif3);
+
 	for(long i=0;i<(long)dif3.size();i++)
 	{
 		dif1.push_back(dif3[i]);
@@ -773,20 +792,6 @@ vector<long> W(vector<long> smg, long n)
 		laux.push_back(suma);
 	}
 	return OrdenaSet(laux);
-	/*sort(laux.begin(),laux.end());
-
-	// Delete duplicate
-	aux = laux[0];
-	for(unsigned i=1;i<laux.size();i++)
-	{
-		if(aux == laux[i])
-		{
-			laux.erase(laux.begin()+i);
-			i=1;
-		}
-		aux=laux[i];
-	}
-	return laux;*/
 }
 
 
@@ -809,19 +814,6 @@ vector<long> L(vector<long> lgen, long x)
 		l2.push_back(suma);
 	}
 	return OrdenaSet(l2);
-	/*sort(l2.begin(),l2.end());
-	long aux;
-	aux = l2[0];
-	for(unsigned i=1;i<l2.size();i++)
-	{
-		if(aux == l2[i])
-		{
-			l2.erase(l2.begin()+i);
-			i=1;
-		}
-		aux=l2[i];
-	}
-	return l2;*/
 }
 
 
@@ -851,6 +843,9 @@ vector<long> Nu(vector<long> smg, long n)
 vector<long> Delta(vector<long> laux)
 {
 	vector<long> l1;
+	if(laux.size()<=1)
+		return l1;
+	
 	for(long i=1;i<(long)laux.size();i++)
 	{
 		l1.push_back(laux[i]-laux[i-1]);
