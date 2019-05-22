@@ -571,17 +571,9 @@ cout<<"Salgo"<<endl;
 	longitudes1 = OrdenaSet(longitudes1);
 	longitudes2 = OrdenaSet(longitudes2);
 
-cout<<"Las longitudes son:"<<endl;
-Pintar(longitudes1);
-Pintar(longitudes2);
-
 	vector<long> dif1, dif3;
 	dif1 = Delta(longitudes1);
 	dif3 = Delta(longitudes2);
-
-cout<<"Las diferencias son:"<<endl;
-Pintar(dif1);
-Pintar(dif3);
 
 	for(long i=0;i<(long)dif3.size();i++)
 	{
