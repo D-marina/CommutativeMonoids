@@ -465,14 +465,12 @@ vector<long> ComputeDeltaNu(vector<long> lgen, long n)
 	Ns = ComputeNs(lgen);
 	N0 = ComputeN0(lgen,Ns);
 	dimension = lgen.size();
-cout<<"NS="<<Ns<<", N0="<<N0<<", n="<<n<<", dimension="<<dimension<<endl;
 	if(N0>n)
 	{
 		Pintar(Nu(lgen,n));
 		Pintar(Delta(Nu(lgen,n)));
 		return OrdenaSet(Delta(Nu(lgen,n)));
 	}
-cout<<"Salgo"<<endl;
 
 	l1 = Lambda1(lgen,Ns);
 	l2 = Lambda2(lgen,Ns);
