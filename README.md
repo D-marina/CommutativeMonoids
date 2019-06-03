@@ -2,6 +2,8 @@
 
 This site pretends to be a site for the study of finitely generated commutative monoids, providing python-notebook for that goal.
 
+The documentation of this library can be found <a href='./Documentation.ipynb'> here</a>.
+
 The list of works where this software is used is:
 * On divisor-closed submonoids and minimal distances in finitely generated monoids (https://doi.org/10.1016/j.jsc.2018.06.008)
 
