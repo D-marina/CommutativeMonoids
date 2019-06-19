@@ -12,8 +12,8 @@ from PyNormaliz import *
 # In[2]:
 
 
-C = Cone(cone = [[6,0],[2,3],[0,7]])
-C.HilbertBasis()
+#C = Cone(cone = [[6,0],[2,3],[0,7]])
+#C.HilbertBasis()
 
 
 # In[3]:
@@ -169,33 +169,33 @@ def belongsByGens(x, gens):
 # In[10]:
 
 
-afs=AffineSemigroup([[2,0],[0,4],[4,4]], "generators")
-print(afs.getMSG())
+#afs=AffineSemigroup([[2,0],[0,4],[4,4]], "generators")
+#print(afs.getMSG())
 
 
 # In[4]:
 
 
-afs=AffineSemigroup([[[-2,1],3],[[9,1],8]], "equations")
-print(afs.getMSG())
-print(afs)
-afs.getExpressions([445, 11])
+#afs=AffineSemigroup([[[-2,1],3],[[9,1],8]], "equations")
+#print(afs.getMSG())
+#print(afs)
+#afs.getExpressions([445, 11])
 
 
 # In[5]:
 
 
-afs=AffineSemigroup([[[4,-2,1],3],[[2,9,1],5]], "equations")
-print(afs.getMSG())
-afs.getExpressions([1, 26, 24])
+#afs=AffineSemigroup([[[4,-2,1],3],[[2,9,1],5]], "equations")
+#print(afs.getMSG())
+#afs.getExpressions([1, 26, 24])
 
 
 # In[ ]:
 
 
-afs=AffineSemigroup([[-2,1,1,0],[-10,21,3,9]], "inequations")
-print(afs.getMSG())
-afs.getExpressions([10, 1, 6, 4])
+#afs=AffineSemigroup([[-2,1,1,0],[-10,21,3,9]], "inequations")
+#print(afs.getMSG())
+#afs.getExpressions([10, 1, 6, 4])
 #afs.getExpressions([8, 1, 16, 5]) # Puede tardar...
 #afs.getExpressions([38, 5, 41, 28])
 
@@ -203,16 +203,16 @@ afs.getExpressions([10, 1, 6, 4])
 # In[ ]:
 
 
-afs=AffineSemigroup([[-23,11,9,1],[-10,21,13,9],[1,12,0,1]], "inequations")
-print(afs.getMSG())
+#afs=AffineSemigroup([[-23,11,9,1],[-10,21,13,9],[1,12,0,1]], "inequations")
+#print(afs.getMSG())
 #afs.getExpressions([10, 21, 1, 0])
-afs.getExpressions([8, 1, 16, 5])
+#afs.getExpressions([8, 1, 16, 5])
 
 
 # In[ ]:
 
 
-afs=AffineSemigroup([[13,190, 9,2],[15,18,14,3],[6,7,2,1],[5,11,1,4],[3,4,10,1]], "generators")
-print(afs.getMSG())
-afs.getExpressions([28, 208, 23, 5])
+#afs=AffineSemigroup([[13,190, 9,2],[15,18,14,3],[6,7,2,1],[5,11,1,4],[3,4,10,1]], "generators")
+#print(afs.getMSG())
+#afs.getExpressions([28, 208, 23, 5])
 
