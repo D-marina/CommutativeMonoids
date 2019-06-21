@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[9]:
 
 
 import numpy as np
@@ -9,14 +9,14 @@ from numpy import array
 from PyNormaliz import *
 
 
-# In[2]:
+# In[49]:
 
 
-#C = Cone(cone = [[6,0],[2,3],[0,7]])
-#C.HilbertBasis()
+# C = Cone(cone = [[6,0],[2,3],[0,7]])
+# C.HilbertBasis()
 
 
-# In[3]:
+# In[50]:
 
 
 class AffineSemigroupError(Exception):
@@ -82,15 +82,16 @@ class AffineSemigroup:
         if ((self.has_min_generators or self.generators!=None)                and any([e==x for e in self.generators])):
             return True
         npax = np.array(x)
-        if self.equations != None                 and all(np.array(e[0])*npa % e[1] == 0                         for e in self.equations):
-            return True
-        else:
-            return False
-        if self.inequations != None                 and all(np.array(e[0])*npa >= 0                         for e in self.inequations):
-            return True
-        else:
-            return False
-
+        if self.equations != None:
+            if all(np.array(e[0])*npa % e[1] == 0 for e in self.equations):
+                return True
+            else:
+                return False
+        if self.inequations != None:
+            if all(np.array(e[0])*npa >= 0 for e in self.inequations):
+                return True
+            else:
+                return False
         if self.has_min_generators or self.generators != None:
             return belongsByGens(np.array(x), self.generators)
 
@@ -145,6 +146,20 @@ class AffineSemigroup:
             return []
         else:
             return [e[0:nterms] for e in facts]
+    def extremeRays(self):
+        C = Cone(cone = self.getMSG() )
+        return C.ExtremeRays()
+    def isCsemigroup(self):
+        pass
+    def isIrreducible(self):
+        pass
+    def pseudoFrobeniusElements(self):
+        pass
+    def overSemigroups(self):
+        pass
+    def decompositionIntoIrreducibles(self):
+        pass
+
     
 def belongsByGens(x, gens):
     '''
@@ -166,53 +181,129 @@ def belongsByGens(x, gens):
         return belongsByGens(x, gens[-(len(gens)-1):])
 
 
-# In[10]:
+# In[42]:
 
 
-#afs=AffineSemigroup([[2,0],[0,4],[4,4]], "generators")
-#print(afs.getMSG())
+# gen0 = [[4,0],[3,0],[5,0],[5,5],[2,2],[3,3],[4,3],[5,3],[5,1],[6,1],[7,1],[5,4]]
+# sgaf=AffineSemigroup(gen0,"generators")
+# sgaf.getMSG()
 
 
-# In[4]:
+# In[48]:
 
 
-#afs=AffineSemigroup([[[-2,1],3],[[9,1],8]], "equations")
-#print(afs.getMSG())
-#print(afs)
-#afs.getExpressions([445, 11])
+# sgaf.belongs([2,0])
 
 
-# In[5]:
+# In[32]:
 
 
-#afs=AffineSemigroup([[[4,-2,1],3],[[2,9,1],5]], "equations")
-#print(afs.getMSG())
-#afs.getExpressions([1, 26, 24])
+# belongsByGens(array([8,0]),gen0)
+
+
+# In[12]:
+
+
+# afs=AffineSemigroup([[[-2,1],3],[[9,1],8]], "equations")
+# print(afs.getMSG())
+# print(afs)
+# afs.getExpressions([445, 11])
+
+
+# In[13]:
+
+
+# afs=AffineSemigroup([[[4,-2,1],3],[[2,9,1],5]], "equations")
+# print(afs.getMSG())
+# afs.getExpressions([1, 26, 24])
+
+
+# In[14]:
+
+
+# afs=AffineSemigroup([[-2,1,1,0],[-10,21,3,9]], "inequations")
+# print(afs.getMSG())
+# afs.getExpressions([10, 1, 6, 4])
+# #afs.getExpressions([8, 1, 16, 5]) # Puede tardar...
+# #afs.getExpressions([38, 5, 41, 28])
+
+
+# In[15]:
+
+
+# afs=AffineSemigroup([[-23,11,9,1],[-10,21,13,9],[1,12,0,1]], "inequations")
+# print(afs.getMSG())
+# #afs.getExpressions([10, 21, 1, 0])
+# afs.getExpressions([8, 1, 16, 5])
+
+
+# In[16]:
+
+
+# afs=AffineSemigroup([[13,190, 9,2],[15,18,14,3],[6,7,2,1],[5,11,1,4],[3,4,10,1]], "generators")
+# print(afs.getMSG())
+# afs.getExpressions([28, 208, 23, 5])
+
+
+# In[17]:
+
+
+# afs.raysOfCone()
+
+
+# In[18]:
+
+
+# afs=AffineSemigroup([[[-2,1],3],[[9,1],8]], "equations")
+
+
+# In[19]:
+
+
+# afs=AffineSemigroup([[2,0],[0,4],[4,4]], "generators")
+# print(afs.getMSG())
+
+
+# In[20]:
+
+
+# afs=AffineSemigroup([[[-2,1],3],[[9,1],8]], "equations")
+# print(afs.getMSG())
+# print(afs)
+# afs.getExpressions([445, 11])
+
+
+# In[21]:
+
+
+# afs=AffineSemigroup([[[4,-2,1],3],[[2,9,1],5]], "equations")
+# print(afs.getMSG())
+# afs.getExpressions([1, 26, 24])
 
 
 # In[ ]:
 
 
-#afs=AffineSemigroup([[-2,1,1,0],[-10,21,3,9]], "inequations")
-#print(afs.getMSG())
-#afs.getExpressions([10, 1, 6, 4])
-#afs.getExpressions([8, 1, 16, 5]) # Puede tardar...
-#afs.getExpressions([38, 5, 41, 28])
+# afs=AffineSemigroup([[-2,1,1,0],[-10,21,3,9]], "inequations")
+# print(afs.getMSG())
+# afs.getExpressions([10, 1, 6, 4])
+# #afs.getExpressions([8, 1, 16, 5]) # Puede tardar...
+# #afs.getExpressions([38, 5, 41, 28])
 
 
 # In[ ]:
 
 
-#afs=AffineSemigroup([[-23,11,9,1],[-10,21,13,9],[1,12,0,1]], "inequations")
-#print(afs.getMSG())
-#afs.getExpressions([10, 21, 1, 0])
-#afs.getExpressions([8, 1, 16, 5])
+# afs=AffineSemigroup([[-23,11,9,1],[-10,21,13,9],[1,12,0,1]], "inequations")
+# print(afs.getMSG())
+# #afs.getExpressions([10, 21, 1, 0])
+# afs.getExpressions([8, 1, 16, 5])
 
 
 # In[ ]:
 
 
-#afs=AffineSemigroup([[13,190, 9,2],[15,18,14,3],[6,7,2,1],[5,11,1,4],[3,4,10,1]], "generators")
-#print(afs.getMSG())
-#afs.getExpressions([28, 208, 23, 5])
+# afs=AffineSemigroup([[13,190, 9,2],[15,18,14,3],[6,7,2,1],[5,11,1,4],[3,4,10,1]], "generators")
+# print(afs.getMSG())
+# afs.getExpressions([28, 208, 23, 5])
 
