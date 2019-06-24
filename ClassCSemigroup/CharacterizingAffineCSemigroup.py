@@ -36,7 +36,13 @@ def BelongQPositive(v):
 #   - 0: If not belongs to the ray.
 #   - A value if belongs to the ray.
 def BelongAxis(x,r):
-    coef = x[0]/r[0]
+    coef = 0
+    for i in range(len(x)):
+        if x[i] != 0 and r[i] != 0:
+            coef = x[i]/r[i]
+            break
+    if coef == 0:
+        return 0
     aux2 = [j/coef for j in x]
     if aux2 == r:
         if(int(coef)==coef):
@@ -251,11 +257,11 @@ def IsCsemigroup(smg):
             return False
     # Calculamos el diamante.
     diamante = Diamond(rayos)
-    # Calculamos sus ecuaciones gracias a scipy.spatial -> ConvexHull.
-    hull = ConvexHull(diamante)
-    eqDiamante = [list(x) for x in hull.equations]
     # Calculamos una cota para los puntos del diamante.
     cotaDiamante = Cube(diamante)
+    # Calculamos sus ecuaciones gracias a scipy.spatial -> ConvexHull.
+    hull = ConvexHull(diamante+[cotaDiamante])
+    eqDiamante = [list(x) for x in hull.equations]
     # Calculamos el diamante entero.
     diamanteEntero = IntegerDiamond(eqDiamante,cotaDiamante)
     # Veamos ahora que por cada rayo las paralelas afines "generadoras" cortan a los generadores del semigrupo.
@@ -290,3 +296,161 @@ def ConductorAxis(gen,r):
         aux.append(BelongAxis(x,r))
     aux2 = [x for x in aux if x != 0]
     return [x*(FrobeniusNumber(aux2)+1) for x in r]
+
+
+# Calculamos la multiplicidad en cada rayo.
+# INPUT:
+#   - ray: rayo del cono.
+#   - smg: sistema minimal de generadores.
+# OUTPUT:
+#   - Elemento minimal en el rayo.
+def MultiplicityAxis(ray,smg):
+    multiplicity = []
+    for x in smg:
+        aux = BelongAxis(x,ray)
+        if aux != 0:
+            multiplicity.append([aux,x])
+    return sorted(multiplicity)[0][1]
+
+
+# Calculamos el diamante entero de las multiplicidades.
+# INPUT:
+#   - cone: rayos del cono.
+#   - smg: sistema minimal de generadores.
+# OUTPUT:
+#   - diamante entero de las multiplicidades
+def DiamondMultiplicity(cone,smg):
+    extremos = []
+    for ray in cone:
+        extremos.append(MultiplicityAxis(ray,smg))
+    diamante = Diamond(extremos)
+    hull = ConvexHull(diamante)
+    eq = [list(x) for x in hull.equations]
+    cotas = Cube(diamante)
+    return IntegerDiamond(eq,cotas)
+
+
+# Borramos elementos repetidos.
+# INPUT:
+#   - v: vector de entrada.
+# OUTPUT:
+#   - vector v sin elementos de entrada.
+def DeleteDuplicates(v):
+    w = []
+    for i in range(len(v)):
+        if v[i] not in w:
+            w.append(v[i])
+    return w
+
+
+# Creamos una función que calcula la uno norma.
+# INPUT:
+#   - v: un vector.
+# OUTPUT:
+#   - Norma-1 del vector v.
+def NormOne(v):
+    suma = 0
+    for x in v:
+        suma = suma + x
+    return suma
+
+
+# Calculamos el punto de menor norma del diamante para una recta afín.
+# INPUT:
+#   - diamond: diamante entero.
+#   - afin: término afin de la recta.
+#   - eqray: ecuaciones de la recta.
+# OUTPUT:
+#   - Punto de menor norma del diamante que pasa por la recta afín.
+def MinimumPointAffineDiamond(diamond,afin,eqray):
+    numeq = len(eqray)
+    aux2 = []
+    for d in diamond:
+        aux = MultiplyMatrix(eqray,[[x] for x in d])
+        if aux == [afin]:
+            aux2.append([NormOne(d),d])
+    return(sorted(aux2)[0][1])
+
+
+# Calculamos los elementos de norma mínima por cada recta afín.
+# INPUT:
+#   - vdir: vector director de la recta.
+#   - seed: punto para empezar a mirar la recta.
+#   - smgen: sistema minimal de generadores.
+# OUTPUT:
+#   - Norma mínima de los elementos del semigrupo de la recta. 
+def ComputeMinimumNormInSemigroupLine(vdir,seed,smgen):
+    v = seed
+    afseg = AffineSemigroup(smgen, "generators")
+    while True:
+        if afseg.belongs(v):
+            return NormOne(v)
+        v = [v[i] + seed[i] for i in range(len(vdir))]
+        
+        
+# Calcula un valor en el rayo y en el semigrupo con norma mayor que una dada.
+# INPUT:
+#   - n: cota de la norma.
+#   - ray: rayo del cono.
+#   - gen: generadores del semigrupo.
+# OUTPUT:
+#   - Valor en el rayo que está en el semigrupo y tiene norma mayor que n.
+def ComputeBoundRay(n,ray,gen):
+    afseg = AffineSemigroup(gen, "generators")
+    v = ray
+    i = 1
+    while True:
+        v = [i*x for x in ray]
+        if NormOne(v) > n and afseg.belongs(v):
+            return v
+        i = i+1
+        
+def ComputeGaps(gen):
+    # Calculamos el cono.
+    C = Cone(cone=gen)
+    # Calculamos los rayos del cono.
+    rayos = C.ExtremeRays()
+    # Calculamos del diamante de multiplicidades.
+    diamanteM = DiamondMultiplicity(rayos,gen)
+    # Elegimos un punto en el interior del diamante.
+    dimension = len(rayos[0])
+    calibre  = [0 for x in range(dimension)]
+    for ray in rayos:
+        calibre = [calibre[i]+ray[i] for i in range(dimension)]
+    x = []
+    # Para cada rayo del cono.
+    for ray in rayos:
+        # Calculamos el conductor.
+        conductor = ConductorAxis(gen,ray)
+        # Calculamos las ecuaciones del rayo.
+        eq = EqRay(ray,calibre)
+        # Calculamos los términos afines.
+        afinesDiamante = DeleteDuplicates(AffineTerm(eq,diamanteM))
+        # Calculamos la máxima norma mínima en cada recta afin.
+        maxMinNorm = 0
+        for afin in afinesDiamante:
+            # En primer lugar miramos la norma minima en el diamante.
+            minimumNormDiamond = MinimumPointAffineDiamond(diamanteM,afin,eq)
+            # Ahora buscamos el elemento mínimo en el diamante en dicha recta.
+            minimumNormSG = ComputeMinimumNormInSemigroupLine(ray,minimumNormDiamond,gen)
+            if maxMinNorm < minimumNormSG:
+                maxMinNorm = minimumNormSG
+        n = NormOne(conductor) + maxMinNorm
+        x.append(ComputeBoundRay(n,ray,gen))
+    # Calculamos el diamante de esos valores X
+    diamanteX = Diamond(x)
+    # Creamos un cubo que contenga al diamante.
+    cotaX = Cube(diamanteX)
+    # Calculamos las ecuaciones del diamante.
+    hullX = ConvexHull(diamanteX)
+    eqDiamanteX = [list(x) for x in hullX.equations]
+    # Calculamos el diamante entero X.
+    diamanteEnteroX = IntegerDiamond(eqDiamanteX,cotaX)
+    # Inicialmente el conjunto de huecos es vacío.
+    gapset = []
+    # Definimos el semigrupo afín.
+    afseg = AffineSemigroup(gen, "generators")
+    for x in diamanteEnteroX:
+        if not afseg.belongs(x):
+            gapset.append(x)
+    return gapset
