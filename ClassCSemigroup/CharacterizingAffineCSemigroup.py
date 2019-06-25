@@ -152,25 +152,14 @@ def ProdEsc(v1,v2):
 # En primer lugar calculamos las ecuaciones que definen un rayo.
 # INPUT:
 #   - ray: rayo del cono.
-#   - x: valor interno del cono para calibrar las ecuaciones.
+#   - hp: hiperplanos soportes.
 # OUTPUT:
 #   - ecuaciones del rayo.
-def EqRay(ray,x):
-    n = len(ray)
+def EqRay(ray,hp):
     eq = []
-    for j in range(1,n):
-        aux = []
-        aux = aux + [-ray[j]]                 # Valor -aj
-        aux = aux + [0 for k in range(j-1)]   # Ceros intermediso
-        aux = aux + [ray[0]]                  # Vaor ai
-        aux = aux + [0 for k in range(n-j-1)] # Ceros finales
-        eq.append(aux)
-    # Calibramos las ecuaciones
-    for i in range(len(eq)):
-        calibre = ProdEsc(eq[i],x)
-        if calibre < 0:
-            for j in range(len(eq[i])):
-                eq[i][j] = -eq[i][j]
+    for x in hp:
+        if ProdEsc(ray,x) == 0:
+            eq.append(x)
     return eq
 
 
@@ -235,12 +224,11 @@ def MultiplyMatrix(X,Y):
 # OUTPUT:
 #   True/False si en esa recta hay un generador.
 def ExistGenerator(eqray, afin,smg):
-    numeq = len(eqray)
-    for gen in smg:
-        aux = MultiplyMatrix(eqray,[[x] for x in gen])
-        if aux == afin:
-            return True
-    return False
+    aux = AffineTerm(eqray,smg)
+    if afin in aux:
+        return True
+    else:
+        return False
 
 
 # Esta función dice si un conjunto de elementos genera o no un C-semigrupo.
@@ -250,36 +238,34 @@ def ExistGenerator(eqray, afin,smg):
 #   - True/False.
 def IsCsemigroup(smg):
     # En primer lugar calculamos los rayos del cono con Pynormaliz.
-    rayos = Cone(cone=smg).ExtremeRays()
+    cono = Cone(cone=smg)
+    rayos = cono.ExtremeRays()
+    # Calculamos también los hiperplanos soportes.
+    hp = cono.SupportHyperplanes()
     for ray in rayos:
         # En primer lugar comprobamos que el rayo es un semigrupo en sí mismo.
         if not AxisIsSemigroup(smg,ray):
             return False
     # Calculamos el diamante.
     diamante = Diamond(rayos)
+    # Calculamos sus ecuaciones gracias a scipy.spatial -> ConvexHull.
+    hull = ConvexHull(diamante)
+    eqDiamante = [list(x) for x in hull.equations]
     # Calculamos una cota para los puntos del diamante.
     cotaDiamante = Cube(diamante)
-    # Calculamos sus ecuaciones gracias a scipy.spatial -> ConvexHull.
-    hull = ConvexHull(diamante+[cotaDiamante])
-    eqDiamante = [list(x) for x in hull.equations]
     # Calculamos el diamante entero.
     diamanteEntero = IntegerDiamond(eqDiamante,cotaDiamante)
     # Veamos ahora que por cada rayo las paralelas afines "generadoras" cortan a los generadores del semigrupo.
-    # En primer lugar elegimos un punto dentro del diamante para calibrarlo.
-    dimension = len(rayos[0])
-    calibre  = [0 for x in range(dimension)]
-    for ray in rayos:
-        calibre = [calibre[i]+ray[i] for i in range(dimension)]
     for ray in rayos:
         # Calculamos las ecuaciones del rayo.
-        eqrayo = EqRay(ray,calibre)
+        eqrayo = EqRay(ray,hp)
         # Calculamos los términos afines de los puntos enteros del diamantes.
         afinesDiamante = AffineTerm(eqrayo,diamanteEntero)
         # Nos quedamos con los generadores afines.
         genAfines = AffineSemigroup(afinesDiamante, "generators").getMSG()
         # Comprobamos que por cada afín pasa un generador
         for afin in genAfines:
-            if not ExistGenerator(eqrayo, [afin],smg):
+            if not ExistGenerator(eqrayo, afin,smg):
                 return False
     return True
 
@@ -385,7 +371,7 @@ def ComputeMinimumNormInSemigroupLine(vdir,seed,smgen):
     while True:
         if afseg.belongs(v):
             return NormOne(v)
-        v = [v[i] + seed[i] for i in range(len(vdir))]
+        v = [v[i] + vdir[i] for i in range(len(vdir))]
         
         
 # Calcula un valor en el rayo y en el semigrupo con norma mayor que una dada.
@@ -410,20 +396,17 @@ def ComputeGaps(gen):
     C = Cone(cone=gen)
     # Calculamos los rayos del cono.
     rayos = C.ExtremeRays()
+    # Calculamso los hiperplanos soportes.
+    hp = C.SupportHyperplanes()
     # Calculamos del diamante de multiplicidades.
     diamanteM = DiamondMultiplicity(rayos,gen)
-    # Elegimos un punto en el interior del diamante.
-    dimension = len(rayos[0])
-    calibre  = [0 for x in range(dimension)]
-    for ray in rayos:
-        calibre = [calibre[i]+ray[i] for i in range(dimension)]
     x = []
     # Para cada rayo del cono.
     for ray in rayos:
         # Calculamos el conductor.
         conductor = ConductorAxis(gen,ray)
         # Calculamos las ecuaciones del rayo.
-        eq = EqRay(ray,calibre)
+        eq = EqRay(ray,hp)
         # Calculamos los términos afines.
         afinesDiamante = DeleteDuplicates(AffineTerm(eq,diamanteM))
         # Calculamos la máxima norma mínima en cada recta afin.
