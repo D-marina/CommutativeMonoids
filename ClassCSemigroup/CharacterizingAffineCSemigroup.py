@@ -353,10 +353,10 @@ def MinimumPointAffineDiamond(diamond,afin,eqray):
     aux2 = []
     for d in diamond:
         aux = MultiplyMatrix(eqray,[[x] for x in d])
-        if aux == [afin]:
+        aux = list(array(aux).flatten())
+        if aux == afin:
             aux2.append([NormOne(d),d])
     return(sorted(aux2)[0][1])
-
 
 # Calculamos los elementos de norma mínima por cada recta afín.
 # INPUT:
