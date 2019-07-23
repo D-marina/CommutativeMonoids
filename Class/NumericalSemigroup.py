@@ -239,35 +239,3 @@ class NumericalSemigroup:
             if max(x.PseudoFrobenius()) in bp:
                 minimales.append(x)
         return minimales
-
-
-# In[22]:
-
-
-ns = NumericalSemigroup([4,10,13,15])
-
-
-# In[23]:
-
-
-ns.PseudoFrobenius()
-
-
-# In[24]:
-
-
-di = ns.DecomposeIrreducible()
-
-
-# In[25]:
-
-
-for x in di:
-    print(x.generators)
-
-
-# In[ ]:
-
-
-
-
