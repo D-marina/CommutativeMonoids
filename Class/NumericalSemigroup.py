@@ -1,7 +1,7 @@
-
+#!/usr/bin/env python
 # coding: utf-8
 
-# In[24]:
+# In[1]:
 
 
 import numpy as np
@@ -10,21 +10,21 @@ import sympy
 from sympy import *
 
 
-# In[25]:
+# In[2]:
 
 
 import integerSmithNormalFormAndApplications
 from integerSmithNormalFormAndApplications import *
 
 
-# In[26]:
+# In[3]:
 
 
 import auxiliars
 from auxiliars import *
 
 
-# In[103]:
+# In[16]:
 
 
 class NumericalSemigroup:
@@ -45,6 +45,11 @@ class NumericalSemigroup:
         self.generators = smgS(generators)
         self.multiplicity = self.generators[0]
         self.eDimension = len(self.generators)
+        self.fNumber = 0
+        self.d = 0
+        self.NS = 0
+        self.gaps = []
+        self.pFrobenius = []
         
     # Frobenius Number
     fNumber = 0
@@ -54,6 +59,10 @@ class NumericalSemigroup:
     NS = 0
     # Bound for Delta_nu periodic
     N0 = 0
+    # Gaps of the semigroup
+    gaps = []
+    # Pseudo-Frobenius
+    pFrobenius = []
     
     # This function gives us the Frobenius Number of a semigroup
     def FrobeniusNumber(self):
@@ -84,6 +93,7 @@ class NumericalSemigroup:
             return self.NS
         if self.d == 0:
             self.d = ComputeD(self.generators,self.eDimension)
+        print(self.generators,self.eDimension,self.d)
         self.NS = ComputeNs(self.generators,self.eDimension,self.d)
         return self.NS
     
@@ -106,29 +116,14 @@ class NumericalSemigroup:
         
     def W(self,n):
         return W(self.generators,n,self.eDimension)
-        #smg=self.generators
-        #dim=self.eDimension
-        #laux=list(set( [ sum([x[i]*smg[i] for i in range(dim) ]) for x in f1(dim,n) ]))
-        #laux.sort()
-        #return laux
     
     def L(self,x):
         return L(self.generators,x,self.eDimension)
-        #l1=self.Factorizations(x)
-        #l2=[sum(y) for y in l1]
-        #l2.sort()
-        #return l2
     
     def Nu(self,n):
         return Nu(self.generators,n,self.eDimension)
-        #waux=self.W(n)
-        #if debug:
-        #    print("W of ",n,":",waux)
-        #longAux=list(set.union( *[set(self.L(x)) for x in waux] ))
-        #longAux.sort()
-        #if debug:
-        #    print([self.L(x) for x in waux])
-        #return (longAux)
+    
+    ###################################################################################
     
     def SminusIthMinimalGenerator(self,i):
         '''
@@ -162,4 +157,117 @@ class NumericalSemigroup:
                 SNaux=self.SminusIthMinimalGenerator(i)
                 familia=familia+[SNaux]
         return familia
+    
+    def Gaps(self):
+        if self.gaps != []:
+            return self.gaps
+        m = min(self.generators)
+        control = 0
+        i = 1
+        while control < m:
+            if self.Belongs(i):
+                control = control +1
+            else:
+                self.gaps.append(i)
+                control = 0
+            i = i+1
+        return self.gaps
+    
+    def PseudoFrobenius(self):
+        if self.pFrobenius != []:
+            return self.pFrobenius
+        if self.gaps == []:
+            self.Gaps()
+        pf = []
+        for x in self.gaps:
+            isPF = True
+            for y in self.generators:
+                if not self.Belongs(x+y):
+                    isPF = False
+                    break
+            if isPF:
+                self.pFrobenius.append(x)
+        return self.pFrobenius
+    
+    # Función auxiliar para la descomposición de irreducibles.
+    def ComputeBP(self):
+        aux = []
+        for x in self.pFrobenius:
+            if x > max(self.pFrobenius)/2:
+                aux.append(x)
+        return aux
+    
+    def IsIrreducible(self):
+        if self.gaps == []:
+            self.Gaps()
+        if self.pFrobenius == []:
+            self.PseudoFrobenius()
+        bp = self.ComputeBP()
+        if len(bp) == 1:
+            return True
+        return False
+    
+    # Función auxiliar para la descomposición de irreducibles.
+    def Decomposition(self):
+        if self.IsIrreducible():
+            return [self]
+        if self.gaps == []:
+            self.Gaps()
+        if self.pFrobenius == []:
+            self.PseudoFrobenius()
+        bp = self.ComputeBP()
+        return [NumericalSemigroup(self.generators+[x]) for x in bp]
+    
+    def DecomposeIrreducible(self):
+        candidatos = [self]
+        end = False
+        control = 0
+        while end == False and control<20:
+            candidatos2 = []
+            for x in candidatos:
+                candidatos2 = candidatos2 + x.Decomposition()
+            aux = DeleteDuplicates([x.generators for x in candidatos2])
+            candidatos = [NumericalSemigroup(x) for x in aux]
+            end = all([x.IsIrreducible() for x in candidatos])
+            control = control+1
+        # Ahora calculamos los minimales
+        if self.pFrobenius == []:
+            self.PseudoFrobenius()
+        bp = self.ComputeBP()
+        minimales = []
+        for x in candidatos:
+            if max(x.PseudoFrobenius()) in bp:
+                minimales.append(x)
+        return minimales
+
+
+# In[22]:
+
+
+ns = NumericalSemigroup([4,10,13,15])
+
+
+# In[23]:
+
+
+ns.PseudoFrobenius()
+
+
+# In[24]:
+
+
+di = ns.DecomposeIrreducible()
+
+
+# In[25]:
+
+
+for x in di:
+    print(x.generators)
+
+
+# In[ ]:
+
+
+
 

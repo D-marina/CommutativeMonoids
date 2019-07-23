@@ -337,3 +337,10 @@ def Delta(laux):
     l1=list(set(l1))
     l1.sort()
     return l1
+
+def DeleteDuplicates(v):
+    w = []
+    for i in range(len(v)):
+        if v[i] not in w:
+            w.append(v[i])
+    return w
