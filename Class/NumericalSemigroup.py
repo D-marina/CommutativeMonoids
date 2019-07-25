@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[4]:
 
 
 import numpy as np
@@ -10,21 +10,21 @@ import sympy
 from sympy import *
 
 
-# In[2]:
+# In[5]:
 
 
 import integerSmithNormalFormAndApplications
 from integerSmithNormalFormAndApplications import *
 
 
-# In[3]:
+# In[6]:
 
 
 import auxiliars
 from auxiliars import *
 
 
-# In[13]:
+# In[20]:
 
 
 class NumericalSemigroup:
@@ -41,16 +41,36 @@ class NumericalSemigroup:
         * ComputeNS() returns a bound for the periodicity of Delta(S)
     '''
     
-    def __init__(self,generators):
-        self.generators = smgS(generators)
-        self.multiplicity = self.generators[0]
-        self.eDimension = len(self.generators)
-        self.fNumber = 0
-        self.d = 0
-        self.NS = 0
-        self.gaps = []
-        self.pFrobenius = []
-        self.t = 0
+    def __init__(self,generators,typeGenerators="generators"):
+        if typeGenerators == "generators":
+            self.generators = smgS(generators)
+            self.multiplicity = self.generators[0]
+            self.eDimension = len(self.generators)
+            self.fNumber = 0
+            self.d = 0
+            self.NS = 0
+            self.gaps = []
+            self.genus = 0
+            self.pFrobenius = []
+            self.t = 0
+        else:
+            f = max(generators)
+            self.generators = []
+            for i in range(1,f):
+                if i not in generators:
+                    self.generators.append(i)
+            for i in range(self.generators[1]):
+                    self.generators.append(f+i+1)
+            self.generators = smgS(self.generators)
+            self.multiplicity = self.generators[0]
+            self.eDimension = len(self.generators)
+            self.fNumber = f
+            self.d = 0
+            self.NS = 0
+            self.gaps = list(set(sorted(generators)))
+            self.genus = len(self.gaps)
+            self.pFrobenius = []
+            self.t = 0
         
     # Frobenius Number
     fNumber = 0
