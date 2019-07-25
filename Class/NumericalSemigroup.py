@@ -24,7 +24,7 @@ import auxiliars
 from auxiliars import *
 
 
-# In[16]:
+# In[7]:
 
 
 class NumericalSemigroup:
@@ -50,6 +50,7 @@ class NumericalSemigroup:
         self.NS = 0
         self.gaps = []
         self.pFrobenius = []
+        self.t = 0
         
     # Frobenius Number
     fNumber = 0
@@ -63,6 +64,8 @@ class NumericalSemigroup:
     gaps = []
     # Pseudo-Frobenius
     pFrobenius = []
+    # Number of pseudo-Frobenius Elements
+    t = 0
     
     # This function gives us the Frobenius Number of a semigroup
     def FrobeniusNumber(self):
@@ -187,6 +190,7 @@ class NumericalSemigroup:
                     break
             if isPF:
                 self.pFrobenius.append(x)
+        self.t = len(self.pFrobenius)
         return self.pFrobenius
     
     # Función auxiliar para la descomposición de irreducibles.
@@ -239,3 +243,14 @@ class NumericalSemigroup:
             if max(x.PseudoFrobenius()) in bp:
                 minimales.append(x)
         return minimales
+    
+    def Type(self):
+        if self.t != 0:
+            return self.t
+        if self.pFrobenius == []:
+            self.PseudoFrobenius()
+            return self.t
+        self.t = len(self.pFrobenius)
+        return self.t
+        
+
