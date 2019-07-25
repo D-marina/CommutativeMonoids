@@ -24,7 +24,7 @@ import auxiliars
 from auxiliars import *
 
 
-# In[7]:
+# In[13]:
 
 
 class NumericalSemigroup:
@@ -62,6 +62,8 @@ class NumericalSemigroup:
     N0 = 0
     # Gaps of the semigroup
     gaps = []
+    # Number of gaps
+    genus = 0
     # Pseudo-Frobenius
     pFrobenius = []
     # Number of pseudo-Frobenius Elements
@@ -174,7 +176,18 @@ class NumericalSemigroup:
                 self.gaps.append(i)
                 control = 0
             i = i+1
+        self.genus = len(self.gaps)
         return self.gaps
+    
+    def Genus(self):
+        if self.genus != 0:
+            return self.genus
+        if self.gaps == []:
+            self.Gaps()
+            return self.genus
+        self.genus = len(self.gaps)
+        return self.genus
+        
     
     def PseudoFrobenius(self):
         if self.pFrobenius != []:
