@@ -6,7 +6,7 @@ The documentation of this library can be found <a href='./Documentation.ipynb'>h
 
 The list of works where this software is used is:
 * On divisor-closed submonoids and minimal distances in finitely generated monoids (https://doi.org/10.1016/j.jsc.2018.06.008). The examples of this work are found [here](https://nbviewer.jupyter.org/urls/bitbucket.org/juan_ignacio_garcia_garcia/integersmithnormalformandapplications/raw/fe032b5b6637a36690be164b27594f63405a9f7e/integerSmithNormalFormAndApplications.ipynb).
-* Characterizing affine $\CaC$-semigroups (https://arxiv.org/abs/1907.03276). The examples of this work are found [here](https://github.com/D-marina/CommutativeMonoids/blob/master/ClassCSemigroup/Irreducible.ipynb).
+* Characterizing affine $\cal C$-semigroups (https://arxiv.org/abs/1907.03276). The examples of this work are found [here](https://github.com/D-marina/CommutativeMonoids/blob/master/ClassCSemigroup/Irreducible.ipynb).
 
 The contributors to this project are:
 
