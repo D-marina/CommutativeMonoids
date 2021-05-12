@@ -28,37 +28,7 @@ def DeleteCSemigruposDuplicates(v):
     return limpio
 
 def IsCsemigroup(smg):
-    # En primer lugar calculamos los rayos del cono con Pynormaliz.
-    cono = Cone(cone=smg)
-    rayos = cono.ExtremeRays()
-    # Calculamos también los hiperplanos soportes.
-    hp = cono.SupportHyperplanes()
-    for ray in rayos:
-        # En primer lugar comprobamos que el rayo es un semigrupo en sí mismo.
-        if not AxisIsSemigroup(smg,ray):
-            return False
-    # Calculamos el diamante.
-    diamante = Diamond(rayos)
-    # Calculamos sus ecuaciones gracias a scipy.spatial -> ConvexHull.
-    hull = ConvexHull(diamante)
-    eqDiamante = [list(x) for x in hull.equations]
-    # Calculamos una cota para los puntos del diamante.
-    cotaDiamante = Cube(diamante)
-    # Calculamos el diamante entero.
-    diamanteEntero = IntegerDiamond(eqDiamante,cotaDiamante)
-    # Veamos ahora que por cada rayo las paralelas afines "generadoras" cortan a los generadores del semigrupo.
-    for ray in rayos:
-        # Calculamos las ecuaciones del rayo.
-        eqrayo = EqRay(ray,hp)
-        # Calculamos los términos afines de los puntos enteros del diamantes.
-        afinesDiamante = AffineTerm(eqrayo,diamanteEntero)
-        # Nos quedamos con los generadores afines.
-        genAfines = AffineSemigroup(afinesDiamante, "generators").getMSG()
-        # Comprobamos que por cada afín pasa un generador
-        for afin in genAfines:
-            if not ExistGenerator(eqrayo, afin,smg):
-                return False
-    return True
+    return IsCsemigroup(smg)
 
 class Csemigroup:
     gaps = None
