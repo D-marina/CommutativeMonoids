@@ -28,7 +28,7 @@ def DeleteCSemigruposDuplicates(v):
     return limpio
 
 def IsCsemigroup(smg):
-    return IsCsemigroup(smg)
+    return aux.IsCsemigroup(smg)
 
 class Csemigroup:
     gaps = None
