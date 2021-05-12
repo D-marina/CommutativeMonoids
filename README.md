@@ -5,7 +5,8 @@ This site pretends to be a site for the study of finitely generated commutative 
 The documentation of this library can be found <a href='./Documentation.ipynb'>here</a>.
 
 The list of works where this software is used is:
-* On divisor-closed submonoids and minimal distances in finitely generated monoids (https://doi.org/10.1016/j.jsc.2018.06.008). The examples of this work are [here](https://nbviewer.jupyter.org/urls/bitbucket.org/juan_ignacio_garcia_garcia/integersmithnormalformandapplications/raw/fe032b5b6637a36690be164b27594f63405a9f7e/integerSmithNormalFormAndApplications.ipynb).
+* On divisor-closed submonoids and minimal distances in finitely generated monoids (https://doi.org/10.1016/j.jsc.2018.06.008). The examples of this work are found [here](https://nbviewer.jupyter.org/urls/bitbucket.org/juan_ignacio_garcia_garcia/integersmithnormalformandapplications/raw/fe032b5b6637a36690be164b27594f63405a9f7e/integerSmithNormalFormAndApplications.ipynb).
+* Characterizing affine $\CaC$-semigroups (https://arxiv.org/abs/1907.03276). The examples of this work are found [here](---).
 
 The contributors to this project are:
 
