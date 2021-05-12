@@ -105,8 +105,6 @@ class Csemigroup:
                     auxiliar.remove(x)
             candidatos = auxiliar
             control = control+1
-        print([x.generadores for x in irreducibles])
-        print()
         for x in irreducibles:
             for y in irreducibles:
                 if y.IsSubsemigroup(x) and x != y:
