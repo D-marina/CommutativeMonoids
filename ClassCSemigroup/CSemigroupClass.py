@@ -30,6 +30,9 @@ def DeleteCSemigruposDuplicates(v):
 def IsCsemigroup(smg):
     return aux.IsCsemigroup(smg)
 
+def ComputeGaps(generadores):
+    return aux.ComputeGaps(generadores)
+
 class Csemigroup:
     gaps = None
     pf = None
