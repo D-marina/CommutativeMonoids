@@ -33,6 +33,8 @@ class Csemigroup:
     def __init__(self,generadores):
         self.generadores = AffineSemigroup(generadores,input_type="generators").getMSG()
         self.generadores.sort(key=lambda row: row[1:])
+        if not aux.IsCsemigroup(self.generadores):
+            raise Exception("The set do not form a C-Semigroup")
         self.gaps = aux.ComputeGaps(generadores)
     def GetGenerators(self):
         return self.generadores
