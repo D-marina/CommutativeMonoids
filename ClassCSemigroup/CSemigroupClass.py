@@ -104,12 +104,16 @@ class Csemigroup:
                     irreducibles.append(x)
                     auxiliar.remove(x)
             candidatos = auxiliar
-            control = control+1
+        irreduciblesNecesarios = []
         for x in irreducibles:
+            necesario = True
             for y in irreducibles:
-                if y.IsSubsemigroup(x) and x != y:
-                    irreducibles.remove(y)
-        return irreducibles
+                if x.IsSubsemigroup(y) and x != y:
+                    necesario = False
+                    break
+            if necesario:
+                irreduciblesNecesarios.append(x)
+        return irreduciblesNecesarios
             
     def __belongsByGens(self,x, gens):
         '''
