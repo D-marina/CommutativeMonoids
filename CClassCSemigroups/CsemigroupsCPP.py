@@ -11,5 +11,5 @@ from CsemigroupsCpp import *
 # In[47]:
 
 
-class CSemigroup:
+#class CSemigroup:
     

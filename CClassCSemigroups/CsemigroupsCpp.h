@@ -9,6 +9,7 @@
 
 // codigo
 
+int foo (int a);
 
 #endif
 
