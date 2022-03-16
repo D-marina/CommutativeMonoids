@@ -3,4 +3,4 @@ from distutils.core import setup, Extension
 
 monoidsCpp = Extension("_monoids",sources = ['monoidsCpp.i','monoidsCpp.cxx',],swig_opts = ['-Wall','-c++'],) 
 
-setup( name = 'monoids', ext_modules = [monoidsCpp,],  ) 
+setup( name = 'monoidsCpp', ext_modules = [monoidsCpp,],  ) 
