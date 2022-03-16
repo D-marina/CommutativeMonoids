@@ -1,6 +1,6 @@
 import distutils 
 from distutils.core import setup, Extension 
 
-monoidsCpp = Extension("_monoidsCpp",sources = ['monoidsCpp.i','monoidsCpp.cxx',],swig_opts = ['-Wall','-c++'],) 
+Csemigroups = Extension("_Csemigroups",sources = ['CsemigroupsCpp.i','Csemigroups.cxx',],swig_opts = ['-Wall','-c++'],) 
 
-setup( name = 'monoidsCpp', ext_modules = [monoidsCpp,],  ) 
+setup( name = 'Csemigroups', ext_modules = [Csemigroups,],  ) 
