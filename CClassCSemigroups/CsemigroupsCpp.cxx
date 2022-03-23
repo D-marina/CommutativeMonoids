@@ -70,3 +70,31 @@ bool belongByGens(vector<long> x, vector<vector<long>> gen)
     }
     return false;
 }
+
+std::vector<std::vector<long>> computeMSG(vector<vector<long>> generators)
+{
+ /*
+ This function returns a minimal sistem of generators from the set generators.
+ */
+    unsigned n;
+    n = generators.size();
+    vector<vector<long>> minimales;
+    for(unsigned ii=0; ii<n; ii++)
+    {
+        vector<vector<long>> aux(n-1); // Creo un vector para meter todos los generadores menos el ii-ésimo.
+        unsigned kk =0; // Contador para saber la posición que toca rellenar.
+        for(unsigned jj=0; jj<n; jj++)
+        {
+            if(ii != jj)
+            {
+                    aux[kk] = generators[jj];
+                    kk++;
+            }
+        }
+        if( !belongByGens(generators[ii],aux))
+        {
+            minimales.push_back(generators[ii]);
+        }
+    }
+    return minimales;
+}

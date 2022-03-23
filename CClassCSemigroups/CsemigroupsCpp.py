@@ -344,4 +344,7 @@ def Pintar(v):
 def belongByGens(x, gen):
     return _CsemigroupsCpp.belongByGens(x, gen)
 
+def computeMSG(generators):
+    return _CsemigroupsCpp.computeMSG(generators)
+
 
