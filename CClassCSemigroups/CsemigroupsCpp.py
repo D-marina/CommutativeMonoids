@@ -347,4 +347,7 @@ def belongByGens(x, gen):
 def computeMSG(generators):
     return _CsemigroupsCpp.computeMSG(generators)
 
+def belongAxis(x, r):
+    return _CsemigroupsCpp.belongAxis(x, r)
+
 

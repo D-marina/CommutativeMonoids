@@ -71,7 +71,7 @@ bool belongByGens(vector<long> x, vector<vector<long>> gen)
     return false;
 }
 
-std::vector<std::vector<long>> computeMSG(vector<vector<long>> generators)
+vector<std::vector<long>> computeMSG(vector<vector<long>> generators)
 {
  /*
  This function returns a minimal sistem of generators from the set generators.
@@ -97,4 +97,74 @@ std::vector<std::vector<long>> computeMSG(vector<vector<long>> generators)
         }
     }
     return minimales;
+}
+
+long belongAxis(std::vector<long> x,std::vector<long> r)
+{
+/*
+   INPUT:
+    - x: Value for checking if it is in the ray.
+    - r: Minimal value in the ray.
+  OUTPUT:
+    - 0: If not belongs to the ray.
+    - The coefficient if it belongs
+*/
+    
+    /*
+        coef = 0
+    for i in range(len(x)):
+        if x[i] != 0 and r[i] != 0:
+            coef = x[i]/r[i]
+            break
+    if coef == 0:
+        return 0
+    aux2 = [j/coef for j in x]
+    if aux2 == r:
+        if(int(coef)==coef):
+            return int(coef)
+        return coef
+    else:
+        return 0
+    */
+    
+    unsigned n;
+    int coef;
+    coef = 0;
+    n = x.size();
+    
+    for(unsigned ii=0;ii<n;ii++)
+    {
+        if(x[ii] != 0 && r[ii] != 0)
+        {
+            cout<<"x="<<double(x[ii])<<", r="<<r[ii]<<endl;
+            coef = double(x[ii])/r[ii];
+            break;
+        }
+    }
+    
+    cout <<"coef = "<<coef<<endl;
+    
+    if(coef == 0)
+    {
+        return 0;
+    }
+    vector<long> aux2(n);
+    for(unsigned ii=0;ii<n;ii++)
+    {
+           aux2.push_back(x[ii]/coef);
+    }
+    if(aux2 == r)
+    {
+       if(int(coef) == coef)
+       {
+            return int(coef);
+       }
+       return coef;
+    }
+    else
+    {
+        return 0;
+    }
+    
+    
 }

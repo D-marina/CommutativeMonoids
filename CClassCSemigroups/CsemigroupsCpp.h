@@ -12,6 +12,7 @@ std::vector<long> operator-(const std::vector<long>& v1, const std::vector<long>
 
 bool belongByGens(std::vector<long> x, std::vector<std::vector<long>> gen);
 std::vector<std::vector<long>> computeMSG(std::vector<std::vector<long>> generators);
+long belongAxis(std::vector<long> x,std::vector<long> r);
 
 #endif
 
