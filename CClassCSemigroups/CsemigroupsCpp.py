@@ -341,6 +341,12 @@ def foo(a):
 def Pintar(v):
     return _CsemigroupsCpp.Pintar(v)
 
+def gcd(a, b):
+    return _CsemigroupsCpp.gcd(a, b)
+
+def gcdL(v):
+    return _CsemigroupsCpp.gcdL(v)
+
 def belongByGens(x, gen):
     return _CsemigroupsCpp.belongByGens(x, gen)
 
@@ -349,5 +355,11 @@ def computeMSG(generators):
 
 def belongAxis(x, r):
     return _CsemigroupsCpp.belongAxis(x, r)
+
+def axisIsSemigroup(gen, r):
+    return _CsemigroupsCpp.axisIsSemigroup(gen, r)
+
+def axisAreSemigroup(gen, setR):
+    return _CsemigroupsCpp.axisAreSemigroup(gen, setR)
 
 

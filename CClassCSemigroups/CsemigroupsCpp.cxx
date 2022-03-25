@@ -28,6 +28,32 @@ vector<long> operator-(const vector<long>& v1, const vector<long>& v2)
     return aux;
 }
 
+long gcd(long a, long b)
+{
+	if(a == 0)
+		return b;
+	return gcd(b%a,a);
+}
+
+
+///
+
+
+long gcdL(vector<long> v) 
+{
+	long n, result;
+	n = v.size();
+	result = v[0];
+	for(unsigned i = 1; i < n; i++) 
+        	result = gcd(v[i], result); 
+	if(result<0)
+		return -result;
+	return result; 
+}
+
+/////////////////////////////////////////////////////////////////////
+
+
 bool belongByGens(vector<long> x, vector<vector<long>> gen)
 {
     /*
@@ -99,7 +125,7 @@ vector<std::vector<long>> computeMSG(vector<vector<long>> generators)
     return minimales;
 }
 
-long belongAxis(std::vector<long> x,std::vector<long> r)
+long belongAxis(vector<long> x,vector<long> r)
 {
 /*
    INPUT:
@@ -108,27 +134,9 @@ long belongAxis(std::vector<long> x,std::vector<long> r)
   OUTPUT:
     - 0: If not belongs to the ray.
     - The coefficient if it belongs
-*/
-    
-    /*
-        coef = 0
-    for i in range(len(x)):
-        if x[i] != 0 and r[i] != 0:
-            coef = x[i]/r[i]
-            break
-    if coef == 0:
-        return 0
-    aux2 = [j/coef for j in x]
-    if aux2 == r:
-        if(int(coef)==coef):
-            return int(coef)
-        return coef
-    else:
-        return 0
-    */
-    
+*/    
     unsigned n;
-    int coef;
+    double coef;
     coef = 0;
     n = x.size();
     
@@ -136,23 +144,22 @@ long belongAxis(std::vector<long> x,std::vector<long> r)
     {
         if(x[ii] != 0 && r[ii] != 0)
         {
-            cout<<"x="<<double(x[ii])<<", r="<<r[ii]<<endl;
             coef = double(x[ii])/r[ii];
             break;
         }
     }
-    
-    cout <<"coef = "<<coef<<endl;
     
     if(coef == 0)
     {
         return 0;
     }
     vector<long> aux2(n);
+    
     for(unsigned ii=0;ii<n;ii++)
     {
-           aux2.push_back(x[ii]/coef);
+        aux2[ii] = x[ii]/coef;
     }
+    
     if(aux2 == r)
     {
        if(int(coef) == coef)
@@ -165,6 +172,60 @@ long belongAxis(std::vector<long> x,std::vector<long> r)
     {
         return 0;
     }
+}
+
+bool axisIsSemigroup(vector<vector<long>> gen,vector<long> r)
+{
+/*
+    # Vemos para un eje si se forma un semigrupo.
+    # INPUT:
+    #   - gen: Set of generators.
+    #   - r: Minimal value in the ray.
+    # OUTPUT:
+    #   - True/False.   
+*/
     
+    vector<long> aux;
+    unsigned n;
+    long coef;
+    n = gen.size();
+    for(unsigned ii=0;ii<n;ii++)
+    {
+        coef = belongAxis(gen[ii],r);
+        if(coef != 0)
+        {
+            aux.push_back(coef);
+        }
+    }
+    if(gcdL(aux) == 1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool axisAreSemigroup(vector<vector<long>> gen,vector<vector<long>> setR)
+{
+    /*
+    # Vemos si los ejes forman un semigrupo.
+    # INPUT:
+    #   - gen: Set of generators.
+    #   - setR: Set of rays.
+    # OUTPUT:
+    #   - True/False.
+    */
     
+    unsigned n;
+    n = setR.size();
+    for(unsigned ii=0;ii<n;ii++)
+    {
+            if(!axisIsSemigroup(gen,setR[ii]))
+            {
+                return false;
+            }
+    }
+    return true;
 }
