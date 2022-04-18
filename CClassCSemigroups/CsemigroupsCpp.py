@@ -362,4 +362,7 @@ def axisIsSemigroup(gen, r):
 def axisAreSemigroup(gen, setR):
     return _CsemigroupsCpp.axisAreSemigroup(gen, setR)
 
+def MultiplicityAxis(generators, ray):
+    return _CsemigroupsCpp.MultiplicityAxis(generators, ray)
+
 

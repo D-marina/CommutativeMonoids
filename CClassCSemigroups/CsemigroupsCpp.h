@@ -19,5 +19,12 @@ long belongAxis(std::vector<long> x,std::vector<long> r);
 bool axisIsSemigroup(std::vector<std::vector<long>> gen,std::vector<long> r);
 bool axisAreSemigroup(std::vector<std::vector<long>> gen,std::vector<std::vector<long>> setR);
 
+std::vector<long> MultiplicityAxis(std::vector<std::vector<long>> generators, std::vector<long> ray);
+
+//std::vector<std::vector<long>> computeGaps(std::vector<std::vector<long>> generators, std::vector<std::vector<long>> rays, std::vector<std::vector<long>> hyperplanes);
+
+//std::vector<std::vector<long>> diamondMultiplicity(std::vector<std::vector<long>> generators, std::vector<std::vector<long>> rays);
+
+
 #endif
 

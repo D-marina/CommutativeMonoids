@@ -229,3 +229,125 @@ bool axisAreSemigroup(vector<vector<long>> gen,vector<vector<long>> setR)
     }
     return true;
 }
+
+///
+
+
+vector<long> MultiplicityAxis(vector<vector<long>> generators, vector<long> ray)
+{
+    /*
+    # Calculamos la multiplicidad en cada rayo.
+    # INPUT:
+    #   - ray: rayo del cono.
+    #   - smg: sistema minimal de generadores.
+    # OUTPUT:
+    #   - Elemento minimal en el rayo.
+    */
+    vector<long> multiplicity1;
+    vector<vector<long>> multiplicity2;
+    long n;
+    n = generators.size();
+    for(unsigned ii=0; ii<n;ii++)
+    {
+        long aux;
+        aux = belongAxis(generators[ii],ray);
+        if(aux != 0)
+        {
+            multiplicity1.push_back(aux);
+            multiplicity2.push_back(generators[ii]);
+        }
+    }
+    
+    int minElementIndex = min_element(multiplicity1.begin(),multiplicity1.end()) - multiplicity1.begin(); // GetMinimumElement
+    
+    cout<<minElementIndex<<endl;
+    
+    return multiplicity2[minElementIndex];
+}
+    
+
+//vector<vector<long>> diamondMultiplicity(vector<vector<long>> generators, vector<vector<long>> rays)
+//{
+    /*
+    # Calculamos el diamante entero de las multiplicidades.
+    # INPUT:
+    #   - cone: rayos del cono.
+    #   - smg: sistema minimal de generadores.
+    # OUTPUT:
+    #   - diamante entero de las multiplicidades
+    */
+    
+//    vector<long> extremes;
+//    int n;
+//    n = cone.size();
+//    for(int ii=0; ii<n; i++)
+//    {
+//        
+//    }
+    
+    /*
+        extremos = []
+    for ray in cone:
+        extremos.append(MultiplicityAxis(ray,smg))
+    diamante = Diamond(extremos)
+    hull = ConvexHull(diamante)
+    eq = [list(x) for x in hull.equations]
+    cotas = Cube(diamante)
+    return IntegerDiamond(eq,cotas)
+    */
+//}
+
+
+//vector<vector<long>> computeGaps(vector<vector<long>> generators, vector<vector<long>> rays,vector<vector<long>> hyperplanes)
+//{
+       /*
+       Compute the set of gaps of a CSemigroup
+       INPUT: Generators, rays and hyperplanes
+       OUTPUT: Set of gaps
+       */
+    
+    // Compute the diamonds of multiplicities.
+    
+    
+        /*
+    # Calculamos del diamante de multiplicidades.
+    diamanteM = DiamondMultiplicity(rayos,gen)
+    x = []
+    # Para cada rayo del cono.
+    for ray in rayos:
+        # Calculamos el conductor.
+        conductor = ConductorAxis(gen,ray)
+        # Calculamos las ecuaciones del rayo.
+        eq = EqRay(ray,hp)
+        # Calculamos los términos afines.
+        afinesDiamante = DeleteDuplicates(AffineTerm(eq,diamanteM))
+        # Calculamos la máxima norma mínima en cada recta afin.
+        maxMinNorm = 0
+        for afin in afinesDiamante:
+            # En primer lugar miramos la norma minima en el diamante.
+            minimumNormDiamond = MinimumPointAffineDiamond(diamanteM,afin,eq)
+            # Ahora buscamos el elemento mínimo en el diamante en dicha recta.
+            minimumNormSG = ComputeMinimumNormInSemigroupLine(ray,minimumNormDiamond,gen)
+            if maxMinNorm < minimumNormSG:
+                maxMinNorm = minimumNormSG
+        n = NormOne(conductor) + maxMinNorm
+        x.append(ComputeBoundRay(n,ray,gen))
+    # Calculamos el diamante de esos valores X
+    diamanteX = Diamond(x)
+    # Creamos un cubo que contenga al diamante.
+    cotaX = Cube(diamanteX)
+    # Calculamos las ecuaciones del diamante.
+    hullX = ConvexHull(diamanteX)
+    eqDiamanteX = [list(x) for x in hullX.equations]
+    # Calculamos el diamante entero X.
+    diamanteEnteroX = IntegerDiamond(eqDiamanteX,cotaX)
+    # Inicialmente el conjunto de huecos es vacío.
+    gapset = []
+    # Definimos el semigrupo afín.
+    afseg = AffineSemigroup(gen, "generators")
+    for x in diamanteEnteroX:
+        if not afseg.belongs(x):
+            gapset.append(x)
+    return gapset
+        */
+//}
