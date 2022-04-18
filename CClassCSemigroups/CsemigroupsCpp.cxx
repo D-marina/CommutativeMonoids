@@ -28,6 +28,18 @@ vector<long> operator-(const vector<long>& v1, const vector<long>& v2)
     return aux;
 }
 
+vector<long> operator+(const vector<long>& v1, const vector<long>& v2)
+{
+    unsigned n;
+    n = v1.size();
+    vector<long> aux(n);
+    for(unsigned ii=0;ii<n;ii++)
+    {
+        aux[ii] = v1[ii]+v2[ii];
+    }
+    return aux;
+}
+
 long gcd(long a, long b)
 {
 	if(a == 0)
@@ -232,7 +244,6 @@ bool axisAreSemigroup(vector<vector<long>> gen,vector<vector<long>> setR)
 
 ///
 
-
 vector<long> MultiplicityAxis(vector<vector<long>> generators, vector<long> ray)
 {
     /*
@@ -263,6 +274,37 @@ vector<long> MultiplicityAxis(vector<vector<long>> generators, vector<long> ray)
     cout<<minElementIndex<<endl;
     
     return multiplicity2[minElementIndex];
+}
+
+vector<vector<long>> diamond(vector<vector<long>> mult)
+{
+    /*
+    # En primer lugar tenemos que calcular el diamante.
+    # INPUT:
+    #   - a: Minimal elements of the ray.
+    # OUTPUT:
+    #   - Points of the diamond
+    */
+    
+    unsigned n = mult.size();
+    unsigned m = mult[0].size();
+    vector<long> vZero(m, 0);
+    vector<vector<long>> aux(n);
+    for(unsigned ii=0;ii<n;ii++)
+    {
+            aux[ii]=mult[ii];
+    }
+    aux.push_back(vZero);
+    
+    for(unsigned ii=0;ii<n;ii++)
+    {
+        for(unsigned jj=ii+1;jj<n;jj++)
+        {
+            aux.push_back(mult[ii]+mult[jj]);
+        }
+    }
+    
+    return aux;
 }
     
 

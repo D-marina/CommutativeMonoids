@@ -365,4 +365,7 @@ def axisAreSemigroup(gen, setR):
 def MultiplicityAxis(generators, ray):
     return _CsemigroupsCpp.MultiplicityAxis(generators, ray)
 
+def diamond(mult):
+    return _CsemigroupsCpp.diamond(mult)
+
 

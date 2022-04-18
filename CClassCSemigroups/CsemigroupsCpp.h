@@ -20,6 +20,7 @@ bool axisIsSemigroup(std::vector<std::vector<long>> gen,std::vector<long> r);
 bool axisAreSemigroup(std::vector<std::vector<long>> gen,std::vector<std::vector<long>> setR);
 
 std::vector<long> MultiplicityAxis(std::vector<std::vector<long>> generators, std::vector<long> ray);
+std::vector<std::vector<long>> diamond(std::vector<std::vector<long>> mult);
 
 //std::vector<std::vector<long>> computeGaps(std::vector<std::vector<long>> generators, std::vector<std::vector<long>> rays, std::vector<std::vector<long>> hyperplanes);
 
