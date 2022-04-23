@@ -7,6 +7,13 @@ int foo(int a)
     return a+1;
 }
 
+void foo2(std::vector<std::vector<double>> gen)
+{
+       cout<<"Funciona"<<endl;
+}
+
+
+
 void Pintar(vector<long> v)
 {
 	cout<<"*";
@@ -305,6 +312,41 @@ vector<vector<long>> diamond(vector<vector<long>> mult)
     }
     
     return aux;
+}
+
+bool pointBelongsDiamond(vector<long> pt, vector<vector<double>> eq)
+{
+    /*
+    dim = len(pt)
+    for x in eq:
+        sum = 0
+        for i in range(dim):
+            sum = sum + pt[i]*x[i]
+        sum = round(sum+x[-1],10)
+        if sum > 0:
+            return False
+    return True
+    */
+    unsigned dim,nEq;
+    dim = pt.size();
+    nEq = eq.size();
+    double sum;
+    for(unsigned ii=0;ii<nEq;ii++)
+    {
+        sum = 0;
+        for(unsigned jj=0;jj<dim;jj++)
+        {
+            sum += pt[jj]*eq[ii][jj];
+        }
+        sum += eq[ii][dim];
+        cout<<sum<< endl;
+        if(sum > 0.0000000001) //Avoid "false zeros"
+        {
+            cout<<" * "<<sum<<" * "<< endl;
+            return(false);
+        }
+    }
+       return true;
 }
     
 

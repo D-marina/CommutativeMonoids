@@ -334,9 +334,224 @@ class vector_vector_long(object):
 # Register vector_vector_long in _CsemigroupsCpp:
 _CsemigroupsCpp.vector_vector_long_swigregister(vector_vector_long)
 
+class VecDouble(object):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def iterator(self):
+        return _CsemigroupsCpp.VecDouble_iterator(self)
+    def __iter__(self):
+        return self.iterator()
+
+    def __nonzero__(self):
+        return _CsemigroupsCpp.VecDouble___nonzero__(self)
+
+    def __bool__(self):
+        return _CsemigroupsCpp.VecDouble___bool__(self)
+
+    def __len__(self):
+        return _CsemigroupsCpp.VecDouble___len__(self)
+
+    def __getslice__(self, i, j):
+        return _CsemigroupsCpp.VecDouble___getslice__(self, i, j)
+
+    def __setslice__(self, *args):
+        return _CsemigroupsCpp.VecDouble___setslice__(self, *args)
+
+    def __delslice__(self, i, j):
+        return _CsemigroupsCpp.VecDouble___delslice__(self, i, j)
+
+    def __delitem__(self, *args):
+        return _CsemigroupsCpp.VecDouble___delitem__(self, *args)
+
+    def __getitem__(self, *args):
+        return _CsemigroupsCpp.VecDouble___getitem__(self, *args)
+
+    def __setitem__(self, *args):
+        return _CsemigroupsCpp.VecDouble___setitem__(self, *args)
+
+    def pop(self):
+        return _CsemigroupsCpp.VecDouble_pop(self)
+
+    def append(self, x):
+        return _CsemigroupsCpp.VecDouble_append(self, x)
+
+    def empty(self):
+        return _CsemigroupsCpp.VecDouble_empty(self)
+
+    def size(self):
+        return _CsemigroupsCpp.VecDouble_size(self)
+
+    def swap(self, v):
+        return _CsemigroupsCpp.VecDouble_swap(self, v)
+
+    def begin(self):
+        return _CsemigroupsCpp.VecDouble_begin(self)
+
+    def end(self):
+        return _CsemigroupsCpp.VecDouble_end(self)
+
+    def rbegin(self):
+        return _CsemigroupsCpp.VecDouble_rbegin(self)
+
+    def rend(self):
+        return _CsemigroupsCpp.VecDouble_rend(self)
+
+    def clear(self):
+        return _CsemigroupsCpp.VecDouble_clear(self)
+
+    def get_allocator(self):
+        return _CsemigroupsCpp.VecDouble_get_allocator(self)
+
+    def pop_back(self):
+        return _CsemigroupsCpp.VecDouble_pop_back(self)
+
+    def erase(self, *args):
+        return _CsemigroupsCpp.VecDouble_erase(self, *args)
+
+    def __init__(self, *args):
+        _CsemigroupsCpp.VecDouble_swiginit(self, _CsemigroupsCpp.new_VecDouble(*args))
+
+    def push_back(self, x):
+        return _CsemigroupsCpp.VecDouble_push_back(self, x)
+
+    def front(self):
+        return _CsemigroupsCpp.VecDouble_front(self)
+
+    def back(self):
+        return _CsemigroupsCpp.VecDouble_back(self)
+
+    def assign(self, n, x):
+        return _CsemigroupsCpp.VecDouble_assign(self, n, x)
+
+    def resize(self, *args):
+        return _CsemigroupsCpp.VecDouble_resize(self, *args)
+
+    def insert(self, *args):
+        return _CsemigroupsCpp.VecDouble_insert(self, *args)
+
+    def reserve(self, n):
+        return _CsemigroupsCpp.VecDouble_reserve(self, n)
+
+    def capacity(self):
+        return _CsemigroupsCpp.VecDouble_capacity(self)
+    __swig_destroy__ = _CsemigroupsCpp.delete_VecDouble
+
+# Register VecDouble in _CsemigroupsCpp:
+_CsemigroupsCpp.VecDouble_swigregister(VecDouble)
+
+class VecVecdouble(object):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def iterator(self):
+        return _CsemigroupsCpp.VecVecdouble_iterator(self)
+    def __iter__(self):
+        return self.iterator()
+
+    def __nonzero__(self):
+        return _CsemigroupsCpp.VecVecdouble___nonzero__(self)
+
+    def __bool__(self):
+        return _CsemigroupsCpp.VecVecdouble___bool__(self)
+
+    def __len__(self):
+        return _CsemigroupsCpp.VecVecdouble___len__(self)
+
+    def __getslice__(self, i, j):
+        return _CsemigroupsCpp.VecVecdouble___getslice__(self, i, j)
+
+    def __setslice__(self, *args):
+        return _CsemigroupsCpp.VecVecdouble___setslice__(self, *args)
+
+    def __delslice__(self, i, j):
+        return _CsemigroupsCpp.VecVecdouble___delslice__(self, i, j)
+
+    def __delitem__(self, *args):
+        return _CsemigroupsCpp.VecVecdouble___delitem__(self, *args)
+
+    def __getitem__(self, *args):
+        return _CsemigroupsCpp.VecVecdouble___getitem__(self, *args)
+
+    def __setitem__(self, *args):
+        return _CsemigroupsCpp.VecVecdouble___setitem__(self, *args)
+
+    def pop(self):
+        return _CsemigroupsCpp.VecVecdouble_pop(self)
+
+    def append(self, x):
+        return _CsemigroupsCpp.VecVecdouble_append(self, x)
+
+    def empty(self):
+        return _CsemigroupsCpp.VecVecdouble_empty(self)
+
+    def size(self):
+        return _CsemigroupsCpp.VecVecdouble_size(self)
+
+    def swap(self, v):
+        return _CsemigroupsCpp.VecVecdouble_swap(self, v)
+
+    def begin(self):
+        return _CsemigroupsCpp.VecVecdouble_begin(self)
+
+    def end(self):
+        return _CsemigroupsCpp.VecVecdouble_end(self)
+
+    def rbegin(self):
+        return _CsemigroupsCpp.VecVecdouble_rbegin(self)
+
+    def rend(self):
+        return _CsemigroupsCpp.VecVecdouble_rend(self)
+
+    def clear(self):
+        return _CsemigroupsCpp.VecVecdouble_clear(self)
+
+    def get_allocator(self):
+        return _CsemigroupsCpp.VecVecdouble_get_allocator(self)
+
+    def pop_back(self):
+        return _CsemigroupsCpp.VecVecdouble_pop_back(self)
+
+    def erase(self, *args):
+        return _CsemigroupsCpp.VecVecdouble_erase(self, *args)
+
+    def __init__(self, *args):
+        _CsemigroupsCpp.VecVecdouble_swiginit(self, _CsemigroupsCpp.new_VecVecdouble(*args))
+
+    def push_back(self, x):
+        return _CsemigroupsCpp.VecVecdouble_push_back(self, x)
+
+    def front(self):
+        return _CsemigroupsCpp.VecVecdouble_front(self)
+
+    def back(self):
+        return _CsemigroupsCpp.VecVecdouble_back(self)
+
+    def assign(self, n, x):
+        return _CsemigroupsCpp.VecVecdouble_assign(self, n, x)
+
+    def resize(self, *args):
+        return _CsemigroupsCpp.VecVecdouble_resize(self, *args)
+
+    def insert(self, *args):
+        return _CsemigroupsCpp.VecVecdouble_insert(self, *args)
+
+    def reserve(self, n):
+        return _CsemigroupsCpp.VecVecdouble_reserve(self, n)
+
+    def capacity(self):
+        return _CsemigroupsCpp.VecVecdouble_capacity(self)
+    __swig_destroy__ = _CsemigroupsCpp.delete_VecVecdouble
+
+# Register VecVecdouble in _CsemigroupsCpp:
+_CsemigroupsCpp.VecVecdouble_swigregister(VecVecdouble)
+
 
 def foo(a):
     return _CsemigroupsCpp.foo(a)
+
+def foo2(gen):
+    return _CsemigroupsCpp.foo2(gen)
 
 def Pintar(v):
     return _CsemigroupsCpp.Pintar(v)
@@ -367,5 +582,8 @@ def MultiplicityAxis(generators, ray):
 
 def diamond(mult):
     return _CsemigroupsCpp.diamond(mult)
+
+def pointBelongsDiamond(pt, eq):
+    return _CsemigroupsCpp.pointBelongsDiamond(pt, eq)
 
 

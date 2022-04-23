@@ -7,6 +7,7 @@
 #include <cmath>
 
 int foo (int a);
+void foo2(std::vector<std::vector<double>> gen);
 void Pintar(std::vector<long> v);
 std::vector<long> operator-(const std::vector<long>& v1, const std::vector<long>& v2);
 long gcd(long a, long b);
@@ -21,6 +22,8 @@ bool axisAreSemigroup(std::vector<std::vector<long>> gen,std::vector<std::vector
 
 std::vector<long> MultiplicityAxis(std::vector<std::vector<long>> generators, std::vector<long> ray);
 std::vector<std::vector<long>> diamond(std::vector<std::vector<long>> mult);
+
+bool pointBelongsDiamond(std::vector<long> pt, std::vector<std::vector<double>> eq);
 
 //std::vector<std::vector<long>> computeGaps(std::vector<std::vector<long>> generators, std::vector<std::vector<long>> rays, std::vector<std::vector<long>> hyperplanes);
 
