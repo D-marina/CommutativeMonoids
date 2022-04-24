@@ -562,6 +562,9 @@ def gcd(a, b):
 def gcdL(v):
     return _CsemigroupsCpp.gcdL(v)
 
+def prodEsc(*args):
+    return _CsemigroupsCpp.prodEsc(*args)
+
 def belongByGens(x, gen):
     return _CsemigroupsCpp.belongByGens(x, gen)
 
@@ -585,5 +588,23 @@ def diamond(mult):
 
 def pointBelongsDiamond(pt, eq):
     return _CsemigroupsCpp.pointBelongsDiamond(pt, eq)
+
+def filterPoints(points, eq):
+    return _CsemigroupsCpp.filterPoints(points, eq)
+
+def eqRay(ray, hyperplanes):
+    return _CsemigroupsCpp.eqRay(ray, hyperplanes)
+
+def deleteRowZero(m):
+    return _CsemigroupsCpp.deleteRowZero(m)
+
+def affineTerm(eq, d):
+    return _CsemigroupsCpp.affineTerm(eq, d)
+
+def studyRays(rays, hyperplanes, integerDiamond, generators):
+    return _CsemigroupsCpp.studyRays(rays, hyperplanes, integerDiamond, generators)
+
+def existGenerator(equationsRay, affine, generators):
+    return _CsemigroupsCpp.existGenerator(equationsRay, affine, generators)
 
 

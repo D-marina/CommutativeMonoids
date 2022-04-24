@@ -70,6 +70,32 @@ long gcdL(vector<long> v)
 	return result; 
 }
 
+long prodEsc(const std::vector<long>& v1, const std::vector<long>& v2)
+{
+    long suma;
+    int n;
+    suma = 0;
+    n = v1.size();
+    for(unsigned ii=0;ii<n;ii++)
+    {
+           suma += v1[ii]*v2[ii];
+    }
+    return suma;
+}
+
+double prodEsc(const std::vector<long>& v1, const std::vector<double>& v2)
+{
+    long suma;
+    int n;
+    suma = 0;
+    n = v1.size();
+    for(unsigned ii=0;ii<n;ii++)
+    {
+           suma += v1[ii]*v2[ii];
+    }
+    return suma;
+}
+
 /////////////////////////////////////////////////////////////////////
 
 
@@ -316,17 +342,7 @@ vector<vector<long>> diamond(vector<vector<long>> mult)
 
 bool pointBelongsDiamond(vector<long> pt, vector<vector<double>> eq)
 {
-    /*
-    dim = len(pt)
-    for x in eq:
-        sum = 0
-        for i in range(dim):
-            sum = sum + pt[i]*x[i]
-        sum = round(sum+x[-1],10)
-        if sum > 0:
-            return False
-    return True
-    */
+
     unsigned dim,nEq;
     dim = pt.size();
     nEq = eq.size();
@@ -348,7 +364,150 @@ bool pointBelongsDiamond(vector<long> pt, vector<vector<double>> eq)
     }
        return true;
 }
-    
+
+// This function check which points of points verify equations eq.
+vector<vector<long>> filterPoints(vector<vector<long>> points, vector<vector<double>> eq)
+{
+    vector<vector<long>> filter;
+    int n;
+    n = points.size();
+    for(unsigned ii=0;ii<n;ii++)
+    {
+        if(pointBelongsDiamond(points[ii], eq))
+        {
+         filter.push_back(points[ii]);   
+        }
+    }
+    return(filter);
+}
+
+vector<vector<long>> eqRay(vector<long> ray, std::vector<std::vector<long>> hyperplanes)
+{
+    vector<vector<long>> eq;
+    int n;
+    n = hyperplanes.size();
+    for(unsigned ii=0;ii<n;ii++)
+    {
+        if(prodEsc(ray,hyperplanes[ii])==0)
+        {
+            eq.push_back(hyperplanes[ii]);
+        }
+    }
+    return(eq);
+}
+
+vector<vector<long>> deleteRowZero(vector<vector<long>> m)
+{
+    vector<vector<long>> aux;
+    int n1,n2;
+    bool allzero;
+    n1 = m.size();
+    for(unsigned ii=0;ii<n1;ii++)
+    {
+        allzero = true;
+        n2 = m[ii].size();
+        for(unsigned jj=0;jj<n2;jj++)
+        {
+            if(m[ii][jj] != 0)
+            {
+                allzero = false;
+            }
+        }
+        if(!allzero)
+        {
+            aux.push_back(m[ii]);
+        }
+    }
+    return(aux);
+}
+
+vector<vector<long>> affineTerm(vector<vector<long>> eq, vector<vector<long>> d)
+{
+
+    int neq, dsize;
+    neq = eq.size();
+    //dim = eq[0].size();
+    dsize = d.size();
+    vector<vector<long>> afin;
+    for(unsigned ii=0;ii<dsize;ii++)
+    {
+        vector<long> aux;
+        for(unsigned jj=0;jj<neq;jj++)
+        {
+            aux.push_back(prodEsc(d[ii],eq[jj]));
+        }
+        afin.push_back(aux);
+    }
+    return(deleteRowZero(afin));
+}
+
+bool existGenerator(vector<vector<long>> equationsRay, vector<long> affine, vector<vector<long>> generators)
+{
+    /*
+        # Calculamos si en cada recta afín paralela al rayo hay un generador.
+        # INPUT:
+        #   - eqray: ecuaciones de un rayo.
+        #   - afinset: valor afín de la recta.
+        #   - smg: generadores del semigrupo.
+        # OUTPUT:
+        #   True/False si en esa recta hay un generador.
+    def ExistGenerator(eqray, afin,smg):
+        aux = AffineTerm(eqray,smg)
+        if afin in aux:
+            return True
+        else:
+            return False
+    */
+    vector<vector<long>> aux;
+    aux = affineTerm(equationsRay,generators);
+    int n;
+    n = aux.size();
+    for(unsigned ii=0;ii<n;ii++)
+    {
+        if(affine == aux[ii])
+            return(true);
+    }        
+    return(false);
+}
+
+bool studyRays(vector<vector<long>> rays, vector<vector<long>> hyperplanes, vector<vector<long>> integerDiamond, vector<vector<long>> generators)
+{
+    /*
+        for ray in rayos:
+            # Calculamos las ecuaciones del rayo.
+            eqrayo = EqRay(ray,hp)
+            # Calculamos los términos afines de los puntos enteros del diamantes.
+            afinesDiamante = AffineTerm(eqrayo,diamanteEntero)
+            # Nos quedamos con los generadores afines.
+            genAfines = AffineSemigroup(afinesDiamante, "generators").getMSG()
+            # Comprobamos que por cada afín pasa un generador
+            for afin in genAfines:
+                if not ExistGenerator(eqrayo, afin,smg):
+                    return False
+        return True
+    */
+    int nRays;
+    nRays = rays.size();
+    for(unsigned ii=0;ii<nRays;ii++)
+    {
+        Pintar(rays[ii]);
+        vector<vector<long>> equationsRay;
+        equationsRay = eqRay(rays[ii],hyperplanes);
+        vector<vector<long>> afDiamond, genAf;
+        afDiamond = affineTerm(equationsRay,integerDiamond);
+        genAf = computeMSG(afDiamond);
+        int numGen;
+        numGen = genAf.size();
+        for(unsigned jj=0; jj<numGen; jj++)
+        {
+            if(!existGenerator(equationsRay,genAf[jj],generators))
+            {
+                return(false);
+            }
+        }        
+    }
+    return(true);
+}
 
 //vector<vector<long>> diamondMultiplicity(vector<vector<long>> generators, vector<vector<long>> rays)
 //{
