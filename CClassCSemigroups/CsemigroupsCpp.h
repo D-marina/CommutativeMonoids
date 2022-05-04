@@ -21,7 +21,9 @@ long belongAxis(std::vector<long> x,std::vector<long> r);
 bool axisIsSemigroup(std::vector<std::vector<long>> gen,std::vector<long> r);
 bool axisAreSemigroup(std::vector<std::vector<long>> gen,std::vector<std::vector<long>> setR);
 
-std::vector<long> MultiplicityAxis(std::vector<std::vector<long>> generators, std::vector<long> ray);
+
+std::vector<long> multiplicityAxis(std::vector<std::vector<long>> generators, std::vector<long> ray);
+std::vector<std::vector<long>> multiplicityAllAxes(std::vector<std::vector<long>> generators, std::vector<std::vector<long>> rays);
 std::vector<std::vector<long>> diamond(std::vector<std::vector<long>> mult);
 
 bool pointBelongsDiamond(std::vector<long> pt, std::vector<std::vector<double>> eq);

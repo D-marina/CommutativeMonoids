@@ -580,8 +580,11 @@ def axisIsSemigroup(gen, r):
 def axisAreSemigroup(gen, setR):
     return _CsemigroupsCpp.axisAreSemigroup(gen, setR)
 
-def MultiplicityAxis(generators, ray):
-    return _CsemigroupsCpp.MultiplicityAxis(generators, ray)
+def multiplicityAxis(generators, ray):
+    return _CsemigroupsCpp.multiplicityAxis(generators, ray)
+
+def multiplicityAllAxes(generators, rays):
+    return _CsemigroupsCpp.multiplicityAllAxes(generators, rays)
 
 def diamond(mult):
     return _CsemigroupsCpp.diamond(mult)

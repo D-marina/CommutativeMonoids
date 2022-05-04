@@ -189,6 +189,10 @@ long belongAxis(vector<long> x,vector<long> r)
     {
         if(x[ii] != 0 && r[ii] != 0)
         {
+            if(x[ii]%r[ii] != 0)
+            {
+                return 0;
+            }
             coef = double(x[ii])/r[ii];
             break;
         }
@@ -229,7 +233,6 @@ bool axisIsSemigroup(vector<vector<long>> gen,vector<long> r)
     # OUTPUT:
     #   - True/False.   
 */
-    
     vector<long> aux;
     unsigned n;
     long coef;
@@ -277,7 +280,7 @@ bool axisAreSemigroup(vector<vector<long>> gen,vector<vector<long>> setR)
 
 ///
 
-vector<long> MultiplicityAxis(vector<vector<long>> generators, vector<long> ray)
+vector<long> multiplicityAxis(vector<vector<long>> generators, vector<long> ray)
 {
     /*
     # Calculamos la multiplicidad en cada rayo.
@@ -304,10 +307,23 @@ vector<long> MultiplicityAxis(vector<vector<long>> generators, vector<long> ray)
     
     int minElementIndex = min_element(multiplicity1.begin(),multiplicity1.end()) - multiplicity1.begin(); // GetMinimumElement
     
-    cout<<minElementIndex<<endl;
     
     return multiplicity2[minElementIndex];
 }
+
+
+vector<vector<long>> multiplicityAllAxes(vector<vector<long>> generators, vector<vector<long>> rays)
+{
+    vector<vector<long>> multiplicities;
+    unsigned nRays;
+    nRays = rays.size();
+    for(unsigned ii=0;ii<nRays;ii++)
+    {
+        multiplicities.push_back(multiplicityAxis(generators,rays[ii]));
+    }
+    return multiplicities;
+}
+
 
 vector<vector<long>> diamond(vector<vector<long>> mult)
 {
@@ -355,10 +371,8 @@ bool pointBelongsDiamond(vector<long> pt, vector<vector<double>> eq)
             sum += pt[jj]*eq[ii][jj];
         }
         sum += eq[ii][dim];
-        cout<<sum<< endl;
         if(sum > 0.0000000001) //Avoid "false zeros"
         {
-            cout<<" * "<<sum<<" * "<< endl;
             return(false);
         }
     }
