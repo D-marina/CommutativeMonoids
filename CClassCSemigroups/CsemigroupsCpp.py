@@ -553,8 +553,8 @@ def foo(a):
 def foo2(gen):
     return _CsemigroupsCpp.foo2(gen)
 
-def Pintar(v):
-    return _CsemigroupsCpp.Pintar(v)
+def Pintar(*args):
+    return _CsemigroupsCpp.Pintar(*args)
 
 def gcd(a, b):
     return _CsemigroupsCpp.gcd(a, b)
@@ -564,6 +564,12 @@ def gcdL(v):
 
 def prodEsc(*args):
     return _CsemigroupsCpp.prodEsc(*args)
+
+def FrobeniusNumber(lgen):
+    return _CsemigroupsCpp.FrobeniusNumber(lgen)
+
+def deleteDuplicates(m):
+    return _CsemigroupsCpp.deleteDuplicates(m)
 
 def belongByGens(x, gen):
     return _CsemigroupsCpp.belongByGens(x, gen)
@@ -609,5 +615,11 @@ def studyRays(rays, hyperplanes, integerDiamond, generators):
 
 def existGenerator(equationsRay, affine, generators):
     return _CsemigroupsCpp.existGenerator(equationsRay, affine, generators)
+
+def conductorAxis(generators, ray):
+    return _CsemigroupsCpp.conductorAxis(generators, ray)
+
+def computeXDiamond(generators, rays, equations, diamondMultiplicity):
+    return _CsemigroupsCpp.computeXDiamond(generators, rays, equations, diamondMultiplicity)
 
 

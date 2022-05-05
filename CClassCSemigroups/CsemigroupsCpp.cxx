@@ -2,6 +2,65 @@
 
 using namespace std;
 
+long FrobeniusNumber(vector<long> generators){
+    unsigned int eDimension=generators.size();
+    vector<long> lGen(generators);
+    long h,t,a;
+    h=t=a=generators[0];
+    vector<long> S(a*lGen[lGen.size()-1]);
+    vector<long> Q(a);
+    vector<long> P(a);
+    vector<long> aux(a);
+
+    for(unsigned int i=0;i<Q.size();i++)
+        Q[i]=0;
+    for(unsigned int i=0;i<S.size();i++)
+        S[i]=a*lGen[eDimension-1];
+    S[a-1]=0;
+    for(unsigned int i=0;i<P.size();i++)
+        P[i]=i;
+    P[a-1]=lGen.size();
+
+    while(h!=0){
+        long QHaux=Q[h-1];
+        long v=h;
+        Q[h-1]=0;
+        if(h==t)
+            h=0;
+        else
+            h=QHaux;
+        for(int j=1;j<P[v-1]+1;j++){
+            long e=(lGen[j-1]+v) % a;
+            long w=lGen[j-1]+S[v-1];
+            if(w<S[e-1] && e!=0){
+                S[e-1]=w;
+                P[e-1]=j;
+                if(Q[e-1]==0){
+                    if(h==0){
+                        h=e;
+                        Q[e-1]=e;
+                        t=e;
+                    }
+                    else
+                    {
+                        Q[t-1]=e;
+                        Q[e-1]=e;
+                        t=e;
+                    }
+                }
+            }
+        }
+    }
+    for(unsigned int i=0;i<a;i++)
+        aux[i]=S[i];
+    long fNumber=aux[0];
+    for(unsigned int i=0;i<aux.size();i++)
+        if(aux[i]>fNumber)
+            fNumber=aux[i];
+    return fNumber-a;
+}
+
+
 int foo(int a)
 {
     return a+1;
@@ -20,6 +79,24 @@ void Pintar(vector<long> v)
 	for(unsigned ii=0;ii<v.size();ii++)
 		cout<<","<<v[ii];
 	cout<<"*";
+	cout<<endl;
+}
+
+void Pintar(vector<vector<long>> m)
+{
+    unsigned n;
+    cout<<"**";
+    for(unsigned ii=0;ii<m.size();ii++)
+    {
+        cout<<"++";
+        n = m[ii].size();
+        for(unsigned jj=0;jj<n;jj++)
+        {
+            cout<<","<<m[ii][jj];
+        }
+        cout<<"++"<<endl;
+    }
+	cout<<"**";
 	cout<<endl;
 }
 
@@ -94,6 +171,33 @@ double prodEsc(const std::vector<long>& v1, const std::vector<double>& v2)
            suma += v1[ii]*v2[ii];
     }
     return suma;
+}
+
+vector<vector<long>> deleteDuplicates(vector<vector<long>> m)
+{
+    vector<vector<long>> aux;
+    unsigned mSize, auxSize;
+    bool isIn;
+    mSize = m.size();
+    auxSize = 1;
+    aux.push_back(m[0]);
+    for(unsigned ii=1;ii<mSize;ii++)
+    {
+        isIn = false;
+        for(unsigned jj=0;jj<auxSize;jj++)
+        {
+            if(m[ii] == aux[jj])
+            {
+                isIn = true;
+            }
+        }
+        if(!isIn)
+        {
+            aux.push_back(m[ii]);
+            auxSize++;
+        }
+    }
+    return aux;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -523,36 +627,84 @@ bool studyRays(vector<vector<long>> rays, vector<vector<long>> hyperplanes, vect
     return(true);
 }
 
-//vector<vector<long>> diamondMultiplicity(vector<vector<long>> generators, vector<vector<long>> rays)
-//{
+vector<long> conductorAxis(vector<vector<long>> generators, vector<long> ray)
+{
     /*
-    # Calculamos el diamante entero de las multiplicidades.
+    
+    # Calculamos el conductor.
     # INPUT:
-    #   - cone: rayos del cono.
-    #   - smg: sistema minimal de generadores.
+        #   - gen: Set of generators.
+    #   - r: Minimal value in the ray.
     # OUTPUT:
-    #   - diamante entero de las multiplicidades
+    #   - conductor
     */
+    vector<long> aux, aux2, conductor;
+    unsigned nGen, nRay;
+    long candidate, frobNumber;
+    nGen = generators.size();
+    nRay = ray.size();
     
-//    vector<long> extremes;
-//    int n;
-//    n = cone.size();
-//    for(int ii=0; ii<n; i++)
-//    {
-//        
-//    }
+    for(unsigned ii=0;ii<nGen;ii++)
+    {
+        candidate = belongAxis(generators[ii],ray);
+        if(candidate != 0)
+        {
+            aux.push_back(candidate);
+        } 
+    }
     
+    frobNumber = FrobeniusNumber(aux);
+    
+    for(unsigned ii=0;ii<nRay;ii++)
+    {
+        conductor.push_back(ray[ii]*(frobNumber+1));
+    }
+    return conductor;
+}
+
+vector<vector<long>> computeXDiamond(vector<vector<long>> generators, vector<vector<long>> rays, vector<vector<long>> equations,vector<vector<long>> diamondMultiplicity)
+{
+    unsigned nRays, nAffineDiamond;
+    long maxMinNorm;
+    vector<long> conductor;
+    vector<vector<long>> eqRays, affineDiamond;
+    nRays = rays.size();
+    for(unsigned ii=0;ii<nRays;ii++)
+    {
+        conductor = conductorAxis(generators,rays[ii]);
+        eqRays = eqRay(rays[ii],equations);
+        affineDiamond = deleteDuplicates(affineTerm(eqRays, diamondMultiplicity));
+        maxMinNorm = 0;
+        nAffineDiamond = affineDiamond.size();
+        for(unsigned jj=0;jj<nAffineDiamond;jj++)
+        {
+            
+        }
+    }
+    return eqRays;
     /*
-        extremos = []
-    for ray in cone:
-        extremos.append(MultiplicityAxis(ray,smg))
-    diamante = Diamond(extremos)
-    hull = ConvexHull(diamante)
-    eq = [list(x) for x in hull.equations]
-    cotas = Cube(diamante)
-    return IntegerDiamond(eq,cotas)
+    for ray in rayos:
+        # Calculamos el conductor.
+        conductor = ConductorAxis(gen,ray)
+        # Calculamos las ecuaciones del rayo.
+        eq = EqRay(ray,hp)
+        # Calculamos los términos afines.
+        afinesDiamante = DeleteDuplicates(AffineTerm(eq,diamanteM))
+        # Calculamos la máxima norma mínima en cada recta afin.
+        maxMinNorm = 0
+        for afin in afinesDiamante:
+            # En primer lugar miramos la norma minima en el diamante.
+            minimumNormDiamond = MinimumPointAffineDiamond(diamanteM,afin,eq)
+            # Ahora buscamos el elemento mínimo en el diamante en dicha recta.
+            minimumNormSG = ComputeMinimumNormInSemigroupLine(ray,minimumNormDiamond,gen)
+            if maxMinNorm < minimumNormSG:
+                maxMinNorm = minimumNormSG
+        n = NormOne(conductor) + maxMinNorm
+        x.append(ComputeBoundRay(n,ray,gen))
+    # Calculamos el diamante de esos valores X
+    diamanteX = Diamond(x)
     */
-//}
+}
 
 
 //vector<vector<long>> computeGaps(vector<vector<long>> generators, vector<vector<long>> rays,vector<vector<long>> hyperplanes)
