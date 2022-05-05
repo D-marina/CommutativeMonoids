@@ -200,6 +200,53 @@ vector<vector<long>> deleteDuplicates(vector<vector<long>> m)
     return aux;
 }
 
+vector<vector<long>> multiplyMatrix(const vector<vector<long>>& m1, const vector<vector<long>>& m2)
+{
+       /*
+    # Multiplicar matrices.
+    # INPUT:
+    #   - X: una matriz.
+    #   - Y: otra matriz.
+    # OUTPUT:
+    #   - Producto de ambas.
+    def MultiplyMatrix(X,Y):
+        result = [[0 for y in Y[0]] for x in X]
+        # iterate through rows of X
+        for i in range(len(X)):
+            # iterate through columns of Y
+            for j in range(len(Y[0])):
+                # iterate through rows of Y
+                for k in range(len(Y)):
+                    result[i][j] += X[i][k] * Y[k][j]
+        return result
+       */
+    unsigned rowM1, colM2,rowM2;
+    rowM1 = m1.size();
+    colM2 = m2[0].size();
+    rowM2 = m2.size();
+    vector<vector<long>> result;
+    vector<long> zero;
+    for(unsigned ii=0;ii<colM2;ii++)
+    {
+        zero.push_back(0);
+    }
+    for(unsigned ii=0;ii<rowM1;ii++)
+    {
+        result.push_back(zero);
+    }
+    for(unsigned ii=0;ii<rowM1;ii++)
+    {
+        for(unsigned jj=0;jj<colM2;jj++)
+        {
+            for(unsigned kk=0;kk<rowM2;kk++)
+            {
+                result[ii][jj] += m1[ii][kk] * m2[kk][jj];
+            }
+        }
+    }
+    return(result);
+}
+
 /////////////////////////////////////////////////////////////////////
 
 

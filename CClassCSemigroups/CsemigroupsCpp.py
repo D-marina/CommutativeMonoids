@@ -571,6 +571,9 @@ def FrobeniusNumber(lgen):
 def deleteDuplicates(m):
     return _CsemigroupsCpp.deleteDuplicates(m)
 
+def multiplyMatrix(m1, m2):
+    return _CsemigroupsCpp.multiplyMatrix(m1, m2)
+
 def belongByGens(x, gen):
     return _CsemigroupsCpp.belongByGens(x, gen)
 

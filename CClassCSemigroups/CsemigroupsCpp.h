@@ -17,6 +17,7 @@ long prodEsc(const std::vector<long>& v1, const std::vector<long>& v2);
 double prodEsc(const std::vector<long>& v1, const std::vector<double>& v2);
 long FrobeniusNumber(std::vector<long> lgen);
 std::vector<std::vector<long>> deleteDuplicates(std::vector<std::vector<long>> m);
+std::vector<std::vector<long>> multiplyMatrix(const std::vector<std::vector<long>>& m1, const std::vector<std::vector<long>>& m2);
 
 bool belongByGens(std::vector<long> x, std::vector<std::vector<long>> gen);
 std::vector<std::vector<long>> computeMSG(std::vector<std::vector<long>> generators);
