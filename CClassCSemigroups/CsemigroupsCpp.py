@@ -622,6 +622,12 @@ def existGenerator(equationsRay, affine, generators):
 def conductorAxis(generators, ray):
     return _CsemigroupsCpp.conductorAxis(generators, ray)
 
+def NormOne(v):
+    return _CsemigroupsCpp.NormOne(v)
+
+def MinimumPointAffineDiamond(integerDiamond, affine, eqRay):
+    return _CsemigroupsCpp.MinimumPointAffineDiamond(integerDiamond, affine, eqRay)
+
 def computeXDiamond(generators, rays, equations, diamondMultiplicity):
     return _CsemigroupsCpp.computeXDiamond(generators, rays, equations, diamondMultiplicity)
 

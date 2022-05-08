@@ -709,6 +709,85 @@ vector<long> conductorAxis(vector<vector<long>> generators, vector<long> ray)
     return conductor;
 }
 
+long NormOne(vector<long> v)
+{
+    long sum;
+    unsigned n;
+    n = v.size();
+    sum = 0;
+    for(unsigned ii=0;ii<n;ii++)
+    {
+        sum +=v[ii];
+    }
+    return sum;
+}
+
+vector<long> MinimumPointAffineDiamond(vector<vector<long>> integerDiamond, vector<long> affine, vector<vector<long>> eqRay)
+{
+/*
+# Calculamos el punto de menor norma del diamante para una recta afín.
+# INPUT:
+#   - diamond: diamante entero.
+#   - afin: término afin de la recta.
+#   - eqray: ecuaciones de la recta.
+# OUTPUT:
+#   - Punto de menor norma del diamante que pasa por la recta afín.
+def MinimumPointAffineDiamond(diamond,afin,eqray):
+    numeq = len(eqray)
+    aux2 = []
+    for d in diamond:
+        aux = MultiplyMatrix(eqray,[[x] for x in d])
+        aux = list(array(aux).flatten())
+        if aux == afin:
+            aux2.append([NormOne(d),d])
+    return(sorted(aux2)[0][1])
+*/
+    vector<vector<long>> aux;
+    vector<long> aux2, candidate, minimumElement;
+    vector<vector<long>> column;
+    unsigned nDiamond, nDiamond2, nAux;
+    nDiamond = integerDiamond.size();
+    long minimumNorm;
+    minimumNorm = -1;
+    for(unsigned ii=0;ii<nDiamond;ii++)
+    {
+        column = {};
+        candidate = {};
+        nDiamond2 = integerDiamond[ii].size();
+        for(unsigned jj=0;jj<nDiamond2;jj++)
+        {
+            aux2 = {};
+            aux2.push_back(integerDiamond[ii][jj]);
+            column.push_back(aux2);
+        }
+        aux = multiplyMatrix(eqRay, column);
+        nAux = aux.size();
+        for(unsigned jj=0;jj<nAux;jj++)
+        {
+            candidate.push_back(aux[jj][0]);
+        }
+        Pintar(candidate);
+        if(candidate == affine)
+        {
+            if(minimumNorm == -1)
+            {
+                   minimumNorm = NormOne(integerDiamond[ii]);
+                   minimumElement = integerDiamond[ii];
+            }
+            else
+            {
+             if(NormOne(integerDiamond[ii]) < minimumNorm)
+             {
+                 minimumNorm = NormOne(integerDiamond[ii]);
+                 minimumElement = integerDiamond[ii];
+             }
+            }
+        }
+    }
+    
+    return minimumElement;
+}
+
 vector<vector<long>> computeXDiamond(vector<vector<long>> generators, vector<vector<long>> rays, vector<vector<long>> equations,vector<vector<long>> diamondMultiplicity)
 {
     unsigned nRays, nAffineDiamond;
