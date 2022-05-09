@@ -45,6 +45,7 @@ std::vector<long> conductorAxis(std::vector<std::vector<long>> generators, std::
 
 long NormOne(std::vector<long> v);
 std::vector<long> MinimumPointAffineDiamond(std::vector<std::vector<long>> integerDiamond, std::vector<long> affine, std::vector<std::vector<long>> eqRay);
+long ComputeMinimumNormInSemigroupLine(std::vector<long> vdir, std::vector<long> seed, std::vector<std::vector<long>> smgen);
 
 std::vector<std::vector<long>> computeXDiamond(std::vector<std::vector<long>> generators, std::vector<std::vector<long>> rays, std::vector<std::vector<long>> equations,std::vector<std::vector<long>> diamondMultiplicity);
 

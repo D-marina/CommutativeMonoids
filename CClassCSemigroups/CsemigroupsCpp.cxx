@@ -655,7 +655,6 @@ bool studyRays(vector<vector<long>> rays, vector<vector<long>> hyperplanes, vect
     nRays = rays.size();
     for(unsigned ii=0;ii<nRays;ii++)
     {
-        Pintar(rays[ii]);
         vector<vector<long>> equationsRay;
         equationsRay = eqRay(rays[ii],hyperplanes);
         vector<vector<long>> afDiamond, genAf;
@@ -766,7 +765,6 @@ def MinimumPointAffineDiamond(diamond,afin,eqray):
         {
             candidate.push_back(aux[jj][0]);
         }
-        Pintar(candidate);
         if(candidate == affine)
         {
             if(minimumNorm == -1)
@@ -788,11 +786,46 @@ def MinimumPointAffineDiamond(diamond,afin,eqray):
     return minimumElement;
 }
 
-vector<vector<long>> computeXDiamond(vector<vector<long>> generators, vector<vector<long>> rays, vector<vector<long>> equations,vector<vector<long>> diamondMultiplicity)
+long ComputeMinimumNormInSemigroupLine(vector<long> vdir, vector<long> seed, vector<vector<long>>smgen)
+{
+/*
+# Calculamos los elementos de norma mínima por cada recta afín.
+# INPUT:
+#   - vdir: vector director de la recta.
+#   - seed: punto para empezar a mirar la recta.
+#   - smgen: sistema minimal de generadores.
+# OUTPUT:
+#   - Norma mínima de los elementos del semigrupo de la recta. 
+def ComputeMinimumNormInSemigroupLine(vdir,seed,smgen):
+    v = seed
+    afseg = AffineSemigroup(smgen, "generators")
+    while True:
+        if afseg.belongs(v):
+            return NormOne(v)
+        v = [v[i] + vdir[i] for i in range(len(vdir))]
+*/
+    vector<long> v;
+    unsigned nVdir;
+    v = seed;
+    nVdir = vdir.size();
+    while(true)
+    {
+        if(belongByGens(v, smgen))
+        {
+            return(NormOne(v));
+        }
+        for(unsigned ii=0;ii<nVdir;ii++)
+        {
+            v[ii] += vdir[ii]; 
+        }
+    }
+}
+    
+vector<vector<long>> computeXDiamond(vector<vector<long>> generators, vector<vector<long>> rays, vector<vector<long>> equations, vector<vector<long>> diamondMultiplicity)
 {
     unsigned nRays, nAffineDiamond;
-    long maxMinNorm;
-    vector<long> conductor;
+    long maxMinNorm, minimumNormSG, n;
+    vector<long> conductor, minimumNormDiamond;
     vector<vector<long>> eqRays, affineDiamond;
     nRays = rays.size();
     for(unsigned ii=0;ii<nRays;ii++)
@@ -804,9 +837,19 @@ vector<vector<long>> computeXDiamond(vector<vector<long>> generators, vector<vec
         nAffineDiamond = affineDiamond.size();
         for(unsigned jj=0;jj<nAffineDiamond;jj++)
         {
-            
+            minimumNormDiamond =  MinimumPointAffineDiamond(diamondMultiplicity,affineDiamond[jj],eqRays);
+            minimumNormSG = ComputeMinimumNormInSemigroupLine(rays[ii],minimumNormDiamond,generators);
+            if(maxMinNorm < minimumNormSG)
+            {
+                maxMinNorm = minimumNormSG;
+            }
         }
+        n = NormOne(conductor) + maxMinNorm;
+        Pintar(rays[ii]);
+        cout<<"nRays = "<<nRays;
+        cout<<"N = "<<n<<endl<<endl;
     }
+    cout<<"nRays = "<<nRays;
     return eqRays;
     /*
     for ray in rayos:

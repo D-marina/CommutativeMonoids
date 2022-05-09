@@ -628,6 +628,9 @@ def NormOne(v):
 def MinimumPointAffineDiamond(integerDiamond, affine, eqRay):
     return _CsemigroupsCpp.MinimumPointAffineDiamond(integerDiamond, affine, eqRay)
 
+def ComputeMinimumNormInSemigroupLine(vdir, seed, smgen):
+    return _CsemigroupsCpp.ComputeMinimumNormInSemigroupLine(vdir, seed, smgen)
+
 def computeXDiamond(generators, rays, equations, diamondMultiplicity):
     return _CsemigroupsCpp.computeXDiamond(generators, rays, equations, diamondMultiplicity)
 
