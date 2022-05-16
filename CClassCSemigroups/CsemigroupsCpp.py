@@ -574,8 +574,20 @@ def deleteDuplicates(m):
 def multiplyMatrix(m1, m2):
     return _CsemigroupsCpp.multiplyMatrix(m1, m2)
 
+def allPositive(v):
+    return _CsemigroupsCpp.allPositive(v)
+
+def allZero(v):
+    return _CsemigroupsCpp.allZero(v)
+
+def belongByGens2(x, gen):
+    return _CsemigroupsCpp.belongByGens2(x, gen)
+
 def belongByGens(x, gen):
     return _CsemigroupsCpp.belongByGens(x, gen)
+
+def belongCone(x, gen):
+    return _CsemigroupsCpp.belongCone(x, gen)
 
 def computeMSG(generators):
     return _CsemigroupsCpp.computeMSG(generators)
@@ -622,16 +634,22 @@ def existGenerator(equationsRay, affine, generators):
 def conductorAxis(generators, ray):
     return _CsemigroupsCpp.conductorAxis(generators, ray)
 
-def NormOne(v):
-    return _CsemigroupsCpp.NormOne(v)
+def normOne(v):
+    return _CsemigroupsCpp.normOne(v)
 
-def MinimumPointAffineDiamond(integerDiamond, affine, eqRay):
-    return _CsemigroupsCpp.MinimumPointAffineDiamond(integerDiamond, affine, eqRay)
+def minimumPointAffineDiamond(integerDiamond, affine, eqRay):
+    return _CsemigroupsCpp.minimumPointAffineDiamond(integerDiamond, affine, eqRay)
 
-def ComputeMinimumNormInSemigroupLine(vdir, seed, smgen):
-    return _CsemigroupsCpp.ComputeMinimumNormInSemigroupLine(vdir, seed, smgen)
+def computeMinimumNormInSemigroupLine(vdir, seed, smgen):
+    return _CsemigroupsCpp.computeMinimumNormInSemigroupLine(vdir, seed, smgen)
+
+def computeBoundRay(n, ray, gen):
+    return _CsemigroupsCpp.computeBoundRay(n, ray, gen)
 
 def computeXDiamond(generators, rays, equations, diamondMultiplicity):
     return _CsemigroupsCpp.computeXDiamond(generators, rays, equations, diamondMultiplicity)
+
+def filterGaps(generators, integerdiamondX):
+    return _CsemigroupsCpp.filterGaps(generators, integerdiamondX)
 
 

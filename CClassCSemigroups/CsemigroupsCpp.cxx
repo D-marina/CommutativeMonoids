@@ -247,11 +247,54 @@ vector<vector<long>> multiplyMatrix(const vector<vector<long>>& m1, const vector
     return(result);
 }
 
+bool allPositive(std::vector<long> v)
+{
+    unsigned n;
+    n = v.size();
+    for(unsigned ii=0;ii<n;ii++)
+    {
+        if(v[ii]<0)
+        {
+            return(false);
+        }
+    }
+    return(true);
+}
+
+bool allZero(std::vector<long> v)
+{
+    unsigned n;
+    n = v.size();
+    for(unsigned ii=0;ii<n;ii++)
+    {
+        if(v[ii]!=0)
+        {
+            return(false);
+        }
+    }
+    return(true);
+}
+
 /////////////////////////////////////////////////////////////////////
 
-
-bool belongByGens(vector<long> x, vector<vector<long>> gen)
+bool belongCone(vector<long> x, vector<vector<long>> gen)
 {
+    unsigned n;
+    n = gen.size();
+    for(unsigned ii=0;ii<n;ii++)
+    {
+        if(prodEsc(x,gen[ii])<0)
+        {
+           return(false);
+        }
+    }
+    return(true);
+}
+
+bool belongByGens2(vector<long> x, vector<vector<long>> gen)
+{
+    Pintar(x);
+    cout<<endl;
     /*
     This function checks if x can be generated using the
     elementos of gen.
@@ -291,6 +334,42 @@ bool belongByGens(vector<long> x, vector<vector<long>> gen)
         }
     }
     return false;
+}
+
+bool belongByGens(vector<long> x, vector<vector<long>> gen)
+{
+    vector<long> v, aux2;
+    vector<vector<long>> aux1, aux3;
+    unsigned n, m;
+    v = x;
+    n = gen.size();
+    aux3.push_back(v);
+    while(aux3.size() != 0)
+    {
+        m = aux3.size();
+        for(unsigned jj=0; jj<m; jj++)
+        {
+            for(unsigned ii=0; ii<n; ii++)
+            {
+                aux2 = aux3[jj]-gen[ii];
+                if(allZero(aux2))
+                {
+                    return(true);
+                }
+                if(allPositive(aux2))
+                {
+                    aux1.push_back(aux2);
+                }
+            }
+        }
+        if(aux1.size()==0)
+        {
+            return(false);
+        }
+        aux3 = deleteDuplicates(aux1);
+        aux1 = {};
+    }
+    return(false);
 }
 
 vector<std::vector<long>> computeMSG(vector<vector<long>> generators)
@@ -708,7 +787,7 @@ vector<long> conductorAxis(vector<vector<long>> generators, vector<long> ray)
     return conductor;
 }
 
-long NormOne(vector<long> v)
+long normOne(vector<long> v)
 {
     long sum;
     unsigned n;
@@ -721,7 +800,7 @@ long NormOne(vector<long> v)
     return sum;
 }
 
-vector<long> MinimumPointAffineDiamond(vector<vector<long>> integerDiamond, vector<long> affine, vector<vector<long>> eqRay)
+vector<long> minimumPointAffineDiamond(vector<vector<long>> integerDiamond, vector<long> affine, vector<vector<long>> eqRay)
 {
 /*
 # Calculamos el punto de menor norma del diamante para una recta afín.
@@ -769,14 +848,14 @@ def MinimumPointAffineDiamond(diamond,afin,eqray):
         {
             if(minimumNorm == -1)
             {
-                   minimumNorm = NormOne(integerDiamond[ii]);
+                   minimumNorm = normOne(integerDiamond[ii]);
                    minimumElement = integerDiamond[ii];
             }
             else
             {
-             if(NormOne(integerDiamond[ii]) < minimumNorm)
+             if(normOne(integerDiamond[ii]) < minimumNorm)
              {
-                 minimumNorm = NormOne(integerDiamond[ii]);
+                 minimumNorm = normOne(integerDiamond[ii]);
                  minimumElement = integerDiamond[ii];
              }
             }
@@ -786,7 +865,7 @@ def MinimumPointAffineDiamond(diamond,afin,eqray):
     return minimumElement;
 }
 
-long ComputeMinimumNormInSemigroupLine(vector<long> vdir, vector<long> seed, vector<vector<long>>smgen)
+long computeMinimumNormInSemigroupLine(vector<long> vdir, vector<long> seed, vector<vector<long>>smgen)
 {
 /*
 # Calculamos los elementos de norma mínima por cada recta afín.
@@ -812,7 +891,7 @@ def ComputeMinimumNormInSemigroupLine(vdir,seed,smgen):
     {
         if(belongByGens(v, smgen))
         {
-            return(NormOne(v));
+            return(normOne(v));
         }
         for(unsigned ii=0;ii<nVdir;ii++)
         {
@@ -820,13 +899,51 @@ def ComputeMinimumNormInSemigroupLine(vdir,seed,smgen):
         }
     }
 }
-    
+
+vector<long> computeBoundRay(long n, vector<long> ray, vector<vector<long>> gen)
+{
+    vector<long> v;
+    unsigned i, nRay;
+    v = ray;
+    i = 1;
+    nRay = ray.size();
+    while(true)
+    {
+        cout<<endl;
+        cout<<endl;
+        Pintar(v);
+        cout<<endl;
+        cout<<"norma(V)="<<normOne(v)<<endl;
+        cout<<endl;
+        if(normOne(v) > n && belongByGens(v, gen))
+        {
+            return(v);
+        }
+        i++;
+        for(unsigned jj=0; jj<nRay; jj++)
+        {
+             v[jj] = i*ray[jj];   
+        }
+    }
+/*
+def ComputeBoundRay(n,ray,gen):
+    afseg = AffineSemigroup(gen, "generators")
+    v = ray
+    i = 1
+    while True:
+        v = [i*x for x in ray]
+        if NormOne(v) > n and afseg.belongs(v):
+            return v
+        i = i+1
+*/        
+}
+
 vector<vector<long>> computeXDiamond(vector<vector<long>> generators, vector<vector<long>> rays, vector<vector<long>> equations, vector<vector<long>> diamondMultiplicity)
 {
     unsigned nRays, nAffineDiamond;
     long maxMinNorm, minimumNormSG, n;
     vector<long> conductor, minimumNormDiamond;
-    vector<vector<long>> eqRays, affineDiamond;
+    vector<vector<long>> eqRays, affineDiamond, x;
     nRays = rays.size();
     for(unsigned ii=0;ii<nRays;ii++)
     {
@@ -837,20 +954,17 @@ vector<vector<long>> computeXDiamond(vector<vector<long>> generators, vector<vec
         nAffineDiamond = affineDiamond.size();
         for(unsigned jj=0;jj<nAffineDiamond;jj++)
         {
-            minimumNormDiamond =  MinimumPointAffineDiamond(diamondMultiplicity,affineDiamond[jj],eqRays);
-            minimumNormSG = ComputeMinimumNormInSemigroupLine(rays[ii],minimumNormDiamond,generators);
+            minimumNormDiamond =  minimumPointAffineDiamond(diamondMultiplicity,affineDiamond[jj],eqRays);
+            minimumNormSG = computeMinimumNormInSemigroupLine(rays[ii],minimumNormDiamond,generators);
             if(maxMinNorm < minimumNormSG)
             {
                 maxMinNorm = minimumNormSG;
             }
         }
-        n = NormOne(conductor) + maxMinNorm;
-        Pintar(rays[ii]);
-        cout<<"nRays = "<<nRays;
-        cout<<"N = "<<n<<endl<<endl;
+        n = normOne(conductor) + maxMinNorm;
+        x.push_back(computeBoundRay(n, rays[ii], generators));
     }
-    cout<<"nRays = "<<nRays;
-    return eqRays;
+    return diamond(x);
     /*
     for ray in rayos:
         # Calculamos el conductor.
@@ -873,6 +987,32 @@ vector<vector<long>> computeXDiamond(vector<vector<long>> generators, vector<vec
     # Calculamos el diamante de esos valores X
     diamanteX = Diamond(x)
     */
+}
+
+vector<vector<long>> filterGaps(vector<vector<long>> generators, vector<vector<long>> integerdiamondX)
+{
+    /*
+    # Inicialmente el conjunto de huecos es vacío.
+    gapset = []
+    # Definimos el semigrupo afín.
+    afseg = AffineSemigroup(gen, "generators")
+    for x in diamanteEnteroX:
+        if not afseg.belongs(x):
+            gapset.append(x)
+    return gapset
+    */    
+    vector<vector<long>> gapset;
+    unsigned nDiamond;
+    nDiamond = integerdiamondX.size();
+    for(unsigned ii=0; ii < nDiamond; ii++)
+    {
+        cout<<"ii="<<ii<<endl;
+        if(!belongByGens(integerdiamondX[ii],generators))
+        {
+            gapset.push_back(integerdiamondX[ii]);
+        }
+    }
+    return(gapset);
 }
 
 

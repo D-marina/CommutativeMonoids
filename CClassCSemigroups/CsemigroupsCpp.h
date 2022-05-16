@@ -18,8 +18,12 @@ double prodEsc(const std::vector<long>& v1, const std::vector<double>& v2);
 long FrobeniusNumber(std::vector<long> lgen);
 std::vector<std::vector<long>> deleteDuplicates(std::vector<std::vector<long>> m);
 std::vector<std::vector<long>> multiplyMatrix(const std::vector<std::vector<long>>& m1, const std::vector<std::vector<long>>& m2);
+bool allPositive(std::vector<long> v);
+bool allZero(std::vector<long> v);
 
+bool belongByGens2(std::vector<long> x, std::vector<std::vector<long>> gen);
 bool belongByGens(std::vector<long> x, std::vector<std::vector<long>> gen);
+bool belongCone(std::vector<long> x, std::vector<std::vector<long>> gen);
 std::vector<std::vector<long>> computeMSG(std::vector<std::vector<long>> generators);
 long belongAxis(std::vector<long> x,std::vector<long> r);
 bool axisIsSemigroup(std::vector<std::vector<long>> gen,std::vector<long> r);
@@ -43,11 +47,14 @@ bool existGenerator(std::vector<std::vector<long>> equationsRay, std::vector<lon
 
 std::vector<long> conductorAxis(std::vector<std::vector<long>> generators, std::vector<long> ray);
 
-long NormOne(std::vector<long> v);
-std::vector<long> MinimumPointAffineDiamond(std::vector<std::vector<long>> integerDiamond, std::vector<long> affine, std::vector<std::vector<long>> eqRay);
-long ComputeMinimumNormInSemigroupLine(std::vector<long> vdir, std::vector<long> seed, std::vector<std::vector<long>> smgen);
-
+long normOne(std::vector<long> v);
+std::vector<long> minimumPointAffineDiamond(std::vector<std::vector<long>> integerDiamond, std::vector<long> affine, std::vector<std::vector<long>> eqRay);
+long computeMinimumNormInSemigroupLine(std::vector<long> vdir, std::vector<long> seed, std::vector<std::vector<long>> smgen);
+std::vector<long> computeBoundRay(long n, std::vector<long> ray, std::vector<std::vector<long>> gen);
+    
 std::vector<std::vector<long>> computeXDiamond(std::vector<std::vector<long>> generators, std::vector<std::vector<long>> rays, std::vector<std::vector<long>> equations,std::vector<std::vector<long>> diamondMultiplicity);
+
+std::vector<std::vector<long>> filterGaps(std::vector<std::vector<long>> generators, std::vector<std::vector<long>> integerdiamondX);
 
 
 
