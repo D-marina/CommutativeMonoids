@@ -338,6 +338,10 @@ bool belongByGens2(vector<long> x, vector<vector<long>> gen)
 
 bool belongByGens(vector<long> x, vector<vector<long>> gen)
 {
+    if(allZero(x))
+    {
+        return(true);
+    }
     vector<long> v, aux2;
     vector<vector<long>> aux1, aux3;
     unsigned n, m;
