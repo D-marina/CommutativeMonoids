@@ -36,7 +36,6 @@ def _swig_setattr_nondynamic_instance_variable(set):
         elif hasattr(self, name) and isinstance(getattr(type(self), name), property):
             set(self, name, value)
         else:
-<<<<<<< HEAD
             multiplicitiesInAxes = multiplicityAllAxes(self.generators,self.rays)
             diamondMult = diamond(multiplicitiesInAxes)
             hull = ConvexHull(diamondMult)
@@ -61,7 +60,6 @@ def _swig_setattr_nondynamic_instance_variable(set):
             aux = filterGaps(self.generators, integerDiamondX)
             return [list(xx) for xx in aux]
     
-=======
             raise AttributeError("You cannot add instance attributes to %s" % self)
     return set_instance_attr
 
@@ -677,6 +675,3 @@ def computeXDiamond(generators, rays, equations, diamondMultiplicity):
 
 def filterGaps(generators, integerdiamondX):
     return _CsemigroupsCpp.filterGaps(generators, integerdiamondX)
-
-
->>>>>>> 3ec108e5d7827fa007c2a317441a4d41df37e6a8
