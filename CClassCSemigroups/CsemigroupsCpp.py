@@ -574,8 +574,8 @@ def deleteDuplicates(m):
 def multiplyMatrix(m1, m2):
     return _CsemigroupsCpp.multiplyMatrix(m1, m2)
 
-def allPositive(v):
-    return _CsemigroupsCpp.allPositive(v)
+def allPositive(*args):
+    return _CsemigroupsCpp.allPositive(*args)
 
 def allZero(v):
     return _CsemigroupsCpp.allZero(v)

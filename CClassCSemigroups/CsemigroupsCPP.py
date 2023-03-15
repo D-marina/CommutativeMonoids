@@ -73,14 +73,15 @@ class Csemigroup:
             #print(integerDiamond)
             # self.gaps = computeGaps(self.generators,self.rays,self.hyperplanes)
             diamondX = computeXDiamond(self.generators, self.rays, self.hyperplanes, integerDiamond)
-            print(diamondX)
+            #print(diamondX)
             boundDiamondX = Cube(diamondX)
-            print(boundDiamondX)
+            #print(boundDiamondX)
             hullX = ConvexHull(diamondX)
             eqDiamondX = [list(x) for x in hullX.equations]
             itX = itertools.product(*[range(i+1) for i in boundDiamondX])
             candidatesX = [list(x) for x in itX]
             integerDiamondX = filterPoints(candidatesX,eqDiamondX)
-            print(len(integerDiamondX))
-            return filterGaps(self.generators, integerDiamondX)
+            #print(len(integerDiamondX))
+            aux = filterGaps(self.generators, integerDiamondX)
+            return [list(xx) for xx in aux]
     

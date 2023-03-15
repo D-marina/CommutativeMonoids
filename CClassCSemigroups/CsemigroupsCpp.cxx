@@ -261,6 +261,20 @@ bool allPositive(std::vector<long> v)
     return(true);
 }
 
+bool allPositive(std::vector<double> v)
+{
+    unsigned n;
+    n = v.size();
+    for(unsigned ii=0;ii<n;ii++)
+    {
+        if(v[ii]<0)
+        {
+            return(false);
+        }
+    }
+    return(true);
+}
+
 bool allZero(std::vector<long> v)
 {
     unsigned n;

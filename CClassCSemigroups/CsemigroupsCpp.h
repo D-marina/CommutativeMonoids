@@ -19,6 +19,7 @@ long FrobeniusNumber(std::vector<long> lgen);
 std::vector<std::vector<long>> deleteDuplicates(std::vector<std::vector<long>> m);
 std::vector<std::vector<long>> multiplyMatrix(const std::vector<std::vector<long>>& m1, const std::vector<std::vector<long>>& m2);
 bool allPositive(std::vector<long> v);
+bool allPositive(std::vector<double> v);
 bool allZero(std::vector<long> v);
 
 bool belongByGens2(std::vector<long> x, std::vector<std::vector<long>> gen);
