@@ -652,4 +652,13 @@ def computeXDiamond(generators, rays, equations, diamondMultiplicity):
 def filterGaps(generators, integerdiamondX):
     return _CsemigroupsCpp.filterGaps(generators, integerdiamondX)
 
+def computePseudoFrobenius(generators, gaps):
+    return _CsemigroupsCpp.computePseudoFrobenius(generators, gaps)
+
+def deleteHalves(v):
+    return _CsemigroupsCpp.deleteHalves(v)
+
+def isIrreducible(pseudoFrobenius):
+    return _CsemigroupsCpp.isIrreducible(pseudoFrobenius)
+
 

@@ -1087,3 +1087,60 @@ vector<vector<long>> filterGaps(vector<vector<long>> generators, vector<vector<l
     return gapset
         */
 //}
+
+vector<vector<long>> computePseudoFrobenius(vector<vector<long>> generators, vector<vector<long>> gaps)
+{
+    /*
+    def ComputePseudoFrobenius(self):
+        if self.pf != None:
+            return self.pf
+        cs = AffineSemigroup(self.generadores,input_type="generators")
+        pf = []
+        for x in self.gaps:
+            ispf = True
+            for y in self.generadores:
+                if not cs.belongs([x[i]+y[i] for i in range(len(x))]):
+                    ispf = False
+            if ispf:
+                pf.append(x)
+        self.pf = pf
+        return pf
+       */
+    vector<vector<long>> pf;
+    unsigned n_gaps;
+    unsigned n_generators;
+    bool ispf;
+    
+    n_gaps = gaps.size();
+    n_generators = generators.size();
+    
+    for(unsigned ii=0;ii<n_gaps;ii++)
+    {
+        ispf = true;
+        for(unsigned jj=0;jj<n_generators;jj++)
+        {
+            if(!belongByGens(gaps[ii]+generators[jj], generators))
+            {
+                ispf = false;
+            }
+        }
+        if(ispf)
+        {
+            pf.push_back(gaps[ii]);
+        }
+    }
+    return pf;
+}
+
+vector<vector<long>> deleteHalves(vector<vector<long>> v)
+{
+    vector<vector<long>> w;
+    
+    return w;
+}
+
+bool isIrreducible(vector<vector<long>> pseudoFrobenius)
+{
+       bool irreducible = false;
+    return irreducible;
+}
