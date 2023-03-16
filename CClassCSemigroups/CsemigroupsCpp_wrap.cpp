@@ -14542,6 +14542,90 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_computePseudoFrobenius(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > arg1 ;
+  std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > arg2 ;
+  PyObject *swig_obj[2] ;
+  std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > result;
+  
+  if (!SWIG_Python_UnpackTuple(args, "computePseudoFrobenius", 2, 2, swig_obj)) SWIG_fail;
+  {
+    std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > *ptr = (std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > *)0;
+    int res = swig::asptr(swig_obj[0], &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "computePseudoFrobenius" "', argument " "1"" of type '" "std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > >""'"); 
+    }
+    arg1 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  {
+    std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > *ptr = (std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > *)0;
+    int res = swig::asptr(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "computePseudoFrobenius" "', argument " "2"" of type '" "std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > >""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  result = computePseudoFrobenius(arg1,arg2);
+  resultobj = swig::from(static_cast< std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_deleteHalves(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > arg1 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > *ptr = (std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > *)0;
+    int res = swig::asptr(swig_obj[0], &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "deleteHalves" "', argument " "1"" of type '" "std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > >""'"); 
+    }
+    arg1 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  result = deleteHalves(arg1);
+  resultobj = swig::from(static_cast< std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_isIrreducible(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > arg1 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > *ptr = (std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > > *)0;
+    int res = swig::asptr(swig_obj[0], &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "isIrreducible" "', argument " "1"" of type '" "std::vector< std::vector< long,std::allocator< long > >,std::allocator< std::vector< long,std::allocator< long > > > >""'"); 
+    }
+    arg1 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  result = (bool)isIrreducible(arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 static PyMethodDef SwigMethods[] = {
 	 { "SWIG_PyInstanceMethod_New", SWIG_PyInstanceMethod_New, METH_O, NULL},
 	 { "delete_SwigPyIterator", _wrap_delete_SwigPyIterator, METH_O, NULL},
@@ -14737,6 +14821,9 @@ static PyMethodDef SwigMethods[] = {
 	 { "computeBoundRay", _wrap_computeBoundRay, METH_VARARGS, NULL},
 	 { "computeXDiamond", _wrap_computeXDiamond, METH_VARARGS, NULL},
 	 { "filterGaps", _wrap_filterGaps, METH_VARARGS, NULL},
+	 { "computePseudoFrobenius", _wrap_computePseudoFrobenius, METH_VARARGS, NULL},
+	 { "deleteHalves", _wrap_deleteHalves, METH_O, NULL},
+	 { "isIrreducible", _wrap_isIrreducible, METH_O, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 

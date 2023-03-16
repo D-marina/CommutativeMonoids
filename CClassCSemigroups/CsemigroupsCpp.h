@@ -57,7 +57,11 @@ std::vector<std::vector<long>> computeXDiamond(std::vector<std::vector<long>> ge
 
 std::vector<std::vector<long>> filterGaps(std::vector<std::vector<long>> generators, std::vector<std::vector<long>> integerdiamondX);
 
+std::vector<std::vector<long>> computePseudoFrobenius(std::vector<std::vector<long>> generators, std::vector<std::vector<long>> gaps);
 
+std::vector<std::vector<long>> deleteHalves(std::vector<std::vector<long>> v);
+
+bool isIrreducible(std::vector<std::vector<long>> pseudoFrobenius);
 
 #endif
 
