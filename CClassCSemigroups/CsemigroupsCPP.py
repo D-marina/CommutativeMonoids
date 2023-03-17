@@ -111,5 +111,5 @@ class Csemigroup:
             return self.irreducible
         if self.pf != None:
             self.GetPseudoFrobenius()
-        self.irreducible = IsIrreducible
+        self.irreducible = IsIrreducible()
         return self.irreducible
