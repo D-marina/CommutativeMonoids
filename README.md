@@ -8,6 +8,7 @@ The list of works where this software is used is:
 * On divisor-closed submonoids and minimal distances in finitely generated monoids (https://doi.org/10.1016/j.jsc.2018.06.008). The examples of this work are found [here](https://nbviewer.jupyter.org/urls/bitbucket.org/juan_ignacio_garcia_garcia/integersmithnormalformandapplications/raw/fe032b5b6637a36690be164b27594f63405a9f7e/integerSmithNormalFormAndApplications.ipynb).
 * Characterizing affine $\mathcal C$-semigroups (https://arxiv.org/abs/1907.03276). The examples of this work are found [here](https://github.com/D-marina/CommutativeMonoids/blob/master/ClassCSemigroup/Tutorial%20for%20the%20C-semigroup%20class.ipynb).
 * The Complexity of a Numerical Semigroup. The examples are found [here](https://github.com/D-marina/CommutativeMonoids/blob/master/ComplexityOfNS/complexityOfNS.ipynb).
+* Properties of affine C-semigroups. The examples are found [here](https://github.com/D-marina/CommutativeMonoids/blob/master/CClassCSemigroups/SomePropertiesCSemigroup.ipynb).
 
 The contributors to this project are:
 
